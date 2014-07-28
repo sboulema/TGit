@@ -53,6 +53,13 @@ namespace FundaRealEstateBV.TGIT
 
             mcs.AddCommand(CreateCommand(CreateStashCommand, PkgCmdIDList.CreateStash));
             mcs.AddCommand(CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash));
+
+            mcs.AddCommand(CreateCommand(BranchCommand, PkgCmdIDList.Branch));
+            mcs.AddCommand(CreateCommand(SwitchCommand, PkgCmdIDList.Switch));
+            mcs.AddCommand(CreateCommand(MergeCommand, PkgCmdIDList.Merge));
+
+            mcs.AddCommand(CreateCommand(RevertCommand, PkgCmdIDList.Revert));
+            mcs.AddCommand(CreateCommand(CleanupCommand, PkgCmdIDList.Cleanup));
         }
         #endregion
 
@@ -83,6 +90,7 @@ namespace FundaRealEstateBV.TGIT
         private void PullCommand(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:pull /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void CommitCommand(object sender, EventArgs e)
@@ -122,6 +130,32 @@ namespace FundaRealEstateBV.TGIT
             if (string.IsNullOrEmpty(_solutionDir)) return;
             StartProcess("TortoiseGitProc.exe", string.Format("/command:reflog /ref:refs/stash /path:\"{0}\"", _solutionDir));
         }
+        private void BranchCommand(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:branch /path:\"{0}\"", _solutionDir));
+        }
+        private void SwitchCommand(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:switch /path:\"{0}\"", _solutionDir));
+        }
+        private void MergeCommand(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:merge /path:\"{0}\"", _solutionDir));
+        }
+        private void RevertCommand(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:revert /path:\"{0}\"", _solutionDir));
+        }
+        private void CleanupCommand(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:cleanup /path:\"{0}\"", _solutionDir));
+        }
         #endregion
 
         private static MenuCommand CreateCommand(EventHandler handler, uint commandId)
@@ -139,7 +173,7 @@ namespace FundaRealEstateBV.TGIT
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "GitFlow not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

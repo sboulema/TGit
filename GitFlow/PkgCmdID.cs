@@ -17,5 +17,12 @@
 
         public const uint CreateStash = 0x110;
         public const uint ApplyStash = 0x111;
+
+        public const uint Branch = 0x112;
+        public const uint Switch = 0x113;
+        public const uint Merge = 0x114;
+
+        public const uint Revert = 0x115;
+        public const uint Cleanup = 0x116;
     };
 }

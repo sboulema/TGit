@@ -139,6 +139,44 @@
           <ButtonText>Apply Stash...</ButtonText>
         </Strings>
       </Button>
+
+      <Button guid="guidTGitCmdSet" id="branch" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
+        <Icon guid="guidImages" id="branch" />
+        <Strings>
+          <ButtonText>Branch...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="switch" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
+        <Strings>
+          <ButtonText>Switch...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="merge" priority="0x0300" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
+        <Icon guid="guidImages" id="merge" />
+        <Strings>
+          <ButtonText>Merge...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="revert" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Icon guid="guidImages" id="revert" />
+        <Strings>
+          <ButtonText>Revert...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Strings>
+          <ButtonText>Cleanup working copy</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   
     <Bitmaps>
@@ -179,6 +217,13 @@
 
       <IDSymbol name="createStash" value="0x0110" />
       <IDSymbol name="applyStash" value="0x0111" />
+
+      <IDSymbol name="branch" value="0x0112" />
+      <IDSymbol name="switch" value="0x0113" />
+      <IDSymbol name="merge" value="0x0114" />
+
+      <IDSymbol name="revert" value="0x0115" />
+      <IDSymbol name="cleanup" value="0x0116" />
     </GuidSymbol>
   
     <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >

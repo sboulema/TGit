@@ -6,6 +6,7 @@
     <Description xml:space="preserve">Control TortoiseGIT from within Visual Studio</Description>
     <License>License.txt</License>
     <Icon>Resources\Package.ico</Icon>
+    <PreviewImage>Resources\Preview.jpg</PreviewImage>
     <Tags>GIT, Source control, Tortoise, repository</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
