@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidTGitPkg">
+    <Menus>
+      <Menu guid="guidTGitCmdSet" id="TGitMenu" priority="0x0300" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+        <Strings>
+          <ButtonText>TGIT</ButtonText>
+          <CommandName>TGIT</CommandName>
+        </Strings>
+      </Menu>
+      <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0500" type="Menu">
+        <Parent guid="guidTGitCmdSet" id="contextMenuGroup" />
+        <Strings>
+          <ButtonText>TGIT</ButtonText>
+          <CommandName>TGIT</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+    
+    <Groups>
+      <Group guid="guidTGitCmdSet" id="firstMenuGroup" priority="0x0100">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="secondMenuGroup" priority="0x0200">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="thirdMenuGroup" priority="0x0300">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="fourthMenuGroup" priority="0x0400">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="fifthMenuGroup" priority="0x0500">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="sixthMenuGroup" priority="0x0500">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+    
+      <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>    
+      <Group guid="guidTGitCmdSet" id="firstContextMenuGroup" priority="0x0700">
+        <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
+      </Group>
+      <Group guid="guidTGitCmdSet" id="secondContextMenuGroup" priority="0x0800">
+        <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
+      </Group>
+      <Group guid="guidTGitCmdSet" id="thirdContextMenuGroup" priority="0x0900">
+        <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
+      </Group>
+      <Group guid="guidTGitCmdSet" id="fourthContextMenuGroup" priority="0x0901">
+        <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
+      </Group>
+    </Groups>
+    
+    <Buttons>
+      <Button guid="guidTGitCmdSet" id="startFeature" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Strings>
+          <ButtonText>Start New Feature</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="pushFeature" priority="0x0102" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Strings>
+          <ButtonText>Push Feature</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="finishFeature" priority="0x0101" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Strings>
+          <ButtonText>Finish Feature</ButtonText>
+        </Strings>
+      </Button>
+    
+      <Button guid="guidTGitCmdSet" id="showChanges" priority="0x0103" type="Button">
+        <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Icon guid="guidImages" id="showChanges" />
+        <Strings>
+          <ButtonText>Show Changes</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="pull" priority="0x0104" type="Button">
+        <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Icon guid="guidImages" id="pull" />
+        <Strings>
+          <ButtonText>Pull</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="commit" priority="0x0105" type="Button">
+        <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Strings>
+          <ButtonText>Commit...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="push" priority="0x0106" type="Button">
+        <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Icon guid="guidImages" id="push" />
+        <Strings>
+          <ButtonText>Push...</ButtonText>
+        </Strings>
+      </Button>
+    
+      <Button guid="guidTGitCmdSet" id="showLog" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
+        <Icon guid="guidImages" id="showLog" />
+        <Strings>
+          <ButtonText>Show Log...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="diskBrowser" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
+        <Strings>
+          <ButtonText>Disk-Browser</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="repoBrowser" priority="0x0300" type="Button">
+        <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
+        <Strings>
+          <ButtonText>Repo-Browser</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="createStash" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
+        <Strings>
+          <ButtonText>Create Stash...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="applyStash" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
+        <Strings>
+          <ButtonText>Apply Stash...</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, properties"/>     
+    </Bitmaps>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidTGitPkg" value="{6c58d6e5-11ba-43ba-9a63-a624f264ec06}" />
+    <GuidSymbol name="guidTGitCmdSet" value="{6a672d8c-b58f-4329-9bc9-015fc15f9d1a}">
+      <IDSymbol name="TGitMenu" value="0x1021"/>
+      <IDSymbol name="firstMenuGroup" value="0x1020" />
+      <IDSymbol name="secondMenuGroup" value="0x1022" />
+      <IDSymbol name="thirdMenuGroup" value="0x1023" />
+      <IDSymbol name="fourthMenuGroup" value="0x1024" />
+      <IDSymbol name="fifthMenuGroup" value="0x1025" />
+      <IDSymbol name="sixthMenuGroup" value="0x1026" />
+      
+      <IDSymbol name="TGitContextMenu" value="0x1027"/>
+      <IDSymbol name="contextMenuGroup" value="0x1028" />
+      <IDSymbol name="firstContextMenuGroup" value="0x1029" />
+      <IDSymbol name="secondContextMenuGroup" value="0x1030" />
+      <IDSymbol name="thirdContextMenuGroup" value="0x1031" />
+      <IDSymbol name="fourthContextMenuGroup" value="0x1032" />
+      
+      <IDSymbol name="startFeature" value="0x0100" />
+      <IDSymbol name="finishFeature" value="0x0101" />
+      <IDSymbol name="pushFeature" value="0x0102" />
+    
+      <IDSymbol name="showChanges" value="0x0103" />
+      <IDSymbol name="pull" value="0x0104" />
+      <IDSymbol name="commit" value="0x0105" />
+      <IDSymbol name="push" value="0x0106" />
+    
+      <IDSymbol name="showLog" value="0x0107" />
+      <IDSymbol name="diskBrowser" value="0x0108" />
+      <IDSymbol name="repoBrowser" value="0x0109" />
+
+      <IDSymbol name="createStash" value="0x0110" />
+      <IDSymbol name="applyStash" value="0x0111" />
+    </GuidSymbol>
+  
+    <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >
+      <IDSymbol name="showChanges" value="1" />
+      <IDSymbol name="pull" value="2" />
+      <IDSymbol name="push" value="3" />
+      <IDSymbol name="showLog" value="4" />
+      <IDSymbol name="revert" value="5" />
+      <IDSymbol name="branch" value="6" />
+      <IDSymbol name="merge" value="7" />
+      <IDSymbol name="differences" value="8" />
+      <IDSymbol name="blame" value="9" />
+      <IDSymbol name="properties" value="10" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

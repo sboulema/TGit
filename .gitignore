@@ -1,0 +1,4 @@
+GitFlow/bin/
+GitFlow/obj/Debug/CtoResourceMerger.cache
+GitFlow/obj/
+*.suo
