@@ -21,6 +21,8 @@ namespace FundaRealEstateBV.TGIT
     {
         private DTE _dte;
         private string _solutionDir;
+        private string _currentFilePath;
+        private int _currentLineIndex;
 
         #region Package Members
         /// <summary>
@@ -60,10 +62,24 @@ namespace FundaRealEstateBV.TGIT
 
             mcs.AddCommand(CreateCommand(RevertCommand, PkgCmdIDList.Revert));
             mcs.AddCommand(CreateCommand(CleanupCommand, PkgCmdIDList.Cleanup));
+
+            mcs.AddCommand(CreateCommand(ShowLogContextCommand, PkgCmdIDList.ShowLogContext));
+            mcs.AddCommand(CreateCommand(DiskBrowserContextCommand, PkgCmdIDList.DiskBrowserContext));
+            mcs.AddCommand(CreateCommand(RepoBrowserContextCommand, PkgCmdIDList.RepoBrowserContext));
+
+            mcs.AddCommand(CreateCommand(BlameContextCommand, PkgCmdIDList.BlameContext));
+
+            mcs.AddCommand(CreateCommand(MergeContextCommand, PkgCmdIDList.MergeContext));
+
+            mcs.AddCommand(CreateCommand(PullContextCommand, PkgCmdIDList.PullContext));
+            mcs.AddCommand(CreateCommand(CommitContextCommand, PkgCmdIDList.CommitContext));
+            mcs.AddCommand(CreateCommand(RevertContextCommand, PkgCmdIDList.RevertContext));
+            mcs.AddCommand(CreateCommand(DiffContextCommand, PkgCmdIDList.DiffContext));
+            mcs.AddCommand(CreateCommand(PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext));
         }
         #endregion
 
-        #region Button commands
+        #region Main menu items
         private void StartFeatureCommand(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
@@ -155,6 +171,70 @@ namespace FundaRealEstateBV.TGIT
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
             StartProcess("TortoiseGitProc.exe", string.Format("/command:cleanup /path:\"{0}\"", _solutionDir));
+        }
+        #endregion
+
+        #region Context menu items
+        private void ShowLogContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:log /path:\"{0}\" /closeonend:0", _currentFilePath));
+        }
+        private void DiskBrowserContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            Process.Start(_currentFilePath);
+        }
+        private void RepoBrowserContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:repobrowser /path:\"{0}\"", _currentFilePath));
+        }
+        private void BlameContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            _currentLineIndex = ((TextDocument)_dte.ActiveDocument.Object(string.Empty)).Selection.CurrentLine;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:blame /path:\"{0}\" /line:{1}", _currentFilePath, _currentLineIndex));
+        }
+        private void MergeContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:merge /path:\"{0}\"", _currentFilePath));
+        }
+        private void PullContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:pull /path:\"{0}\"", _currentFilePath));
+        }
+        private void CommitContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\"", _currentFilePath));
+        }
+        private void RevertContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:revert /path:\"{0}\"", _currentFilePath));
+        }
+        private void DiffContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:diff /path:\"{0}\"", _currentFilePath));
+        }
+        private void PrefDiffContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:diff /path:\"{0}\" /startrev:HEAD~1 /endrev:HEAD~2", _currentFilePath));
         }
         #endregion
 

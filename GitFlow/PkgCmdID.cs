@@ -24,5 +24,19 @@
 
         public const uint Revert = 0x115;
         public const uint Cleanup = 0x116;
-    };
+
+        public const uint ShowLogContext = 0x117;
+        public const uint DiskBrowserContext = 0x118;
+        public const uint RepoBrowserContext = 0x119;
+
+        public const uint BlameContext = 0x120;
+
+        public const uint MergeContext = 0x121;
+
+        public const uint PullContext = 0x122;
+        public const uint CommitContext = 0x123;
+        public const uint RevertContext = 0x124;
+        public const uint DiffContext = 0x125;
+        public const uint PrefDiffContext = 0x125;
+    }
 }

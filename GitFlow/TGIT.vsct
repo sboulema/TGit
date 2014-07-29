@@ -177,6 +177,77 @@
           <ButtonText>Cleanup working copy</ButtonText>
         </Strings>
       </Button>
+
+      <Button guid="guidTGitCmdSet" id="showLogContext" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
+        <Icon guid="guidImages" id="showLog" />
+        <Strings>
+          <ButtonText>Show Log...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="diskBrowserContext" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
+        <Strings>
+          <ButtonText>Disk-Browser</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="repoBrowserContext" priority="0x0300" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
+        <Strings>
+          <ButtonText>Repo-Browser</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="blameContext" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="secondContextMenuGroup" />
+        <Icon guid="guidImages" id="blame" />
+        <Strings>
+          <ButtonText>Blame...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="mergeContext" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="thirdContextMenuGroup" />
+        <Icon guid="guidImages" id="merge" />
+        <Strings>
+          <ButtonText>Merge...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="pullContext" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="pull" />
+        <Strings>
+          <ButtonText>Pull...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="commitContext" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Strings>
+          <ButtonText>Commit...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="revertContext" priority="0x0300" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="revert" />
+        <Strings>
+          <ButtonText>Revert...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="diffContext" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="differences" />
+        <Strings>
+          <ButtonText>Show Differences</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="prefDiffContext" priority="0x0500" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="differences" />
+        <Strings>
+          <ButtonText>Diff with previous version</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   
     <Bitmaps>
@@ -224,6 +295,20 @@
 
       <IDSymbol name="revert" value="0x0115" />
       <IDSymbol name="cleanup" value="0x0116" />
+
+      <IDSymbol name="showLogContext" value="0x0117" />
+      <IDSymbol name="diskBrowserContext" value="0x0118" />
+      <IDSymbol name="repoBrowserContext" value="0x0119" />
+
+      <IDSymbol name="blameContext" value="0x0120" />
+
+      <IDSymbol name="mergeContext" value="0x0121" />
+      
+      <IDSymbol name="pullContext" value="0x0122" />
+      <IDSymbol name="commitContext" value="0x0123" />
+      <IDSymbol name="revertContext" value="0x0124" />
+      <IDSymbol name="diffContext" value="0x0125" />
+      <IDSymbol name="prefDiffContext" value="0x0126" />
     </GuidSymbol>
   
     <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >
