@@ -4,7 +4,6 @@
     {
         public const uint StartFeature = 0x100;
         public const uint FinishFeature = 0x101;
-        public const uint PushFeature = 0x102;
 
         public const uint ShowChanges = 0x103;
         public const uint Pull = 0x104;
@@ -37,6 +36,6 @@
         public const uint CommitContext = 0x123;
         public const uint RevertContext = 0x124;
         public const uint DiffContext = 0x125;
-        public const uint PrefDiffContext = 0x125;
+        public const uint PrefDiffContext = 0x126;
     }
 }

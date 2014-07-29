@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EnvDTE;
-using FundaRealEstateBV.GitFlow;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.Shell;
 using Process = System.Diagnostics.Process;
@@ -16,8 +15,8 @@ namespace FundaRealEstateBV.TGIT
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(GuidList.guidGitFlowPkgString)]
-    public sealed class GitFlowPackage : Package
+    [Guid(GuidList.GuidTgitPkgString)]
+    public sealed class TgitPackage : Package
     {
         private DTE _dte;
         private string _solutionDir;
@@ -42,7 +41,6 @@ namespace FundaRealEstateBV.TGIT
 
             mcs.AddCommand(CreateCommand(StartFeatureCommand, PkgCmdIDList.StartFeature));
             mcs.AddCommand(CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature));
-            mcs.AddCommand(CreateCommand(PushFeatureCommand, PkgCmdIDList.PushFeature));
 
             mcs.AddCommand(CreateCommand(ShowChangesCommand, PkgCmdIDList.ShowChanges));
             mcs.AddCommand(CreateCommand(PullCommand, PkgCmdIDList.Pull));
@@ -84,19 +82,13 @@ namespace FundaRealEstateBV.TGIT
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
-            StartProcess("cmd.exe", string.Format("/c cd {0} && git checkout develop && git pull && git flow feature start {1}", _solutionDir, featureName));
+            StartProcess("cmd.exe", string.Format("/c cd {0} && git checkout develop && git pull && git checkout -b feature/{1} develop", _solutionDir, featureName));
         }
         private void FinishFeatureCommand(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = GetCurrentFeatureName();
-            StartProcess("cmd.exe", string.Format("/c cd {0} && git checkout develop && git pull && git flow feature finish {1}", _solutionDir, featureName));
-        }
-        private void PushFeatureCommand(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(_solutionDir)) return;
-            string featureName = GetCurrentFeatureName();
-            StartProcess("cmd.exe", string.Format("/c cd {0} && git flow feature publish {1}", _solutionDir, featureName));
+            StartProcess("cmd.exe", string.Format("/c cd {0} && git checkout develop && git pull && git merge --no-ff feature/{1} &&  git branch -d feature/{1} && git push origin develop", _solutionDir, featureName));
         }
         private void ShowChangesCommand(object sender, EventArgs e)
         {
@@ -240,7 +232,7 @@ namespace FundaRealEstateBV.TGIT
 
         private static MenuCommand CreateCommand(EventHandler handler, uint commandId)
         {
-            CommandID menuCommandId = new CommandID(GuidList.guidGitFlowCmdSet, (int)commandId);
+            CommandID menuCommandId = new CommandID(GuidList.GuidTgitCmdSet, (int)commandId);
             MenuCommand menuItem = new MenuCommand(handler, menuCommandId);
             return menuItem;
         }

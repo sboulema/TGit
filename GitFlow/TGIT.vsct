@@ -65,12 +65,6 @@
           <ButtonText>Start New Feature</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidTGitCmdSet" id="pushFeature" priority="0x0102" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
-        <Strings>
-          <ButtonText>Push Feature</ButtonText>
-        </Strings>
-      </Button>
       <Button guid="guidTGitCmdSet" id="finishFeature" priority="0x0101" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
         <Strings>
@@ -275,7 +269,6 @@
       
       <IDSymbol name="startFeature" value="0x0100" />
       <IDSymbol name="finishFeature" value="0x0101" />
-      <IDSymbol name="pushFeature" value="0x0102" />
     
       <IDSymbol name="showChanges" value="0x0103" />
       <IDSymbol name="pull" value="0x0104" />
