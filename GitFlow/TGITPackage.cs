@@ -22,6 +22,7 @@ namespace FundaRealEstateBV.TGIT
         private string _solutionDir;
         private string _currentFilePath;
         private int _currentLineIndex;
+        private OutputBox _outputBox;
 
         #region Package Members
         /// <summary>
@@ -33,7 +34,8 @@ namespace FundaRealEstateBV.TGIT
             base.Initialize();
 
             _dte = (DTE)GetService(typeof(DTE));
-            _solutionDir = GetSolutionDir(); 
+            _solutionDir = GetSolutionDir();
+            _outputBox = new OutputBox();
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -78,17 +80,48 @@ namespace FundaRealEstateBV.TGIT
         #endregion
 
         #region Main menu items
+
         private void StartFeatureCommand(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
-            StartProcess("cmd.exe", string.Format("/c cd {0} && git checkout develop && git pull && git checkout -b feature/{1} develop", _solutionDir, featureName));
+            if (string.IsNullOrEmpty(featureName)) return;
+
+            /* 1. Switch to the develop branch
+             * 2. Pull latest changes on develop
+             * 3. Create and switch to a new branch
+             */
+            StartProcessGui(
+                "cmd.exe", 
+                string.Format("/c cd {0} && " +
+                    "git checkout develop && " +
+                    "git pull && " +
+                    "git checkout -b feature/{1} develop", _solutionDir, featureName),
+                string.Format("Starting feature {0}", featureName)
+            );
         }
         private void FinishFeatureCommand(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = GetCurrentFeatureName();
-            StartProcess("cmd.exe", string.Format("/c cd {0} && git checkout develop && git pull && git merge --no-ff feature/{1} &&  git branch -d feature/{1} && git push origin develop", _solutionDir, featureName));
+
+            /* 1. Switch to the develop branch
+             * 2. Pull latest changes on develop
+             * 3. Merge the feature branch to develop
+             * 4. Delete the local feature branch
+             * 5. Delete the remote feature branch
+             * 6. Push all changes to develop
+             */
+            StartProcessGui(
+                "cmd.exe", 
+                string.Format("/c cd {0} && " +
+                    "git checkout develop && " +
+                    "git pull && " +
+                    "git merge --no-ff feature/{1} && " +
+                    "git branch -d feature/{1} && " +
+                    "git push origin --delete feature/{1} && " +
+                    "git push origin develop", _solutionDir, featureName),
+                string.Format("Finishing feature {0}", featureName));
         }
         private void ShowChangesCommand(object sender, EventArgs e)
         {
@@ -237,6 +270,7 @@ namespace FundaRealEstateBV.TGIT
             return menuItem;
         }
 
+        #region Process management
         private static void StartProcess(string application, string args)
         {
             try
@@ -248,6 +282,51 @@ namespace FundaRealEstateBV.TGIT
                 MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void StartProcessGui(string application, string args, string title)
+        {
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.EnableRaisingEvents = true;
+                process.Exited += process_Exited;
+                process.OutputDataReceived += OutputDataHandler;
+                process.ErrorDataReceived += OutputDataHandler;
+                process.StartInfo.FileName = application;
+                process.StartInfo.Arguments = args;
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                _outputBox.Text = title;
+                _outputBox.Show();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            if (string.IsNullOrEmpty(outLine.Data)) return;
+            var process = sendingProcess as Process;
+            if (process == null) return;
+
+            _outputBox.BeginInvoke((Action)(() => _outputBox.textBox.AppendText(outLine.Data + "\n")));
+        }
+
+        private void process_Exited(object sender, EventArgs e)
+        {
+            _outputBox.BeginInvoke((Action)(() => _outputBox.okButton.Enabled = true));
+        }
+        #endregion
 
         private string GetSolutionDir()
         {
