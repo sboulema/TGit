@@ -35,7 +35,6 @@ namespace FundaRealEstateBV.TGIT
 
             _dte = (DTE)GetService(typeof(DTE));
             _solutionDir = GetSolutionDir();
-            _outputBox = new OutputBox();
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -93,10 +92,10 @@ namespace FundaRealEstateBV.TGIT
              */
             StartProcessGui(
                 "cmd.exe", 
-                string.Format("/c cd {0} && " +
-                    "git checkout develop && " +
+                string.Format("/c cd {1} && " +
+                    "checkout develop && " +
                     "git pull && " +
-                    "git checkout -b feature/{1} develop", _solutionDir, featureName),
+                    "git checkout -b feature/{0} develop", featureName, _solutionDir),
                 string.Format("Starting feature {0}", featureName)
             );
         }
@@ -113,14 +112,14 @@ namespace FundaRealEstateBV.TGIT
              * 6. Push all changes to develop
              */
             StartProcessGui(
-                "cmd.exe", 
-                string.Format("/c cd {0} && " +
-                    "git checkout develop && " +
+                "cmd.exe",
+                string.Format("/c cd {1} && " +
+                    "checkout develop && " +
                     "git pull && " +
-                    "git merge --no-ff feature/{1} && " +
-                    "git branch -d feature/{1} && " +
-                    "git push origin --delete feature/{1} && " +
-                    "git push origin develop", _solutionDir, featureName),
+                    "git merge --no-ff feature/{0} && " +
+                    "git branch -d feature/{0} && " +
+                    "git push origin --delete feature/{0} && " +
+                    "git push origin develop", featureName, _solutionDir),
                 string.Format("Finishing feature {0}", featureName));
         }
         private void ShowChangesCommand(object sender, EventArgs e)
@@ -259,7 +258,9 @@ namespace FundaRealEstateBV.TGIT
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
-            StartProcess("TortoiseGitProc.exe", string.Format("/command:diff /path:\"{0}\" /startrev:HEAD~1 /endrev:HEAD~2", _currentFilePath));
+
+            var revisions = StartProcessResult("git.exe", string.Format("log -2 --pretty=format:%h {0}", _currentFilePath));        
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:diff /path:\"{0}\" /startrev:{1} /endrev:{2}", _currentFilePath, revisions.Split(',')[0], revisions.Split(',')[1]));
         }
         #endregion
 
@@ -283,6 +284,34 @@ namespace FundaRealEstateBV.TGIT
             }
         }
 
+        private string StartProcessResult(string application, string args)
+        {
+            string results = string.Empty;
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.FileName = application;
+                process.StartInfo.Arguments = args;
+                process.StartInfo.WorkingDirectory = _solutionDir;
+
+                process.Start();
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    results += process.StandardOutput.ReadLine() + ",";
+                }             
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return results;
+        }
+
         private void StartProcessGui(string application, string args, string title)
         {
             try
@@ -299,6 +328,9 @@ namespace FundaRealEstateBV.TGIT
                 process.ErrorDataReceived += OutputDataHandler;
                 process.StartInfo.FileName = application;
                 process.StartInfo.Arguments = args;
+                process.StartInfo.WorkingDirectory = _solutionDir;
+
+                _outputBox = new OutputBox();
 
                 process.Start();
                 process.BeginOutputReadLine();
