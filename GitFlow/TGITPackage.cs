@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,7 @@ namespace FundaRealEstateBV.TGIT
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.GuidTgitPkgString)]
+    [ProvideOptionPage(typeof(OptionPageGrid), "TGIT", "General", 0, 0, true)]
     public sealed class TgitPackage : Package
     {
         private DTE _dte;
@@ -23,6 +25,8 @@ namespace FundaRealEstateBV.TGIT
         private string _currentFilePath;
         private int _currentLineIndex;
         private OutputBox _outputBox;
+        private OptionPageGrid _options;
+        private Stopwatch _stopwatch;
 
         #region Package Members
         /// <summary>
@@ -35,6 +39,8 @@ namespace FundaRealEstateBV.TGIT
 
             _dte = (DTE)GetService(typeof(DTE));
             _solutionDir = GetSolutionDir();
+            _options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+            _stopwatch = new Stopwatch();
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -93,9 +99,9 @@ namespace FundaRealEstateBV.TGIT
             StartProcessGui(
                 "cmd.exe", 
                 string.Format("/c cd {1} && " +
-                    "checkout develop && " +
+                    "git checkout {2} && " +
                     "git pull && " +
-                    "git checkout -b feature/{0} develop", featureName, _solutionDir),
+                    "git checkout -b {3}/{0} {2}", featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
                 string.Format("Starting feature {0}", featureName)
             );
         }
@@ -114,12 +120,12 @@ namespace FundaRealEstateBV.TGIT
             StartProcessGui(
                 "cmd.exe",
                 string.Format("/c cd {1} && " +
-                    "checkout develop && " +
+                    "git checkout {2} && " +
                     "git pull && " +
-                    "git merge --no-ff feature/{0} && " +
-                    "git branch -d feature/{0} && " +
-                    "git push origin --delete feature/{0} && " +
-                    "git push origin develop", featureName, _solutionDir),
+                    "git merge --no-ff {3}/{0} && " +
+                    "git branch -d {3}/{0} && " +
+                    "git push origin --delete {3}/{0} && " +
+                    "git push origin {2}", featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
                 string.Format("Finishing feature {0}", featureName));
         }
         private void ShowChangesCommand(object sender, EventArgs e)
@@ -332,6 +338,8 @@ namespace FundaRealEstateBV.TGIT
 
                 _outputBox = new OutputBox();
 
+                _stopwatch.Reset();
+                _stopwatch.Start();
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
@@ -356,6 +364,14 @@ namespace FundaRealEstateBV.TGIT
 
         private void process_Exited(object sender, EventArgs e)
         {
+            var process = sender as Process;
+            if (process == null) return;
+
+            _stopwatch.Stop();
+            var exitCodeText = process.ExitCode == 0 ? "Succes" : "Error";
+
+            _outputBox.BeginInvoke((Action)(() => _outputBox.textBox.AppendText(string.Format("{0}{1} ({2} ms @ {3})", Environment.NewLine, exitCodeText, 
+                _stopwatch.ElapsedMilliseconds, process.StartTime))));
             _outputBox.BeginInvoke((Action)(() => _outputBox.okButton.Enabled = true));
         }
         #endregion
@@ -402,6 +418,36 @@ namespace FundaRealEstateBV.TGIT
                 return di.FullName;
             }
             return di.Parent != null ? FindGitdir(di.Parent.FullName) : string.Empty;
+        }
+    }
+
+    [ClassInterface(ClassInterfaceType.AutoDual)]
+    [CLSCompliant(false), ComVisible(true)]
+    public class OptionPageGrid : DialogPage
+    {
+        private string _developBranch { get; set; }
+        [Category("TGIT")]
+        [DisplayName(@"Develop branch")]
+        [Description("Name of your GIT develop branch")]
+        public string DevelopBranch
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_developBranch) ? "develop" : _developBranch;
+            }
+            set { _developBranch = value; }
+        }
+
+        private string _featureBranch { get; set; }
+        [Category("TGIT")]
+        [DisplayName(@"Feature branch")]
+        [Description("Name of your GIT feature branch")]
+        public string FeatureBranch {
+            get
+            {
+                return string.IsNullOrEmpty(_featureBranch) ? "feature" : _featureBranch;
+            }
+            set { _featureBranch = value; }
         }
     }
 }

@@ -1,0 +1,6 @@
+Getting Started Guide
+
+1. Install the TGIT extension
+2. Install TortoiseGIT (https://code.google.com/p/tortoisegit/)
+3. Install MSysGit (http://msysgit.github.io/)
+3. Be sure that the TortoiseGIT bin folder and MSysGit is in your PATH

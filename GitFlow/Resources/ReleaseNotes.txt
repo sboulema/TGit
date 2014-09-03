@@ -1,0 +1,11 @@
+1.2
+- Improved Gitflow output
+
+1.1.1
+- Improved gitflow features
+- Fixed bug in the "Diff with previous version" feature
+- Added option screen to set the develop and feature branch name
+- Added Visual Studio 14 CTP support
+
+1.0
+- First public version
