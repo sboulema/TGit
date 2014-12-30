@@ -360,6 +360,7 @@ namespace FundaRealEstateBV.TGIT
             if (process == null) return;
 
             _outputBox.BeginInvoke((Action)(() => _outputBox.textBox.AppendText(outLine.Data + "\n")));
+            _outputBox.BeginInvoke((Action)(() => _outputBox.textBox.Select(0,0)));
         }
 
         private void process_Exited(object sender, EventArgs e)
@@ -387,14 +388,17 @@ namespace FundaRealEstateBV.TGIT
         private string GetCurrentFeatureName()
         {
             string featureName = string.Empty;
+            string error = string.Empty;
+            string drive = Path.GetPathRoot(_solutionDir).TrimEnd('\\');
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = string.Format("/c cd {0} && git symbolic-ref -q --short HEAD", _solutionDir),
+                    Arguments = string.Format("/c cd {0} && {1} && git symbolic-ref -q --short HEAD", _solutionDir, drive),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
+                    RedirectStandardError = true,
                     CreateNoWindow = true
                 }
             };
@@ -403,9 +407,17 @@ namespace FundaRealEstateBV.TGIT
             {
                 featureName = proc.StandardOutput.ReadLine();
             }
-            if (featureName != null && featureName.StartsWith("feature/"))
+            while (!proc.StandardError.EndOfStream)
             {
-                return featureName.Substring(8);
+                error += proc.StandardError.ReadLine();
+            }
+            if (featureName != null && featureName.StartsWith(_options.FeatureBranch))
+            {
+                return featureName.Substring(_options.FeatureBranch.Length + 1);
+            }
+            if(!string.IsNullOrEmpty(error))
+            {
+                MessageBox.Show(error, "Unable to detect feature name", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return featureName;
         }
