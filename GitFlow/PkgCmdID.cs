@@ -9,6 +9,7 @@
         public const uint Pull = 0x104;
         public const uint Commit = 0x105;
         public const uint Push = 0x106;
+        public const uint Fetch = 0x127;
 
         public const uint ShowLog = 0x107;
         public const uint DiskBrowser = 0x108;
@@ -33,9 +34,12 @@
         public const uint MergeContext = 0x121;
 
         public const uint PullContext = 0x122;
+        public const uint FetchContext = 0x128;
         public const uint CommitContext = 0x123;
         public const uint RevertContext = 0x124;
         public const uint DiffContext = 0x125;
         public const uint PrefDiffContext = 0x126;
+
+        public const uint TGitMenu = 0x1021;
     }
 }

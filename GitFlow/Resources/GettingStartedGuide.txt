@@ -1,6 +1,36 @@
 Getting Started Guide
 
+Installation:
+-------------
+
 1. Install the TGIT extension
 2. Install TortoiseGIT (https://code.google.com/p/tortoisegit/)
 3. Install MSysGit (http://msysgit.github.io/)
 3. Be sure that the TortoiseGIT bin folder and MSysGit is in your PATH
+
+Options:
+--------
+
+TGIT has two options: "Develop branch prefix" and "Feature branches prefix".
+These two options determine the prefix of the branches used in the gitflow branching model.
+http://nvie.com/posts/a-successful-git-branching-model/
+These two options must be correctly set for the "Start New Feature" and "Finish Feature" menu items
+to work.
+
+Gitflow:
+--------
+
+So what exactly are those gitflow menu items doing?
+
+- Start New Feature
+	1. Switch to the develop branch
+    2. Pull latest changes on develop
+    3. Create and switch to a new branch
+
+- Finish Feature
+    1. Switch to the develop branch
+    2. Pull latest changes on develop
+    3. Merge the feature branch to develop
+    4. Delete the local feature branch
+    5. Delete the remote feature branch
+    6. Push all changes to develop

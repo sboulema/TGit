@@ -1,3 +1,17 @@
+1.6
+- Menu title changes to fit VS style
+- Apply Stash only enabled when stashes are available
+
+1.5
+- Save files before using a GIT function
+
+1.4
+- Improved foolproofing
+- Added Visual Studio 2015 CTP support
+
+1.3
+- Small bugfixes
+
 1.2
 - Improved Gitflow output
 

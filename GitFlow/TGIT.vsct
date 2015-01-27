@@ -7,6 +7,7 @@
     <Menus>
       <Menu guid="guidTGitCmdSet" id="TGitMenu" priority="0x0300" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>TGIT</ButtonText>
           <CommandName>TGIT</CommandName>
@@ -86,13 +87,19 @@
           <ButtonText>Pull</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidTGitCmdSet" id="commit" priority="0x0105" type="Button">
+      <Button guid="guidTGitCmdSet" id="fetch" priority="0x0105" type="Button">
+        <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Strings>
+          <ButtonText>Fetch...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="commit" priority="0x0106" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
         <Strings>
           <ButtonText>Commit...</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidTGitCmdSet" id="push" priority="0x0106" type="Button">
+      <Button guid="guidTGitCmdSet" id="push" priority="0x0107" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
         <Icon guid="guidImages" id="push" />
         <Strings>
@@ -215,6 +222,12 @@
           <ButtonText>Pull...</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Strings>
+          <ButtonText>Fetch...</ButtonText>
+        </Strings>
+      </Button>
       <Button guid="guidTGitCmdSet" id="commitContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Strings>
@@ -272,6 +285,7 @@
     
       <IDSymbol name="showChanges" value="0x0103" />
       <IDSymbol name="pull" value="0x0104" />
+      <IDSymbol name="fetch" value="0x0127" />
       <IDSymbol name="commit" value="0x0105" />
       <IDSymbol name="push" value="0x0106" />
     
@@ -298,6 +312,7 @@
       <IDSymbol name="mergeContext" value="0x0121" />
       
       <IDSymbol name="pullContext" value="0x0122" />
+      <IDSymbol name="fetchContext" value="0x0128" />
       <IDSymbol name="commitContext" value="0x0123" />
       <IDSymbol name="revertContext" value="0x0124" />
       <IDSymbol name="diffContext" value="0x0125" />

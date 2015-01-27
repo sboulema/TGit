@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TGIT")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Control TortoiseGIT from within Visual Studio")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Funda Real Estate B.V.")]
 [assembly: AssemblyProduct("TGIT")]

@@ -10,6 +10,7 @@ using EnvDTE;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.Shell;
 using Process = System.Diagnostics.Process;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace FundaRealEstateBV.TGIT
 {
@@ -17,6 +18,7 @@ namespace FundaRealEstateBV.TGIT
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.GuidTgitPkgString)]
+    [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGIT", "General", 0, 0, true)]
     public sealed class TgitPackage : Package
     {
@@ -38,7 +40,6 @@ namespace FundaRealEstateBV.TGIT
             base.Initialize();
 
             _dte = (DTE)GetService(typeof(DTE));
-            _solutionDir = GetSolutionDir();
             _options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
             _stopwatch = new Stopwatch();
 
@@ -51,7 +52,11 @@ namespace FundaRealEstateBV.TGIT
 
             mcs.AddCommand(CreateCommand(ShowChangesCommand, PkgCmdIDList.ShowChanges));
             mcs.AddCommand(CreateCommand(PullCommand, PkgCmdIDList.Pull));
+            mcs.AddCommand(CreateCommand(FetchCommand, PkgCmdIDList.Fetch));
             mcs.AddCommand(CreateCommand(CommitCommand, PkgCmdIDList.Commit));
+            //OleMenuCommand commit = CreateCommand(CommitCommand, PkgCmdIDList.Commit);
+            //commit.BeforeQueryStatus += Diff_BeforeQueryStatus;
+            //mcs.AddCommand(commit);
             mcs.AddCommand(CreateCommand(PushCommand, PkgCmdIDList.Push));
 
             mcs.AddCommand(CreateCommand(ShowLogCommand, PkgCmdIDList.ShowLog));
@@ -59,7 +64,9 @@ namespace FundaRealEstateBV.TGIT
             mcs.AddCommand(CreateCommand(RepoBrowserCommand, PkgCmdIDList.RepoBrowser));
 
             mcs.AddCommand(CreateCommand(CreateStashCommand, PkgCmdIDList.CreateStash));
-            mcs.AddCommand(CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash));
+            OleMenuCommand applyStash = CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash);
+            applyStash.BeforeQueryStatus += ApplyStash_BeforeQueryStatus;
+            mcs.AddCommand(applyStash);
 
             mcs.AddCommand(CreateCommand(BranchCommand, PkgCmdIDList.Branch));
             mcs.AddCommand(CreateCommand(SwitchCommand, PkgCmdIDList.Switch));
@@ -77,17 +84,58 @@ namespace FundaRealEstateBV.TGIT
             mcs.AddCommand(CreateCommand(MergeContextCommand, PkgCmdIDList.MergeContext));
 
             mcs.AddCommand(CreateCommand(PullContextCommand, PkgCmdIDList.PullContext));
+            mcs.AddCommand(CreateCommand(FetchContextCommand, PkgCmdIDList.FetchContext));
             mcs.AddCommand(CreateCommand(CommitContextCommand, PkgCmdIDList.CommitContext));
             mcs.AddCommand(CreateCommand(RevertContextCommand, PkgCmdIDList.RevertContext));
             mcs.AddCommand(CreateCommand(DiffContextCommand, PkgCmdIDList.DiffContext));
             mcs.AddCommand(CreateCommand(PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext));
+
+            OleMenuCommand tgitMenu = CreateCommand(null, PkgCmdIDList.TGitMenu);
+            switch (_dte.Version)
+            {
+                case "11.0":
+                case "12.0":
+                    tgitMenu.Text = "TGIT";
+                    break;
+                default:
+                    tgitMenu.Text = "Tgit";
+                    break;
+            }       
+            mcs.AddCommand(tgitMenu);       
         }
+
+        #endregion
+
+        #region QueryStatus
+
+        private void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Enabled = StartProcessGit("stash list");
+        }
+
+        private void Diff_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Enabled = StartProcessGit("diff");
+        }
+
+        private static void Solution_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            OleMenuCommand applyStashCommand = (OleMenuCommand)sender;
+            applyStashCommand.Enabled = false;
+
+            if (!string.IsNullOrEmpty(GetSolutionDir()))
+            {
+                applyStashCommand.Enabled = true;
+            }
+        }
+
         #endregion
 
         #region Main menu items
 
         private void StartFeatureCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
             if (string.IsNullOrEmpty(featureName)) return;
@@ -107,6 +155,7 @@ namespace FundaRealEstateBV.TGIT
         }
         private void FinishFeatureCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = GetCurrentFeatureName();
 
@@ -130,17 +179,28 @@ namespace FundaRealEstateBV.TGIT
         }
         private void ShowChangesCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:repostatus /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void PullCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:pull /path:\"{0}\" /closeonend:0", _solutionDir));
         }
+        private void FetchCommand(object sender, EventArgs e)
+        {
+            _solutionDir = GetSolutionDir();
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:fetch /path:\"{0}\" /closeonend:0", _solutionDir));
+        }
         private void CommitCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             string featureName = GetCurrentFeatureName();
             _dte.Documents.SaveAll();
@@ -148,57 +208,73 @@ namespace FundaRealEstateBV.TGIT
         }
         private void PushCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             StartProcess("TortoiseGitProc.exe", string.Format("/command:push /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void ShowLogCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             StartProcess("TortoiseGitProc.exe", string.Format("/command:log /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void DiskBrowserCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             Process.Start(_solutionDir);
         }
         private void RepoBrowserCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             StartProcess("TortoiseGitProc.exe", string.Format("/command:repobrowser /path:\"{0}\"", _solutionDir));
         }
         private void CreateStashCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:stashsave /path:\"{0}\"", _solutionDir));
         }
         private void ApplyStashCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:reflog /ref:refs/stash /path:\"{0}\"", _solutionDir));
         }
         private void BranchCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:branch /path:\"{0}\"", _solutionDir));
         }
         private void SwitchCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:switch /path:\"{0}\"", _solutionDir));
         }
         private void MergeCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:merge /path:\"{0}\"", _solutionDir));
         }
         private void RevertCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
+            _dte.Documents.SaveAll();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:revert /path:\"{0}\"", _solutionDir));
         }
         private void CleanupCommand(object sender, EventArgs e)
         {
+            _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
             StartProcess("TortoiseGitProc.exe", string.Format("/command:cleanup /path:\"{0}\"", _solutionDir));
         }
@@ -209,6 +285,7 @@ namespace FundaRealEstateBV.TGIT
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:log /path:\"{0}\" /closeonend:0", _currentFilePath));
         }
         private void DiskBrowserContextCommand(object sender, EventArgs e)
@@ -228,52 +305,67 @@ namespace FundaRealEstateBV.TGIT
             _currentFilePath = _dte.ActiveDocument.FullName;
             _currentLineIndex = ((TextDocument)_dte.ActiveDocument.Object(string.Empty)).Selection.CurrentLine;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:blame /path:\"{0}\" /line:{1}", _currentFilePath, _currentLineIndex));
         }
         private void MergeContextCommand(object sender, EventArgs e)
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:merge /path:\"{0}\"", _currentFilePath));
         }
         private void PullContextCommand(object sender, EventArgs e)
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:pull /path:\"{0}\"", _currentFilePath));
+        }
+        private void FetchContextCommand(object sender, EventArgs e)
+        {
+            _currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:fetch /path:\"{0}\"", _currentFilePath));
         }
         private void CommitContextCommand(object sender, EventArgs e)
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\"", _currentFilePath));
         }
         private void RevertContextCommand(object sender, EventArgs e)
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:revert /path:\"{0}\"", _currentFilePath));
         }
         private void DiffContextCommand(object sender, EventArgs e)
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:diff /path:\"{0}\"", _currentFilePath));
         }
         private void PrefDiffContextCommand(object sender, EventArgs e)
         {
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
+            _dte.ActiveDocument.Save();
 
             var revisions = StartProcessResult("git.exe", string.Format("log -2 --pretty=format:%h {0}", _currentFilePath));        
             StartProcess("TortoiseGitProc.exe", string.Format("/command:diff /path:\"{0}\" /startrev:{1} /endrev:{2}", _currentFilePath, revisions.Split(',')[0], revisions.Split(',')[1]));
         }
         #endregion
 
-        private static MenuCommand CreateCommand(EventHandler handler, uint commandId)
+        private static OleMenuCommand CreateCommand(EventHandler handler, uint commandId)
         {
             CommandID menuCommandId = new CommandID(GuidList.GuidTgitCmdSet, (int)commandId);
-            MenuCommand menuItem = new MenuCommand(handler, menuCommandId);
+            OleMenuCommand menuItem = new OleMenuCommand(handler, menuCommandId);
+            menuItem.BeforeQueryStatus += Solution_BeforeQueryStatus;
             return menuItem;
         }
 
@@ -375,14 +467,58 @@ namespace FundaRealEstateBV.TGIT
                 _stopwatch.ElapsedMilliseconds, process.StartTime))));
             _outputBox.BeginInvoke((Action)(() => _outputBox.okButton.Enabled = true));
         }
+
+        private bool StartProcessGit(string gitCommands)
+        {
+            _solutionDir = GetSolutionDir();
+            if (string.IsNullOrEmpty(_solutionDir)) return false;
+
+            string output = string.Empty;
+            string error = string.Empty;
+            var proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = string.Format("/c cd {0} && git {1}", _solutionDir, gitCommands),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                output = proc.StandardOutput.ReadLine();
+            }
+            while (!proc.StandardError.EndOfStream)
+            {
+                error += proc.StandardError.ReadLine();
+            }
+            if (!string.IsNullOrEmpty(output))
+            {
+                return true;
+            }
+            if (!string.IsNullOrEmpty(error))
+            {
+                MessageBox.Show(error, "Failed to get list of stashes", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return false;
+        }
+
         #endregion
 
-        private string GetSolutionDir()
+        private static string GetSolutionDir()
         {
+            var _dte = (DTE)GetGlobalService(typeof(DTE));
             string fileName = _dte.Solution.FullName;
-            if (string.IsNullOrEmpty(fileName)) return string.Empty;
-            var path = Path.GetDirectoryName(fileName);
-            return FindGitdir(path);
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                var path = Path.GetDirectoryName(fileName);
+                return FindGitdir(path);
+            }
+            return string.Empty;
         }
 
         private string GetCurrentFeatureName()
@@ -424,12 +560,24 @@ namespace FundaRealEstateBV.TGIT
 
         private static string FindGitdir(string path)
         {
-            var di = new DirectoryInfo(path);
-            if (di.GetDirectories().Any(d => d.Name.Equals(".git")))
+            try
             {
-                return di.FullName;
+                var di = new DirectoryInfo(path);
+                if (di.GetDirectories().Any(d => d.Name.Equals(".git")))
+                {
+                    return di.FullName;
+                }
+                if (di.Parent != null)
+                {
+                    return FindGitdir(di.Parent.FullName);
+                }
+                throw new FileNotFoundException("Unable to find .git directory.\nIs your solution under GIT source control?");
             }
-            return di.Parent != null ? FindGitdir(di.Parent.FullName) : string.Empty;
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return string.Empty;
         }
     }
 
@@ -439,8 +587,8 @@ namespace FundaRealEstateBV.TGIT
     {
         private string _developBranch { get; set; }
         [Category("TGIT")]
-        [DisplayName(@"Develop branch")]
-        [Description("Name of your GIT develop branch")]
+        [DisplayName(@"Develop branch prefix")]
+        [Description("Prefix for your Gitflow develop branch")]
         public string DevelopBranch
         {
             get
@@ -452,8 +600,8 @@ namespace FundaRealEstateBV.TGIT
 
         private string _featureBranch { get; set; }
         [Category("TGIT")]
-        [DisplayName(@"Feature branch")]
-        [Description("Name of your GIT feature branch")]
+        [DisplayName(@"Feature branches prefix")]
+        [Description("Prefix for your Gitflow feature branches")]
         public string FeatureBranch {
             get
             {
