@@ -15,6 +15,7 @@
       </Menu>
       <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0500" type="Menu">
         <Parent guid="guidTGitCmdSet" id="contextMenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>TGIT</ButtonText>
           <CommandName>TGIT</CommandName>

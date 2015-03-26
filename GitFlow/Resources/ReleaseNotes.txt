@@ -1,6 +1,7 @@
-1.6
+1.6.1
 - Menu title changes to fit VS style
 - Apply Stash only enabled when stashes are available
+- Configurable default commit message (https://msdn.microsoft.com/en-us/library/c02as0cs.aspx)
 
 1.5
 - Save files before using a GIT function

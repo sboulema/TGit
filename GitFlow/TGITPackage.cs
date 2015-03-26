@@ -11,6 +11,7 @@ using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.Shell;
 using Process = System.Diagnostics.Process;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.Win32;
 
 namespace FundaRealEstateBV.TGIT
 {
@@ -91,17 +92,21 @@ namespace FundaRealEstateBV.TGIT
             mcs.AddCommand(CreateCommand(PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext));
 
             OleMenuCommand tgitMenu = CreateCommand(null, PkgCmdIDList.TGitMenu);
+            OleMenuCommand tgitContextMenu = CreateCommand(null, PkgCmdIDList.TGitContextMenu);
             switch (_dte.Version)
             {
                 case "11.0":
                 case "12.0":
                     tgitMenu.Text = "TGIT";
+                    tgitContextMenu.Text = "TGIT";
                     break;
                 default:
                     tgitMenu.Text = "Tgit";
+                    tgitContextMenu.Text = "Tgit";
                     break;
             }       
-            mcs.AddCommand(tgitMenu);       
+            mcs.AddCommand(tgitMenu);
+            mcs.AddCommand(tgitContextMenu);
         }
 
         #endregion
@@ -157,7 +162,7 @@ namespace FundaRealEstateBV.TGIT
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            string featureName = GetCurrentFeatureName();
+            string featureName = GetCurrentFeatureName(true);
 
             /* 1. Switch to the develop branch
              * 2. Pull latest changes on develop
@@ -202,9 +207,8 @@ namespace FundaRealEstateBV.TGIT
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            string featureName = GetCurrentFeatureName();
             _dte.Documents.SaveAll();
-            StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\" /logmsg:\"{1}\" /closeonend:0", _solutionDir, featureName));
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\" /logmsg:\"{1}\" /closeonend:0", _solutionDir, GetCommitMessage()));
         }
         private void PushCommand(object sender, EventArgs e)
         {
@@ -334,7 +338,7 @@ namespace FundaRealEstateBV.TGIT
             _currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(_currentFilePath)) return;
             _dte.ActiveDocument.Save();
-            StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\"", _currentFilePath));
+            StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\" /logmsg:\"{1}\" /closeonend:0", _currentFilePath, GetCommitMessage()));
         }
         private void RevertContextCommand(object sender, EventArgs e)
         {
@@ -480,7 +484,7 @@ namespace FundaRealEstateBV.TGIT
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = string.Format("/c cd {0} && git {1}", _solutionDir, gitCommands),
+                    Arguments = string.Format("/c {0} && cd {1} && git {2}", Path.GetPathRoot(_solutionDir).TrimEnd('\\'), _solutionDir, gitCommands),
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -502,7 +506,7 @@ namespace FundaRealEstateBV.TGIT
             }
             if (!string.IsNullOrEmpty(error))
             {
-                MessageBox.Show(error, "Failed to get list of stashes", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(error, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }
@@ -521,7 +525,7 @@ namespace FundaRealEstateBV.TGIT
             return string.Empty;
         }
 
-        private string GetCurrentFeatureName()
+        private string GetCurrentFeatureName(bool trimPrefix)
         {
             string featureName = string.Empty;
             string error = string.Empty;
@@ -549,7 +553,11 @@ namespace FundaRealEstateBV.TGIT
             }
             if (featureName != null && featureName.StartsWith(_options.FeatureBranch))
             {
-                return featureName.Substring(_options.FeatureBranch.Length + 1);
+                if (trimPrefix)
+                {
+                    return featureName.Substring(_options.FeatureBranch.Length + 1);
+                }
+                return featureName;
             }
             if(!string.IsNullOrEmpty(error))
             {
@@ -571,13 +579,38 @@ namespace FundaRealEstateBV.TGIT
                 {
                     return FindGitdir(di.Parent.FullName);
                 }
-                throw new FileNotFoundException("Unable to find .git directory.\nIs your solution under GIT source control?");
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return string.Empty;
+        }
+
+        private string GetCommitMessage()
+        {
+            //var projectDir = _dte.Solution.Projects.Item(1).FullName;
+            //var projectFileName = _dte.Solution.Projects.Item(1).FileName;
+
+            string commitMessage = _options.CommitMessage;
+            commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentFeatureName(false));
+            commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentFeatureName(true));
+            commitMessage = commitMessage.Replace("$(Configuration)", _dte.Solution.SolutionBuild.ActiveConfiguration.Name);
+            //commitMessage = commitMessage.Replace("$(Platform)", (string)_dte.Solution.Projects.Item(1).ConfigurationManager.PlatformNames);
+            commitMessage = commitMessage.Replace("$(DevEnvDir)", (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7\\", _dte.Version, ""));
+            //commitMessage = commitMessage.Replace("$(ProjectDir)", Path.GetDirectoryName(_dte.Solution.Projects.Item(1).FullName));
+            //commitMessage = commitMessage.Replace("$(ProjectPath)", Path.GetFullPath(_dte.Solution.Projects.Item(1).FullName));
+            //commitMessage = commitMessage.Replace("$(ProjectName)", _dte.Solution.Projects.Item(1).FullName);
+            //commitMessage = commitMessage.Replace("$(ProjectFileName)", _dte.Solution.Projects.Item(1).FileName);
+            //commitMessage = commitMessage.Replace("$(ProjectExt)", Path.GetExtension(_dte.Solution.Projects.Item(1).FileName));
+            commitMessage = commitMessage.Replace("$(SolutionDir)", Path.GetDirectoryName(_dte.Solution.FullName));
+            commitMessage = commitMessage.Replace("$(SolutionPath)", Path.GetFullPath(_dte.Solution.FullName));
+            commitMessage = commitMessage.Replace("$(SolutionName)", _dte.Solution.FullName);
+            commitMessage = commitMessage.Replace("$(SolutionFileName)", _dte.Solution.FileName);
+            commitMessage = commitMessage.Replace("$(SolutionExt)", Path.GetExtension(_dte.Solution.FileName));
+            commitMessage = commitMessage.Replace("$(VSInstallDir)", (string)Registry.GetValue(string.Format("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\{0}", _dte.Version), "InstallDir", ""));
+            commitMessage = commitMessage.Replace("$(FxCopDir)", (string)Registry.GetValue(string.Format("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\{0}\\Edev", _dte.Version), "FxCopDir", ""));
+            return commitMessage;
         }
     }
 
@@ -608,6 +641,19 @@ namespace FundaRealEstateBV.TGIT
                 return string.IsNullOrEmpty(_featureBranch) ? "feature" : _featureBranch;
             }
             set { _featureBranch = value; }
+        }
+
+        private string _commitMessage { get; set; }
+        [Category("TGIT")]
+        [DisplayName(@"Default commit message")]
+        [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
+        public string CommitMessage
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_commitMessage) ? "$(FeatureName)" : _commitMessage;
+            }
+            set { _commitMessage = value; }
         }
     }
 }
