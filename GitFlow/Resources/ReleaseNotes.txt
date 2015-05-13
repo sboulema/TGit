@@ -1,3 +1,6 @@
+1.7
+- Added Start/Finish release gitflow options
+
 1.6.1
 - Menu title changes to fit VS style
 - Apply Stash only enabled when stashes are available

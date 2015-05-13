@@ -73,7 +73,19 @@
           <ButtonText>Finish Feature</ButtonText>
         </Strings>
       </Button>
-    
+      <Button guid="guidTGitCmdSet" id="startRelease" priority="0x0133" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Strings>
+          <ButtonText>Start New Release</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="finishRelease" priority="0x0134" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Strings>
+          <ButtonText>Finish Release</ButtonText>
+        </Strings>
+      </Button>
+
       <Button guid="guidTGitCmdSet" id="showChanges" priority="0x0103" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
         <Icon guid="guidImages" id="showChanges" />
@@ -283,7 +295,9 @@
       
       <IDSymbol name="startFeature" value="0x0100" />
       <IDSymbol name="finishFeature" value="0x0101" />
-    
+      <IDSymbol name="startRelease" value="0x0133" />
+      <IDSymbol name="finishRelease" value="0x0134" />
+
       <IDSymbol name="showChanges" value="0x0103" />
       <IDSymbol name="pull" value="0x0104" />
       <IDSymbol name="fetch" value="0x0127" />

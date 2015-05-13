@@ -50,6 +50,8 @@ namespace FundaRealEstateBV.TGIT
 
             mcs.AddCommand(CreateCommand(StartFeatureCommand, PkgCmdIDList.StartFeature));
             mcs.AddCommand(CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature));
+            mcs.AddCommand(CreateCommand(StartReleaseCommand, PkgCmdIDList.StartRelease));
+            mcs.AddCommand(CreateCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease));
 
             mcs.AddCommand(CreateCommand(ShowChangesCommand, PkgCmdIDList.ShowChanges));
             mcs.AddCommand(CreateCommand(PullCommand, PkgCmdIDList.Pull));
@@ -162,7 +164,7 @@ namespace FundaRealEstateBV.TGIT
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            string featureName = GetCurrentFeatureName(true);
+            string featureName = GetCurrentBranchName(true);
 
             /* 1. Switch to the develop branch
              * 2. Pull latest changes on develop
@@ -182,6 +184,63 @@ namespace FundaRealEstateBV.TGIT
                     "git push origin {2}", featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
                 string.Format("Finishing feature {0}", featureName));
         }
+
+        private void StartReleaseCommand(object sender, EventArgs e)
+        {
+            _solutionDir = GetSolutionDir();
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            string releaseVersion = Interaction.InputBox("Release Version:", "Start New Release");
+            if (string.IsNullOrEmpty(releaseVersion)) return;
+
+            /* 1. Switch to the develop branch
+             * 2. Pull latest changes on develop
+             * 3. Create and switch to a new release branch
+             */
+            StartProcessGui(
+                "cmd.exe",
+                string.Format("/c cd {1} && " +
+                    "git checkout {2} && " +
+                    "git pull && " +
+                    "git checkout -b {3}/{0} {2}", releaseVersion, _solutionDir, _options.DevelopBranch, _options.ReleaseBranch),
+                string.Format("Starting release {0}", releaseVersion)
+            );
+        }
+
+        private void FinishReleaseCommand(object sender, EventArgs e)
+        {
+            _solutionDir = GetSolutionDir();
+            if (string.IsNullOrEmpty(_solutionDir)) return;
+            string releaseName = GetCurrentBranchName(true);
+
+            /* 1. Switch to the master branch
+             * 2. Pull latest changes on master
+             * 3. Merge the release branch to master
+             * 4. Tag the release
+             * 5. Switch to the develop branch
+             * 6. Pull latest changes on develop
+             * 7. Merge the release branch to develop
+             * 8. Delete the local release branch
+             * 9. Delete the remote release branch
+             * 10. Push all changes to develop
+             * 11. Push all changes to master
+             */
+            StartProcessGui(
+                "cmd.exe",
+                string.Format("/c cd {1} && " +
+                    "git checkout {4} && " +
+                    "git pull && " +
+                    "git merge --no-ff {3}/{0} && " +
+                    "git tag {0}" +
+                    "git checkout {2} && " +
+                    "git pull && " +
+                    "git merge --no-ff {3}/{0} && " +
+                    "git branch -d {3}/{0} && " +
+                    "git push origin --delete {3}/{0} && " +
+                    "git push origin {2}" +
+                    "git push origin {4}", releaseName, _solutionDir, _options.DevelopBranch, _options.ReleaseBranch, _options.MasterBranch),
+                string.Format("Finishing release {0}", releaseName));
+        }
+
         private void ShowChangesCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
@@ -525,9 +584,9 @@ namespace FundaRealEstateBV.TGIT
             return string.Empty;
         }
 
-        private string GetCurrentFeatureName(bool trimPrefix)
+        private string GetCurrentBranchName(bool trimPrefix)
         {
-            string featureName = string.Empty;
+            string branchName = string.Empty;
             string error = string.Empty;
             string drive = Path.GetPathRoot(_solutionDir).TrimEnd('\\');
             var proc = new Process
@@ -545,25 +604,29 @@ namespace FundaRealEstateBV.TGIT
             proc.Start();
             while (!proc.StandardOutput.EndOfStream)
             {
-                featureName = proc.StandardOutput.ReadLine();
+                branchName = proc.StandardOutput.ReadLine();
             }
             while (!proc.StandardError.EndOfStream)
             {
                 error += proc.StandardError.ReadLine();
             }
-            if (featureName != null && featureName.StartsWith(_options.FeatureBranch))
+            if (branchName != null)
             {
-                if (trimPrefix)
+                if (branchName.StartsWith(_options.FeatureBranch) && trimPrefix)
                 {
-                    return featureName.Substring(_options.FeatureBranch.Length + 1);
+                    return branchName.Substring(_options.FeatureBranch.Length + 1);
                 }
-                return featureName;
+                else if (branchName.StartsWith(_options.ReleaseBranch) && trimPrefix)
+                {
+                    return branchName.Substring(_options.ReleaseBranch.Length + 1);
+                }
+                return branchName;
             }
             if(!string.IsNullOrEmpty(error))
             {
-                MessageBox.Show(error, "Unable to detect feature name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(error, "Unable to detect branch name", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return featureName;
+            return branchName;
         }
 
         private static string FindGitdir(string path)
@@ -593,8 +656,8 @@ namespace FundaRealEstateBV.TGIT
             //var projectFileName = _dte.Solution.Projects.Item(1).FileName;
 
             string commitMessage = _options.CommitMessage;
-            commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentFeatureName(false));
-            commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentFeatureName(true));
+            commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false));
+            commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentBranchName(true));
             commitMessage = commitMessage.Replace("$(Configuration)", _dte.Solution.SolutionBuild.ActiveConfiguration.Name);
             //commitMessage = commitMessage.Replace("$(Platform)", (string)_dte.Solution.Projects.Item(1).ConfigurationManager.PlatformNames);
             commitMessage = commitMessage.Replace("$(DevEnvDir)", (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7\\", _dte.Version, ""));
@@ -641,6 +704,32 @@ namespace FundaRealEstateBV.TGIT
                 return string.IsNullOrEmpty(_featureBranch) ? "feature" : _featureBranch;
             }
             set { _featureBranch = value; }
+        }
+
+        private string _releaseBranch { get; set; }
+        [Category("TGIT")]
+        [DisplayName(@"Release branches prefix")]
+        [Description("Prefix for your Gitflow release branches")]
+        public string ReleaseBranch
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_releaseBranch) ? "release" : _releaseBranch;
+            }
+            set { _releaseBranch = value; }
+        }
+
+        private string _masterBranch { get; set; }
+        [Category("TGIT")]
+        [DisplayName(@"Master branches prefix")]
+        [Description("Prefix for your Gitflow master branch")]
+        public string MasterBranch
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_releaseBranch) ? "master" : _masterBranch;
+            }
+            set { _masterBranch = value; }
         }
 
         private string _commitMessage { get; set; }
