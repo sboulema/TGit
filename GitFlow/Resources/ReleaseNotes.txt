@@ -1,5 +1,8 @@
-1.7
+1.7.6
 - Added Start/Finish release gitflow options
+- Improved Gitflow output
+- Prompt for missing username and email
+- When saving files also save solution and project files
 
 1.6.1
 - Menu title changes to fit VS style

@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.Shell;
 using Process = System.Diagnostics.Process;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using FundaRealEstateBV.TGIT.Helpers;
 
 namespace FundaRealEstateBV.TGIT
 {
@@ -30,6 +31,7 @@ namespace FundaRealEstateBV.TGIT
         private OutputBox _outputBox;
         private OptionPageGrid _options;
         private Stopwatch _stopwatch;
+        private FileHelper _fileHelper;
 
         #region Package Members
         /// <summary>
@@ -43,6 +45,7 @@ namespace FundaRealEstateBV.TGIT
             _dte = (DTE)GetService(typeof(DTE));
             _options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
             _stopwatch = new Stopwatch();
+            _fileHelper = new FileHelper(_dte);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -148,18 +151,20 @@ namespace FundaRealEstateBV.TGIT
             if (string.IsNullOrEmpty(featureName)) return;
 
             /* 1. Switch to the develop branch
-             * 2. Pull latest changes on develop
-             * 3. Create and switch to a new branch
-             */
+                * 2. Pull latest changes on develop
+                * 3. Create and switch to a new branch
+                */
             StartProcessGui(
-                "cmd.exe", 
+                "cmd.exe",
                 string.Format("/c cd {1} && " +
-                    "git checkout {2} && " +
-                    "git pull && " +
-                    "git checkout -b {3}/{0} {2}", featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
+                    "echo ^> git checkout {2} && git checkout {2} && " +
+                    "echo ^> git pull && git pull && " +
+                    "echo ^> git checkout -b {3}/{0} {2} && git checkout -b {3}/{0} {2}",
+                    featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
                 string.Format("Starting feature {0}", featureName)
             );
         }
+
         private void FinishFeatureCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
@@ -176,12 +181,13 @@ namespace FundaRealEstateBV.TGIT
             StartProcessGui(
                 "cmd.exe",
                 string.Format("/c cd {1} && " +
-                    "git checkout {2} && " +
-                    "git pull && " +
-                    "git merge --no-ff {3}/{0} && " +
-                    "git branch -d {3}/{0} && " +
-                    "git push origin --delete {3}/{0} && " +
-                    "git push origin {2}", featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
+                    "echo ^> git checkout {2} && git checkout {2} && " +
+                    "echo ^> git pull && git pull && " +
+                    "echo ^> git merge --no-ff {3}/{0} && git merge --no-ff {3}/{0} && " +
+                    "echo ^> git branch -d {3}/{0} && git branch -d {3}/{0} && " +
+                    "echo ^> git push origin --delete {3}/{0} && git push origin --delete {3}/{0} && " +
+                    "echo ^> git push origin {2} && git push origin {2}", 
+                    featureName, _solutionDir, _options.DevelopBranch, _options.FeatureBranch),
                 string.Format("Finishing feature {0}", featureName));
         }
 
@@ -199,9 +205,10 @@ namespace FundaRealEstateBV.TGIT
             StartProcessGui(
                 "cmd.exe",
                 string.Format("/c cd {1} && " +
-                    "git checkout {2} && " +
-                    "git pull && " +
-                    "git checkout -b {3}/{0} {2}", releaseVersion, _solutionDir, _options.DevelopBranch, _options.ReleaseBranch),
+                    "echo ^> git checkout {2} && git checkout {2} && " +
+                    "echo ^> git pull && git pull && " +
+                    "echo ^> git checkout -b {3}/{0} {2} && git checkout -b {3}/{0} {2}", 
+                    releaseVersion, _solutionDir, _options.DevelopBranch, _options.ReleaseBranch),
                 string.Format("Starting release {0}", releaseVersion)
             );
         }
@@ -227,17 +234,18 @@ namespace FundaRealEstateBV.TGIT
             StartProcessGui(
                 "cmd.exe",
                 string.Format("/c cd {1} && " +
-                    "git checkout {4} && " +
-                    "git pull && " +
-                    "git merge --no-ff {3}/{0} && " +
-                    "git tag {0}" +
-                    "git checkout {2} && " +
-                    "git pull && " +
-                    "git merge --no-ff {3}/{0} && " +
-                    "git branch -d {3}/{0} && " +
-                    "git push origin --delete {3}/{0} && " +
-                    "git push origin {2}" +
-                    "git push origin {4}", releaseName, _solutionDir, _options.DevelopBranch, _options.ReleaseBranch, _options.MasterBranch),
+                    "echo ^> git checkout {4} && git checkout {4} && " +
+                    "echo ^> git pull && git pull && " +
+                    "echo ^> git merge --no-ff {3}/{0} && git merge --no-ff {3}/{0} && " +
+                    "echo ^> git tag {0} && git tag {0} && " +
+                    "echo ^> git checkout {2} && git checkout {2} && " +
+                    "echo ^> git pull && git pull && " +
+                    "echo ^> git merge --no-ff {3}/{0} && git merge --no-ff {3}/{0} && " +
+                    "echo ^> git branch -d {3}/{0} && git branch -d {3}/{0} && " +
+                    "echo ^> git push origin --delete {3}/{0} && git push origin --delete {3}/{0} && " +
+                    "echo ^> git push origin {2} && git push origin {2} && " +
+                    "echo ^> git push origin {4} && git push origin {4}", 
+                    releaseName, _solutionDir, _options.DevelopBranch, _options.ReleaseBranch, _options.MasterBranch),
                 string.Format("Finishing release {0}", releaseName));
         }
 
@@ -245,28 +253,28 @@ namespace FundaRealEstateBV.TGIT
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:repostatus /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void PullCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:pull /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void FetchCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:fetch /path:\"{0}\" /closeonend:0", _solutionDir));
         }
         private void CommitCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:commit /path:\"{0}\" /logmsg:\"{1}\" /closeonend:0", _solutionDir, GetCommitMessage()));
         }
         private void PushCommand(object sender, EventArgs e)
@@ -297,42 +305,42 @@ namespace FundaRealEstateBV.TGIT
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:stashsave /path:\"{0}\"", _solutionDir));
         }
         private void ApplyStashCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:reflog /ref:refs/stash /path:\"{0}\"", _solutionDir));
         }
         private void BranchCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:branch /path:\"{0}\"", _solutionDir));
         }
         private void SwitchCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:switch /path:\"{0}\"", _solutionDir));
         }
         private void MergeCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:merge /path:\"{0}\"", _solutionDir));
         }
         private void RevertCommand(object sender, EventArgs e)
         {
             _solutionDir = GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return;
-            _dte.Documents.SaveAll();
+            _fileHelper.SaveAllFiles();
             StartProcess("TortoiseGitProc.exe", string.Format("/command:revert /path:\"{0}\"", _solutionDir));
         }
         private void CleanupCommand(object sender, EventArgs e)
@@ -475,36 +483,43 @@ namespace FundaRealEstateBV.TGIT
 
         private void StartProcessGui(string application, string args, string title)
         {
-            try
+            if (!StartProcessGit("config user.name") || !StartProcessGit("config user.email"))
             {
-                Process process = new Process();
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-                process.EnableRaisingEvents = true;
-                process.Exited += process_Exited;
-                process.OutputDataReceived += OutputDataHandler;
-                process.ErrorDataReceived += OutputDataHandler;
-                process.StartInfo.FileName = application;
-                process.StartInfo.Arguments = args;
-                process.StartInfo.WorkingDirectory = _solutionDir;
-
-                _outputBox = new OutputBox();
-
-                _stopwatch.Reset();
-                _stopwatch.Start();
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                _outputBox.Text = title;
-                _outputBox.Show();
+                new Credentials(_dte).ShowDialog();
             }
-            catch (Exception e)
+            else
             {
-                MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    Process process = new Process();
+                    process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.EnableRaisingEvents = true;
+                    process.Exited += process_Exited;
+                    process.OutputDataReceived += OutputDataHandler;
+                    process.ErrorDataReceived += OutputDataHandler;
+                    process.StartInfo.FileName = application;
+                    process.StartInfo.Arguments = args;
+                    process.StartInfo.WorkingDirectory = _solutionDir;
+
+                    _outputBox = new OutputBox();
+
+                    _stopwatch.Reset();
+                    _stopwatch.Start();
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    _outputBox.Text = title;
+                    _outputBox.Show();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
