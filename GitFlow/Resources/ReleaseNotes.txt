@@ -1,3 +1,16 @@
+1.8.2
+- Fix bug with entering repo credentials
+
+1.8.1
+- Fix bug with Finish release command
+
+1.8
+- Code cleanup
+- Fixed bug with commit messages
+- Fixed bug with Finish release command
+- TortoiseGit does not need to be in your PATH anymore
+- MSysGit does not need to be in your PATH anymore
+
 1.7.6
 - Added Start/Finish release gitflow options
 - Improved Gitflow output

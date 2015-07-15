@@ -22,8 +22,8 @@ namespace FundaRealEstateBV.TGIT
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            _processHelper.StartProcessGit(string.Format("git config user.name \"{0}\"", nameTextBox.Text));
-            _processHelper.StartProcessGit(string.Format("git config user.email \"{0}\"", emailTextBox.Text));
+            _processHelper.StartProcessGit(string.Format("config user.name \"{0}\"", nameTextBox.Text));
+            _processHelper.StartProcessGit(string.Format("config user.email \"{0}\"", emailTextBox.Text));
         }
     }
 }

@@ -6,7 +6,6 @@ Installation:
 1. Install the TGIT extension
 2. Install TortoiseGIT (https://code.google.com/p/tortoisegit/)
 3. Install MSysGit (http://msysgit.github.io/)
-3. Be sure that the TortoiseGIT bin folder and MSysGit is in your PATH
 
 Options:
 --------
@@ -53,3 +52,4 @@ So what exactly are those gitflow menu items doing?
     9. Delete the remote release branch
     10. Push all changes to develop
     11. Push all changes to master
+	12. Push the tag

@@ -214,6 +214,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GitFlowCommands.cs" />
+    <Compile Include="Commands\MainMenuCommands.cs" />
+    <Compile Include="Commands\ContextMenuCommands.cs" />
     <Compile Include="Credentials.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,8 +224,13 @@
       <DependentUpon>Credentials.cs</DependentUpon>
     </Compile>
     <Compile Include="Guids.cs" />
+    <Compile Include="Helpers\CommandHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Helpers\GitHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
+    <Compile Include="Options.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="OutputBox.cs">
       <SubType>Form</SubType>
     </Compile>
