@@ -1,3 +1,6 @@
+1.8.3
+- Fix bug with entering repo credentials
+
 1.8.2
 - Fix bug with entering repo credentials
 
