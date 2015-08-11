@@ -10,13 +10,14 @@ namespace FundaRealEstateBV.TGIT.Helpers
     public class GitHelper
     {
         private FileHelper fileHelper;
-        private string featureBranch, releaseBranch;
+        private string featureBranch, releaseBranch, hotfixBranch;
 
-        public GitHelper(FileHelper fileHelper, string featureBranch, string releaseBranch)
+        public GitHelper(FileHelper fileHelper, string featureBranch, string releaseBranch, string hotfixBranch)
         {
             this.fileHelper = fileHelper;
             this.featureBranch = featureBranch;
             this.releaseBranch = releaseBranch;
+            this.hotfixBranch = hotfixBranch;
         }
 
         public string GetCommitMessage(string commitMessageTemplate, DTE dte)
@@ -81,6 +82,10 @@ namespace FundaRealEstateBV.TGIT.Helpers
                 else if (branchName.StartsWith(releaseBranch) && trimPrefix)
                 {
                     return branchName.Substring(releaseBranch.Length + 1);
+                }
+                else if (branchName.StartsWith(hotfixBranch) && trimPrefix)
+                {
+                    return branchName.Substring(hotfixBranch.Length + 1);
                 }
                 return branchName;
             }

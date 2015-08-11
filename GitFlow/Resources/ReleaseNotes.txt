@@ -1,3 +1,6 @@
+1.9
+- Added Start/Finish hotfix gitflow options
+
 1.8.3
 - Fix bug with entering repo credentials
 

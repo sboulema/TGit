@@ -36,7 +36,7 @@ namespace FundaRealEstateBV.TGIT
             options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
             fileHelper = new FileHelper(dte);
             processHelper = new ProcessHelper(dte);
-            gitHelper = new GitHelper(fileHelper, options.FeatureBranch, options.ReleaseBranch);
+            gitHelper = new GitHelper(fileHelper, options.FeatureBranch, options.ReleaseBranch, options.HotfixBranch);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;

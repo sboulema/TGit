@@ -6,6 +6,8 @@
         public const uint FinishFeature = 0x101;
         public const uint StartRelease = 0x133;
         public const uint FinishRelease = 0x134;
+        public const uint StartHotfix = 0x135;
+        public const uint FinishHotfix = 0x136;
 
         public const uint ShowChanges = 0x103;
         public const uint Pull = 0x104;

@@ -56,9 +56,22 @@ namespace FundaRealEstateBV.TGIT
         {
             get
             {
-                return string.IsNullOrEmpty(_releaseBranch) ? "master" : _masterBranch;
+                return string.IsNullOrEmpty(_masterBranch) ? "master" : _masterBranch;
             }
             set { _masterBranch = value; }
+        }
+
+        private string _hotfixBranch { get; set; }
+        [Category("TGIT")]
+        [DisplayName(@"Hotfix branches prefix")]
+        [Description("Prefix for your Gitflow hotfix branch")]
+        public string HotfixBranch
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_hotfixBranch) ? "hotfix" : _hotfixBranch;
+            }
+            set { _hotfixBranch = value; }
         }
 
         private string _commitMessage { get; set; }
