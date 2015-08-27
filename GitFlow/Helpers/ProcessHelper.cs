@@ -10,8 +10,8 @@ namespace FundaRealEstateBV.TGIT.Helpers
     public class ProcessHelper
     {
         private FileHelper fileHelper;
-        private string _solutionDir;
-        private string tortoiseGitProc, gitBin;
+        private string solutionDir;
+        private string tortoiseGitProc, git;
         private DTE dte;
         private OutputBox outputBox;
         private Stopwatch stopwatch;
@@ -21,14 +21,14 @@ namespace FundaRealEstateBV.TGIT.Helpers
             this.dte = dte;
             fileHelper = new FileHelper(dte);
             tortoiseGitProc = fileHelper.GetTortoiseGitProc();
-            gitBin = fileHelper.GetMSysGit();
+            git = fileHelper.GetMSysGit();
             stopwatch = new Stopwatch();
         }
 
-        public bool StartProcessGit(string gitCommands)
+        public bool StartProcessGit(string commands)
         {
-            _solutionDir = fileHelper.GetSolutionDir();
-            if (string.IsNullOrEmpty(_solutionDir)) return false;
+            solutionDir = fileHelper.GetSolutionDir();
+            if (string.IsNullOrEmpty(solutionDir)) return false;
 
             string output = string.Empty;
             string error = string.Empty;
@@ -37,7 +37,7 @@ namespace FundaRealEstateBV.TGIT.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = string.Format("/c {0} && cd \"{1}\" && \"{3}\" {2}", Path.GetPathRoot(_solutionDir).TrimEnd('\\'), _solutionDir, gitCommands, gitBin),
+                    Arguments = $"/c {Path.GetPathRoot(solutionDir).TrimEnd('\\')} && cd \"{solutionDir}\" && \"{git}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -64,18 +64,6 @@ namespace FundaRealEstateBV.TGIT.Helpers
             return false;
         }
 
-        private static void StartProcess(string application, string args)
-        {
-            try
-            {
-                Process.Start(application, args);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         public void StartTortoiseGitProc(string args)
         {
             try
@@ -88,32 +76,36 @@ namespace FundaRealEstateBV.TGIT.Helpers
             }
         }
 
-        public string StartProcessResult(string application, string args)
+        public string StartProcessGitResult(string commands)
         {
-            string results = string.Empty;
-            try
-            {
-                Process process = new Process();
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.FileName = application;
-                process.StartInfo.Arguments = args;
-                process.StartInfo.WorkingDirectory = _solutionDir;
+            solutionDir = fileHelper.GetSolutionDir();
+            if (string.IsNullOrEmpty(solutionDir)) return string.Empty;
 
-                process.Start();
-                while (!process.StandardOutput.EndOfStream)
-                {
-                    results += process.StandardOutput.ReadLine() + ",";
-                }
-            }
-            catch (Exception e)
+            string output = string.Empty;
+            string error = string.Empty;
+            var proc = new Process
             {
-                MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = $"/c {Path.GetPathRoot(solutionDir).TrimEnd('\\')} && cd \"{solutionDir}\" && \"{git}\" {commands}",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                output = proc.StandardOutput.ReadLine();
             }
-            return results;
+            while (!proc.StandardError.EndOfStream)
+            {
+                error += proc.StandardError.ReadLine();
+            }
+
+            return output ?? error;
         }
 
         public void Start(string application)
@@ -143,7 +135,7 @@ namespace FundaRealEstateBV.TGIT.Helpers
                     process.ErrorDataReceived += OutputDataHandler;
                     process.StartInfo.FileName = application;
                     process.StartInfo.Arguments = args;
-                    process.StartInfo.WorkingDirectory = _solutionDir;
+                    process.StartInfo.WorkingDirectory = solutionDir;
 
                     outputBox = new OutputBox();
 

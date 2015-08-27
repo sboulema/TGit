@@ -45,6 +45,8 @@
         public const uint PrefDiffContext = 0x126;
 
         public const uint TGitMenu = 0x1021;
-        public const uint TGitContextMenu = 0x1027;      
+        public const uint TGitContextMenu = 0x1027;
+
+        public const uint Resolve = 0x137;
     }
 }

@@ -1,3 +1,7 @@
+2.0
+- Added Resolve option
+- Fixed bug in the "Diff with previous version" feature
+
 1.9
 - Added Start/Finish hotfix gitflow options
 
@@ -42,7 +46,7 @@
 - Improved Gitflow output
 
 1.1.1
-- Improved gitflow features
+- Improved Gitflow features
 - Fixed bug in the "Diff with previous version" feature
 - Added option screen to set the develop and feature branch name
 - Added Visual Studio 14 CTP support

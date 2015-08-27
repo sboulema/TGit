@@ -197,7 +197,15 @@
         </Strings>
       </Button>
 
-      <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0200" type="Button">
+      <Button guid="guidTGitCmdSet" id="resolve" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Icon guid="guidImages" id="resolve" />
+        <Strings>
+          <ButtonText>Resolve...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
         <Strings>
           <ButtonText>Cleanup working copy</ButtonText>
@@ -249,6 +257,7 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="pull" />
         <Strings>
           <ButtonText>Fetch...</ButtonText>
         </Strings>
@@ -283,7 +292,7 @@
     </Buttons>
   
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, properties"/>     
+      <Bitmap guid="guidImages" href="Resources\menu-icons.png" usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, properties, resolve"/>     
     </Bitmaps>
   </Commands>
 
@@ -331,6 +340,7 @@
 
       <IDSymbol name="revert" value="0x0115" />
       <IDSymbol name="cleanup" value="0x0116" />
+      <IDSymbol name="resolve" value="0x0137" />
 
       <IDSymbol name="showLogContext" value="0x0117" />
       <IDSymbol name="diskBrowserContext" value="0x0118" />
@@ -359,6 +369,7 @@
       <IDSymbol name="differences" value="8" />
       <IDSymbol name="blame" value="9" />
       <IDSymbol name="properties" value="10" />
+      <IDSymbol name="resolve" value="11" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
