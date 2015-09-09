@@ -205,7 +205,15 @@
         </Strings>
       </Button>
 
-      <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0300" type="Button">
+      <Button guid="guidTGitCmdSet" id="sync" priority="0x0300" type="Button">
+        <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Icon guid="guidImages" id="sync" />
+        <Strings>
+          <ButtonText>Sync</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
         <Strings>
           <ButtonText>Cleanup working copy</ButtonText>
@@ -341,6 +349,7 @@
       <IDSymbol name="revert" value="0x0115" />
       <IDSymbol name="cleanup" value="0x0116" />
       <IDSymbol name="resolve" value="0x0137" />
+      <IDSymbol name="sync" value="0x0138" />
 
       <IDSymbol name="showLogContext" value="0x0117" />
       <IDSymbol name="diskBrowserContext" value="0x0118" />
@@ -370,6 +379,7 @@
       <IDSymbol name="blame" value="9" />
       <IDSymbol name="properties" value="10" />
       <IDSymbol name="resolve" value="11" />
+      <IDSymbol name="sync" value="12" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

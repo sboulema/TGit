@@ -1,3 +1,6 @@
+2.1
+- Added Sync option
+
 2.0
 - Added Resolve option
 - Fixed bug in the "Diff with previous version" feature

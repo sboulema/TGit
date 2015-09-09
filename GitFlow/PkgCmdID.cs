@@ -48,5 +48,6 @@
         public const uint TGitContextMenu = 0x1027;
 
         public const uint Resolve = 0x137;
+        public const uint Sync = 0x138;
     }
 }

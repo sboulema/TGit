@@ -53,6 +53,7 @@ namespace FundaRealEstateBV.TGIT.Commands
 
             commandHelper.AddCommand(RevertCommand, PkgCmdIDList.Revert);
             commandHelper.AddCommand(ResolveCommand, PkgCmdIDList.Resolve);
+            commandHelper.AddCommand(SyncCommand, PkgCmdIDList.Sync);
             commandHelper.AddCommand(CleanupCommand, PkgCmdIDList.Cleanup);
         }
 
@@ -163,6 +164,13 @@ namespace FundaRealEstateBV.TGIT.Commands
             string solutionDir = fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
             processHelper.StartTortoiseGitProc(string.Format("/command:resolve /path:\"{0}\"", solutionDir));
+        }
+
+        private void SyncCommand(object sender, EventArgs e)
+        {
+            string solutionDir = fileHelper.GetSolutionDir();
+            if (string.IsNullOrEmpty(solutionDir)) return;
+            processHelper.StartTortoiseGitProc(string.Format("/command:sync /path:\"{0}\"", solutionDir));
         }
     }
 }
