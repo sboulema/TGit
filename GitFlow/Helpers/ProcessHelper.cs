@@ -137,7 +137,7 @@ namespace FundaRealEstateBV.TGIT.Helpers
                     process.StartInfo.Arguments = args;
                     process.StartInfo.WorkingDirectory = solutionDir;
 
-                    outputBox = new OutputBox();
+                    outputBox = new OutputBox(dte);
 
                     stopwatch.Reset();
                     stopwatch.Start();

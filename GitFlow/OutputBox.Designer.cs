@@ -31,13 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OutputBox));
             this.okButton = new System.Windows.Forms.Button();
             this.textBox = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.Enabled = false;
-            this.okButton.Location = new System.Drawing.Point(413, 292);
+            this.okButton.Location = new System.Drawing.Point(398, 3);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 1;
@@ -59,19 +61,30 @@
             this.textBox.Size = new System.Drawing.Size(476, 274);
             this.textBox.TabIndex = 2;
             this.textBox.WordWrap = false;
+            this.textBox.TextChanged += new System.EventHandler(this.textBox_TextChanged);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.okButton);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 292);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(476, 32);
+            this.flowLayoutPanel1.TabIndex = 4;
             // 
             // OutputBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(500, 327);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.textBox);
-            this.Controls.Add(this.okButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OutputBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TGIT";
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,6 +94,6 @@
 
         public System.Windows.Forms.Button okButton;
         public System.Windows.Forms.TextBox textBox;
-
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

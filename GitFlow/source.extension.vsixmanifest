@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="6c58d6e5-11ba-43ba-9a63-a624f264ec06" Version="2.1.0" Language="en-US" Publisher="Funda Real Estate B.V." />
+    <Identity Id="6c58d6e5-11ba-43ba-9a63-a624f264ec06" Version="2.3" Language="en-US" Publisher="Samir L. Boulema" />
     <DisplayName>TGIT</DisplayName>
     <Description xml:space="preserve">Control TortoiseGIT from within Visual Studio</Description>
     <MoreInfo>http://visualstudiogallery.msdn.microsoft.com/be8a61ca-9358-4f43-80e3-4fc73b09dff3</MoreInfo>

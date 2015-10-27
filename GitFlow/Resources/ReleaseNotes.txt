@@ -1,3 +1,8 @@
+2.3
+- Added buttons to GitFlow output window
+	- Resolve button when conflicts are detected
+	- Sync button when uncommitted changes are detected
+
 2.1
 - Added Sync option
 
