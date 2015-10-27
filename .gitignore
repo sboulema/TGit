@@ -1,0 +1,14 @@
+GitFlow/bin/
+GitFlow/obj/Debug/CtoResourceMerger.cache
+GitFlow/obj/
+*.suo
+/GitFlow/*.user
+/Backup
+/Backup1
+/TGIT.sln.ide
+/UpgradeLog.htm
+/UpgradeLog2.htm
+/UpgradeLog3.htm
+/.vs
+/packages
+/GitFlow/*.csdat
