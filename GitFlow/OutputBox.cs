@@ -31,12 +31,12 @@ namespace FundaRealEstateBV.TGIT
             new ProcessHelper(dte).StartTortoiseGitProc(string.Format("/command:resolve /path:\"{0}\"", solutionDir));
         }
 
-        private void SyncButton_Click(object sender, EventArgs e)
+        private void StashButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
             string solutionDir = new FileHelper(dte).GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            new ProcessHelper(dte).StartTortoiseGitProc(string.Format("/command:sync /path:\"{0}\"", solutionDir));
+            new ProcessHelper(dte).StartTortoiseGitProc(string.Format("/command:repostatus /path:\"{0}\"", solutionDir));
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)
@@ -48,17 +48,19 @@ namespace FundaRealEstateBV.TGIT
                 var resolveButton = new Button();
                 resolveButton.Text = "Resolve";
                 resolveButton.Name = "Resolve";
+                resolveButton.AutoSize = true;
                 resolveButton.Click += ResolveButton_Click;
                 flowLayoutPanel1.Controls.Add(resolveButton);
             }
 
-            if (textBox.Text.ToLower().Contains("stash") && !flowLayoutPanel1.Controls.Find("sync", true).Any())
+            if (textBox.Text.ToLower().Contains("stash") && !flowLayoutPanel1.Controls.Find("Stash", true).Any())
             {
-                var syncButton = new Button();
-                syncButton.Text = "Sync";
-                syncButton.Name = "Sync";
-                syncButton.Click += SyncButton_Click;
-                flowLayoutPanel1.Controls.Add(syncButton);
+                var stashButton = new Button();
+                stashButton.Text = "Show changes";
+                stashButton.Name = "Stash";
+                stashButton.AutoSize = true;
+                stashButton.Click += StashButton_Click;
+                flowLayoutPanel1.Controls.Add(stashButton);
             }
         }
     }
