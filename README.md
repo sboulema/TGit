@@ -1,6 +1,8 @@
 # TGIT
 Control TortoiseGIT from within Visual Studio
 
+[![tgit MyGet Build Status](https://www.myget.org/BuildSource/Badge/tgit?identifier=3efad407-2f96-4e1e-a0cc-beb30194d3cb)](https://www.myget.org/)
+
 # Getting started
 1. Install the TGIT extension
 2. Install TortoiseGIT (https://code.google.com/p/tortoisegit/)
