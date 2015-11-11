@@ -1,10 +1,10 @@
 ﻿using EnvDTE;
-using FundaRealEstateBV.TGIT.Helpers;
+using SamirBoulema.TGIT.Helpers;
 using System;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace FundaRealEstateBV.TGIT
+namespace SamirBoulema.TGIT
 {
     public sealed partial class OutputBox : Form
     {

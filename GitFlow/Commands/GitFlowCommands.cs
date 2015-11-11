@@ -1,9 +1,9 @@
 ﻿using EnvDTE;
-using FundaRealEstateBV.TGIT.Helpers;
+using SamirBoulema.TGIT.Helpers;
 using Microsoft.VisualBasic;
 using System;
 
-namespace FundaRealEstateBV.TGIT.Commands
+namespace SamirBoulema.TGIT.Commands
 {
     public class GitFlowCommands
     {

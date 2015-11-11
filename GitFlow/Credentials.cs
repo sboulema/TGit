@@ -1,18 +1,27 @@
 ﻿using EnvDTE;
-using FundaRealEstateBV.TGIT.Helpers;
+using SamirBoulema.TGIT.Helpers;
 using System;
 using System.Windows.Forms;
 
-namespace FundaRealEstateBV.TGIT
+namespace SamirBoulema.TGIT
 {
     public partial class Credentials : Form
     {
-        private ProcessHelper _processHelper;
+        private ProcessHelper processHelper;
 
         public Credentials(DTE dte)
         {
             InitializeComponent();
-            _processHelper = new ProcessHelper(dte);
+            processHelper = new ProcessHelper(dte);
+            emailTextBox.KeyDown += EmailTextBox_KeyDown;
+        }
+
+        private void EmailTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                okButton_Click(null, null);
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -22,8 +31,8 @@ namespace FundaRealEstateBV.TGIT
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            _processHelper.StartProcessGit(string.Format("config user.name \"{0}\"", nameTextBox.Text));
-            _processHelper.StartProcessGit(string.Format("config user.email \"{0}\"", emailTextBox.Text));
+            processHelper.StartProcessGit(string.Format("config user.name \"{0}\"", nameTextBox.Text));
+            processHelper.StartProcessGit(string.Format("config user.email \"{0}\"", emailTextBox.Text));
             Close();
         }
     }

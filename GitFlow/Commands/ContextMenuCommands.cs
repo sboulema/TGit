@@ -1,9 +1,9 @@
 ﻿using EnvDTE;
-using FundaRealEstateBV.TGIT.Helpers;
+using SamirBoulema.TGIT.Helpers;
 using System;
 using System.Windows.Forms;
 
-namespace FundaRealEstateBV.TGIT.Commands
+namespace SamirBoulema.TGIT.Commands
 {
     public class ContextMenuCommands
     {

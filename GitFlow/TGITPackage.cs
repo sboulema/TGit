@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using FundaRealEstateBV.TGIT.Helpers;
-using FundaRealEstateBV.TGIT.Commands;
+using SamirBoulema.TGIT.Helpers;
+using SamirBoulema.TGIT.Commands;
 
-namespace FundaRealEstateBV.TGIT
+namespace SamirBoulema.TGIT
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]

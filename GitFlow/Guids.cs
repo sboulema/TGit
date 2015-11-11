@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FundaRealEstateBV.TGIT
+namespace SamirBoulema.TGIT
 {
     static class GuidList
     {

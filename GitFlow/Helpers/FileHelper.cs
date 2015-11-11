@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace FundaRealEstateBV.TGIT.Helpers
+namespace SamirBoulema.TGIT.Helpers
 {
     public class FileHelper
     {

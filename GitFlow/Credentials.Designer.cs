@@ -1,4 +1,4 @@
-﻿namespace FundaRealEstateBV.TGIT
+﻿namespace SamirBoulema.TGIT
 {
     partial class Credentials
     {

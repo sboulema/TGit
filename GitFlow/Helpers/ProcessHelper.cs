@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using Process = System.Diagnostics.Process;
 
-namespace FundaRealEstateBV.TGIT.Helpers
+namespace SamirBoulema.TGIT.Helpers
 {
     public class ProcessHelper
     {
@@ -115,11 +115,13 @@ namespace FundaRealEstateBV.TGIT.Helpers
 
         public void StartProcessGui(string application, string args, string title)
         {
+            var dialogResult = DialogResult.OK;
             if (!StartProcessGit("config user.name") || !StartProcessGit("config user.email"))
             {
-                new Credentials(dte).ShowDialog();
+                dialogResult = new Credentials(dte).ShowDialog();
             }
-            else
+
+            if (dialogResult == DialogResult.OK)
             {
                 try
                 {
