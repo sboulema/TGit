@@ -159,6 +159,7 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="fetch" priority="0x0105" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Icon guid="guidImages" id="fetch" />
         <Strings>
           <ButtonText>Fetch...</ButtonText>
         </Strings>
@@ -202,6 +203,7 @@
 
       <Button guid="guidTGitCmdSet" id="createStash" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
+        <Icon guid="guidImages" id="stash" />
         <Strings>
           <ButtonText>Create Stash...</ButtonText>
         </Strings>
@@ -209,6 +211,7 @@
 
       <Button guid="guidTGitCmdSet" id="applyStash" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
+        <Icon guid="guidImages" id="stash" />
         <Strings>
           <ButtonText>Apply Stash...</ButtonText>
         </Strings>
@@ -317,6 +320,7 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="fetch" />
         <Strings>
           <ButtonText>Fetch...</ButtonText>
         </Strings>
@@ -355,7 +359,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup"/>     
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch"/>     
     </Bitmaps>
   </Commands>
 
@@ -377,6 +381,8 @@
       <IDSymbol name="disk" value="14" />
       <IDSymbol name="switch" value="15" />
       <IDSymbol name="cleanup" value="16" />
+      <IDSymbol name="stash" value="17" />
+      <IDSymbol name="fetch" value="18" />
     </GuidSymbol>
     
     <GuidSymbol name="guidTGitPkg" value="{6c58d6e5-11ba-43ba-9a63-a624f264ec06}" />
