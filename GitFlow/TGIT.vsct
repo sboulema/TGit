@@ -154,7 +154,7 @@
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
         <Icon guid="guidImages" id="pull" />
         <Strings>
-          <ButtonText>Pull</ButtonText>
+          <ButtonText>Pull...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="fetch" priority="0x0105" type="Button">
@@ -181,7 +181,7 @@
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
         <Icon guid="guidImages" id="showLog" />
         <Strings>
-          <ButtonText>Show Log...</ButtonText>
+          <ButtonText>Show Log</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowser" priority="0x0200" type="Button">
@@ -261,7 +261,7 @@
       <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
         <Strings>
-          <ButtonText>Cleanup working copy</ButtonText>
+          <ButtonText>Cleanup working copy...</ButtonText>
         </Strings>
       </Button>
 
@@ -269,7 +269,7 @@
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
         <Icon guid="guidImages" id="showLog" />
         <Strings>
-          <ButtonText>Show Log...</ButtonText>
+          <ButtonText>Show Log</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowserContext" priority="0x0200" type="Button">
