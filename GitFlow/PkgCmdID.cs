@@ -9,6 +9,9 @@
         public const uint StartHotfix = 0x135;
         public const uint FinishHotfix = 0x136;
 
+        public const uint StartFeatureGitHub = 0x3002;
+        public const uint FinishFeatureGitHub = 0x3003;
+
         public const uint ShowChanges = 0x103;
         public const uint Pull = 0x104;
         public const uint Commit = 0x105;

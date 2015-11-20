@@ -33,6 +33,7 @@ namespace SamirBoulema.TGIT
         {
             processHelper.StartProcessGit(string.Format("config user.name \"{0}\"", nameTextBox.Text));
             processHelper.StartProcessGit(string.Format("config user.email \"{0}\"", emailTextBox.Text));
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

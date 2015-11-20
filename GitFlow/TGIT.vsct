@@ -5,6 +5,7 @@
 
   <Commands package="guidTGitPkg">
     <Menus>
+      <!--Main Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitMenu" priority="0x0300" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
         <CommandFlag>TextChanges</CommandFlag>
@@ -13,6 +14,8 @@
           <CommandName>TGIT</CommandName>
         </Strings>
       </Menu>
+      
+      <!--Context Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0500" type="Menu">
         <Parent guid="guidTGitCmdSet" id="contextMenuGroup" />
         <CommandFlag>TextChanges</CommandFlag>
@@ -21,9 +24,36 @@
           <CommandName>TGIT</CommandName>
         </Strings>
       </Menu>
+
+      <!--GitFlow Menu-->
+      <Menu guid="guidTGitCmdSet" id="TGitGitFlowMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup"/>
+        <Strings>
+          <ButtonText>GitFlow</ButtonText>
+          <CommandName>GitFlow</CommandName>
+        </Strings>
+      </Menu>
+
+      <!--GitHubFlow Menu-->
+      <Menu guid="guidTGitCmdSet" id="TGitGitHubFlowMenu" priority="0x0200" type="Menu">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup"/>
+        <Strings>
+          <ButtonText>GitHubFlow</ButtonText>
+          <CommandName>GitHubFlow</CommandName>
+        </Strings>
+      </Menu>
     </Menus>
     
     <Groups>
+
+      <Group guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" priority="0x0000">
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenu"/>
+      </Group>
+
+      <Group guid="guidTGitCmdSet" id="TGitGitHubFlowMenuGroup" priority="0x0000">
+        <Parent guid="guidTGitCmdSet" id="TGitGitHubFlowMenu"/>
+      </Group>
+      
       <Group guid="guidTGitCmdSet" id="firstMenuGroup" priority="0x0100">
         <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
       </Group>
@@ -61,43 +91,58 @@
     </Groups>
     
     <Buttons>
+      <!--GitFlow Buttons-->
       <Button guid="guidTGitCmdSet" id="startFeature" priority="0x0100" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
         <Strings>
           <ButtonText>Start New Feature</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishFeature" priority="0x0101" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
         <Strings>
           <ButtonText>Finish Feature</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="startRelease" priority="0x0133" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
         <Strings>
           <ButtonText>Start New Release</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishRelease" priority="0x0134" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
         <Strings>
           <ButtonText>Finish Release</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="startHotfix" priority="0x0135" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
         <Strings>
           <ButtonText>Start New Hotfix</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishHotfix" priority="0x0136" type="Button">
-        <Parent guid="guidTGitCmdSet" id="firstMenuGroup" />
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
         <Strings>
           <ButtonText>Finish Hotfix</ButtonText>
         </Strings>
       </Button>
 
+      <!--GitHubFlow Buttons-->
+      <Button guid="guidTGitCmdSet" id="startFeatureGitHub" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="TGitGitHubFlowMenuGroup" />
+        <Strings>
+          <ButtonText>Start New Feature</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="finishFeatureGitHub" priority="0x0101" type="Button">
+        <Parent guid="guidTGitCmdSet" id="TGitGitHubFlowMenuGroup" />
+        <Strings>
+          <ButtonText>Finish Feature</ButtonText>
+        </Strings>
+      </Button>
+      
       <Button guid="guidTGitCmdSet" id="showChanges" priority="0x0103" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
         <Icon guid="guidImages" id="showChanges" />
@@ -299,14 +344,18 @@
       </Button>
     </Buttons>
   
+    <!--Menu icons-->
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\menu-icons.png" usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, properties, resolve"/>     
+      <Bitmap guid="guidImages" 
+              href="Resources\menu-icons.png" 
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, properties, resolve, sync"/>     
     </Bitmaps>
   </Commands>
 
   <Symbols>
     <GuidSymbol name="guidTGitPkg" value="{6c58d6e5-11ba-43ba-9a63-a624f264ec06}" />
     <GuidSymbol name="guidTGitCmdSet" value="{6a672d8c-b58f-4329-9bc9-015fc15f9d1a}">
+      <!--Main Menu-->
       <IDSymbol name="TGitMenu" value="0x1021"/>
       <IDSymbol name="firstMenuGroup" value="0x1020" />
       <IDSymbol name="secondMenuGroup" value="0x1022" />
@@ -314,7 +363,26 @@
       <IDSymbol name="fourthMenuGroup" value="0x1024" />
       <IDSymbol name="fifthMenuGroup" value="0x1025" />
       <IDSymbol name="sixthMenuGroup" value="0x1026" />
+
+      <!--GitFlow Menu-->
+      <IDSymbol name="TGitGitFlowMenu" value="0x2000"/>
+      <IDSymbol name="TGitGitFlowMenuGroup" value="0x2001"/>
+
+      <IDSymbol name="startFeature" value="0x0100" />
+      <IDSymbol name="finishFeature" value="0x0101" />
+      <IDSymbol name="startRelease" value="0x0133" />
+      <IDSymbol name="finishRelease" value="0x0134" />
+      <IDSymbol name="startHotfix" value="0x0135" />
+      <IDSymbol name="finishHotfix" value="0x0136" />
       
+      <!--GitHubFlow Menu-->
+      <IDSymbol name="TGitGitHubFlowMenu" value="0x3000"/>
+      <IDSymbol name="TGitGitHubFlowMenuGroup" value="0x3001"/>
+
+      <IDSymbol name="startFeatureGitHub" value="0x3002" />
+      <IDSymbol name="finishFeatureGitHub" value="0x3003" />
+
+      <!--Context Menu-->
       <IDSymbol name="TGitContextMenu" value="0x1027"/>
       <IDSymbol name="contextMenuGroup" value="0x1028" />
       <IDSymbol name="firstContextMenuGroup" value="0x1029" />
@@ -322,13 +390,6 @@
       <IDSymbol name="thirdContextMenuGroup" value="0x1031" />
       <IDSymbol name="fourthContextMenuGroup" value="0x1032" />
       
-      <IDSymbol name="startFeature" value="0x0100" />
-      <IDSymbol name="finishFeature" value="0x0101" />
-      <IDSymbol name="startRelease" value="0x0133" />
-      <IDSymbol name="finishRelease" value="0x0134" />
-      <IDSymbol name="startHotfix" value="0x0135" />
-      <IDSymbol name="finishHotfix" value="0x0136" />
-
       <IDSymbol name="showChanges" value="0x0103" />
       <IDSymbol name="pull" value="0x0104" />
       <IDSymbol name="fetch" value="0x0127" />

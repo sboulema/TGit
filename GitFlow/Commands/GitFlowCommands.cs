@@ -35,6 +35,9 @@ namespace SamirBoulema.TGIT.Commands
             commandHelper.AddCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
             commandHelper.AddCommand(StartHotfixCommand, PkgCmdIDList.StartHotfix);
             commandHelper.AddCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
+
+            commandHelper.AddCommand(StartFeatureGitHubCommand, PkgCmdIDList.StartFeatureGitHub);
+            commandHelper.AddCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
         }
 
         private void StartFeatureCommand(object sender, EventArgs e)
@@ -45,9 +48,9 @@ namespace SamirBoulema.TGIT.Commands
             if (string.IsNullOrEmpty(featureName)) return;
 
             /* 1. Switch to the develop branch
-                * 2. Pull latest changes on develop
-                * 3. Create and switch to a new branch
-                */
+             * 2. Pull latest changes on develop
+             * 3. Create and switch to a new branch
+             */
             processHelper.StartProcessGui(
                 "cmd.exe",
                 string.Format("/c cd \"{1}\" && " +
@@ -56,6 +59,27 @@ namespace SamirBoulema.TGIT.Commands
                     "echo ^> git checkout -b {3}/{0} {2} && \"{4}\" checkout -b {3}/{0} {2}",
                     featureName, solutionDir, options.DevelopBranch, options.FeatureBranch, gitBin),
                 string.Format("Starting feature {0}", featureName)
+            );
+        }
+
+        private void StartFeatureGitHubCommand(object sender, EventArgs e)
+        {
+            string solutionDir = fileHelper.GetSolutionDir();
+            if (string.IsNullOrEmpty(solutionDir)) return;
+            string featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
+            if (string.IsNullOrEmpty(featureName)) return;
+
+            /* 1. Switch to the master branch
+             * 2. Pull latest changes on master
+             * 3. Create and switch to a new branch
+             */
+            processHelper.StartProcessGui(
+                "cmd.exe",
+                $"/c cd \"{solutionDir}\" && " +
+                $"echo ^> git checkout {options.MasterBranch} && \"{gitBin}\" checkout {options.MasterBranch} && " +
+                $"echo ^> git pull && \"{gitBin}\" pull && " +
+                $"echo ^> git checkout -b {options.FeatureBranch}/{featureName} {options.MasterBranch} && \"{gitBin}\" checkout -b {options.FeatureBranch}/{featureName} {options.MasterBranch}",
+                $"Starting feature {featureName}"
             );
         }
 
@@ -83,6 +107,31 @@ namespace SamirBoulema.TGIT.Commands
                     "echo ^> git push origin {2} && \"{4}\" push origin {2}",
                     featureName, solutionDir, options.DevelopBranch, options.FeatureBranch, gitBin),
                 string.Format("Finishing feature {0}", featureName));
+        }
+
+        private void FinishFeatureGitHubCommand(object sender, EventArgs e)
+        {
+            string solutionDir = fileHelper.GetSolutionDir();
+            if (string.IsNullOrEmpty(solutionDir)) return;
+            string featureName = gitHelper.GetCurrentBranchName(true);
+
+            /* 1. Switch to the master branch
+             * 2. Pull latest changes on master
+             * 3. Merge the feature branch to master
+             * 4. Delete the local feature branch
+             * 5. Delete the remote feature branch
+             * 6. Push all changes to master
+             */
+            processHelper.StartProcessGui(
+                "cmd.exe",
+                $"/c cd \"{solutionDir}\" && " +
+                $"echo ^> git checkout {options.MasterBranch} && \"{gitBin}\" checkout {options.MasterBranch} && " +
+                $"echo ^> git pull && \"{gitBin}\" pull && " +
+                $"echo ^> git merge --no-ff {options.FeatureBranch}/{featureName} && \"{gitBin}\" merge --no-ff {options.FeatureBranch}/{featureName} && " +
+                $"echo ^> git branch -d {options.FeatureBranch}/{featureName} && \"{gitBin}\" branch -d {options.FeatureBranch}/{featureName} && " +
+                $"echo ^> git push origin --delete {options.FeatureBranch}/{featureName} && \"{gitBin}\" push origin --delete {options.FeatureBranch}/{featureName} && " +
+                $"echo ^> git push origin {options.MasterBranch} && \"{gitBin}\" push origin {options.MasterBranch}",
+                $"Finishing feature {featureName}");
         }
 
         private void StartReleaseCommand(object sender, EventArgs e)

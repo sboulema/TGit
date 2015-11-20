@@ -1,3 +1,6 @@
+2.5
+- Added GitHubFlow features
+
 2.4
 - Improved repo credentials 
 
