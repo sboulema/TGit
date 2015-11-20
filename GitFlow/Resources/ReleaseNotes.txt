@@ -1,4 +1,5 @@
 2.5
+- Only enable Finish features when on the correct branch
 - New icons
 - Added GitHubFlow features
 - Improved repo credentials 

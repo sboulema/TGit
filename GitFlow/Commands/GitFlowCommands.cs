@@ -2,6 +2,7 @@
 using SamirBoulema.TGIT.Helpers;
 using Microsoft.VisualBasic;
 using System;
+using Microsoft.VisualStudio.Shell;
 
 namespace SamirBoulema.TGIT.Commands
 {
@@ -14,9 +15,10 @@ namespace SamirBoulema.TGIT.Commands
         private DTE dte;
         private OptionPageGrid options;
         private string gitBin;
+        private readonly OleMenuCommandService mcs;
 
         public GitFlowCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, FileHelper fileHelper,
-            DTE dte, OptionPageGrid options)
+            DTE dte, OptionPageGrid options, OleMenuCommandService mcs)
         {
             this.processHelper = processHelper;
             this.commandHelper = commandHelper;
@@ -25,19 +27,36 @@ namespace SamirBoulema.TGIT.Commands
             this.dte = dte;
             this.options = options;
             gitBin = fileHelper.GetMSysGit();
+            this.mcs = mcs;
         }
 
         public void AddCommands()
         {
+            //GitFlow Commands
+            //Finish Feature
             commandHelper.AddCommand(StartFeatureCommand, PkgCmdIDList.StartFeature);
-            commandHelper.AddCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature);
-            commandHelper.AddCommand(StartReleaseCommand, PkgCmdIDList.StartRelease);
-            commandHelper.AddCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
-            commandHelper.AddCommand(StartHotfixCommand, PkgCmdIDList.StartHotfix);
-            commandHelper.AddCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
+            OleMenuCommand finishFeature = commandHelper.CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature);
+            finishFeature.BeforeQueryStatus += commandHelper.Feature_BeforeQueryStatus;
+            mcs.AddCommand(finishFeature);
 
+            //Finish Release
+            commandHelper.AddCommand(StartReleaseCommand, PkgCmdIDList.StartRelease);
+            OleMenuCommand finishRelease = commandHelper.CreateCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
+            finishRelease.BeforeQueryStatus += commandHelper.Release_BeforeQueryStatus;
+            mcs.AddCommand(finishRelease);
+
+            //Finish Hotfix
+            commandHelper.AddCommand(StartHotfixCommand, PkgCmdIDList.StartHotfix);
+            OleMenuCommand finishHotfix = commandHelper.CreateCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
+            finishHotfix.BeforeQueryStatus += commandHelper.Hotfix_BeforeQueryStatus;
+            mcs.AddCommand(finishHotfix);
+
+            //GitHubFlow Commands
+            //Finish Feature
             commandHelper.AddCommand(StartFeatureGitHubCommand, PkgCmdIDList.StartFeatureGitHub);
-            commandHelper.AddCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
+            OleMenuCommand finishFeatureGitHub = commandHelper.CreateCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
+            finishFeatureGitHub.BeforeQueryStatus += commandHelper.Feature_BeforeQueryStatus;
+            mcs.AddCommand(finishFeatureGitHub);
         }
 
         private void StartFeatureCommand(object sender, EventArgs e)

@@ -6,15 +6,19 @@ namespace SamirBoulema.TGIT.Helpers
 {
     public class CommandHelper
     {
-        private ProcessHelper processHelper;
-        private FileHelper fileHelper;
-        private OleMenuCommandService mcs;
+        private readonly ProcessHelper processHelper;
+        private readonly FileHelper fileHelper;
+        private readonly GitHelper gitHelper;
+        private readonly OleMenuCommandService mcs;
+        private readonly OptionPageGrid options;
 
-        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, OleMenuCommandService mcs)
+        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs, OptionPageGrid options)
         {
             this.processHelper = processHelper;
             this.fileHelper = fileHelper;
+            this.gitHelper = gitHelper;
             this.mcs = mcs;
+            this.options = options;
         }
 
         public void AddCommand(EventHandler handler, uint commandId)
@@ -40,14 +44,29 @@ namespace SamirBoulema.TGIT.Helpers
             ((OleMenuCommand)sender).Enabled = processHelper.StartProcessGit("diff");
         }
 
+        public void Feature_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Enabled = gitHelper.GetCurrentBranchName(false).StartsWith(options.FeatureBranch);
+        }
+
+        public void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Enabled = gitHelper.GetCurrentBranchName(false).StartsWith(options.HotfixBranch);
+        }
+
+        public void Release_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Enabled = gitHelper.GetCurrentBranchName(false).StartsWith(options.ReleaseBranch);
+        }
+
         private void Solution_BeforeQueryStatus(object sender, EventArgs e)
         {
-            OleMenuCommand applyStashCommand = (OleMenuCommand)sender;
-            applyStashCommand.Enabled = false;
+            OleMenuCommand command = (OleMenuCommand)sender;
+            command.Enabled = false;
 
             if (!string.IsNullOrEmpty(fileHelper.GetSolutionDir()))
             {
-                applyStashCommand.Enabled = true;
+                command.Enabled = true;
             }
         }
     }

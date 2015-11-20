@@ -42,13 +42,13 @@ namespace SamirBoulema.TGIT
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            commandHelper = new CommandHelper(processHelper, fileHelper, mcs);
+            commandHelper = new CommandHelper(processHelper, fileHelper, gitHelper, mcs, options);
 
             new MainMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options, mcs).AddCommands();
 
             new ContextMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options).AddCommands();
 
-            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options).AddCommands();
+            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options, mcs).AddCommands();
 
             OleMenuCommand tgitMenu = commandHelper.CreateCommand(null, PkgCmdIDList.TGitMenu);
             OleMenuCommand tgitContextMenu = commandHelper.CreateCommand(null, PkgCmdIDList.TGitContextMenu);
