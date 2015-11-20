@@ -165,6 +165,7 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="commit" priority="0x0106" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
+        <Icon guid="guidImages" id="commit" />
         <Strings>
           <ButtonText>Commit...</ButtonText>
         </Strings>
@@ -186,12 +187,14 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowser" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
+        <Icon guid="guidImages" id="disk" />
         <Strings>
           <ButtonText>Disk-Browser</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="repoBrowser" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
+        <Icon guid="guidImages" id="repo" />
         <Strings>
           <ButtonText>Repo-Browser</ButtonText>
         </Strings>
@@ -221,6 +224,7 @@
 
       <Button guid="guidTGitCmdSet" id="switch" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
+        <Icon guid="guidImages" id="switch" />
         <Strings>
           <ButtonText>Switch...</ButtonText>
         </Strings>
@@ -260,6 +264,7 @@
 
       <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Icon guid="guidImages" id="cleanup" />
         <Strings>
           <ButtonText>Cleanup working copy...</ButtonText>
         </Strings>
@@ -274,12 +279,14 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowserContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
+        <Icon guid="guidImages" id="disk" />
         <Strings>
           <ButtonText>Disk-Browser</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="repoBrowserContext" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
+        <Icon guid="guidImages" id="repo" />
         <Strings>
           <ButtonText>Repo-Browser</ButtonText>
         </Strings>
@@ -310,13 +317,13 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="pull" />
         <Strings>
           <ButtonText>Fetch...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="commitContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="commit" />
         <Strings>
           <ButtonText>Commit...</ButtonText>
         </Strings>
@@ -347,12 +354,31 @@
     <!--Menu icons-->
     <Bitmaps>
       <Bitmap guid="guidImages" 
-              href="Resources\menu-icons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, properties, resolve, sync"/>     
+              href="Resources\octicons.png" 
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup"/>     
     </Bitmaps>
   </Commands>
 
   <Symbols>
+    <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >
+      <IDSymbol name="showChanges" value="1" />
+      <IDSymbol name="pull" value="2" />
+      <IDSymbol name="push" value="3" />
+      <IDSymbol name="showLog" value="4" />
+      <IDSymbol name="revert" value="5" />
+      <IDSymbol name="branch" value="6" />
+      <IDSymbol name="merge" value="7" />
+      <IDSymbol name="differences" value="8" />
+      <IDSymbol name="blame" value="9" />
+      <IDSymbol name="repo" value="10" />
+      <IDSymbol name="resolve" value="11" />
+      <IDSymbol name="sync" value="12" />
+      <IDSymbol name="commit" value="13" />
+      <IDSymbol name="disk" value="14" />
+      <IDSymbol name="switch" value="15" />
+      <IDSymbol name="cleanup" value="16" />
+    </GuidSymbol>
+    
     <GuidSymbol name="guidTGitPkg" value="{6c58d6e5-11ba-43ba-9a63-a624f264ec06}" />
     <GuidSymbol name="guidTGitCmdSet" value="{6a672d8c-b58f-4329-9bc9-015fc15f9d1a}">
       <!--Main Menu-->
@@ -426,21 +452,6 @@
       <IDSymbol name="revertContext" value="0x0124" />
       <IDSymbol name="diffContext" value="0x0125" />
       <IDSymbol name="prefDiffContext" value="0x0126" />
-    </GuidSymbol>
-  
-    <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >
-      <IDSymbol name="showChanges" value="1" />
-      <IDSymbol name="pull" value="2" />
-      <IDSymbol name="push" value="3" />
-      <IDSymbol name="showLog" value="4" />
-      <IDSymbol name="revert" value="5" />
-      <IDSymbol name="branch" value="6" />
-      <IDSymbol name="merge" value="7" />
-      <IDSymbol name="differences" value="8" />
-      <IDSymbol name="blame" value="9" />
-      <IDSymbol name="properties" value="10" />
-      <IDSymbol name="resolve" value="11" />
-      <IDSymbol name="sync" value="12" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

@@ -1,7 +1,6 @@
 2.5
+- New icons
 - Added GitHubFlow features
-
-2.4
 - Improved repo credentials 
 
 2.3.2
