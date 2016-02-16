@@ -98,14 +98,43 @@ namespace SamirBoulema.TGIT.Helpers
             proc.Start();
             while (!proc.StandardOutput.EndOfStream)
             {
-                output = proc.StandardOutput.ReadLine();
+                output += proc.StandardOutput.ReadLine();
             }
             while (!proc.StandardError.EndOfStream)
             {
                 error += proc.StandardError.ReadLine();
             }
 
-            return output ?? error;
+            return string.IsNullOrEmpty(output) ? error : output;
+        }
+
+        public string GitResult(string workingDir, string commands)
+        {
+            string output = string.Empty;
+            string error = string.Empty;
+            var proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = $"/c {Path.GetPathRoot(workingDir).TrimEnd('\\')} && cd \"{workingDir}\" && \"{git}\" {commands}",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                output += proc.StandardOutput.ReadLine() + ",";
+            }
+            while (!proc.StandardError.EndOfStream)
+            {
+                error += proc.StandardError.ReadLine();
+            }
+
+            return string.IsNullOrEmpty(output) ? error : output.TrimEnd(',');
         }
 
         public void Start(string application)

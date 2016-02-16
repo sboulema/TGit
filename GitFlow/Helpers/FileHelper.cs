@@ -68,5 +68,41 @@ namespace SamirBoulema.TGIT.Helpers
             }
             return string.Empty;
         }
+
+        /// <summary>
+        /// Get case sensitive path.
+        /// http://stackoverflow.com/questions/325931/getting-actual-file-name-with-proper-casing-on-windows-with-net
+        /// </summary>
+        public string GetExactFileName(string pathName)
+        {
+            if (!(File.Exists(pathName) || Directory.Exists(pathName)))
+                return pathName;
+
+            var di = new DirectoryInfo(pathName);
+
+            if (di.Parent != null)
+            {
+                return di.Parent.GetFileSystemInfos(di.Name)[0].Name;
+            }
+            return di.Name.ToUpper();
+        }
+
+        public string GetExactPathName(string pathName)
+        {
+            if (!(File.Exists(pathName) || Directory.Exists(pathName)))
+                return pathName;
+
+            var di = new DirectoryInfo(pathName);
+
+            if (di.Parent != null)
+            {
+                return Path.Combine(
+                    GetExactPathName(di.Parent.FullName),
+                    di.Parent.GetFileSystemInfos(di.Name)[0].Name);
+            }
+            else {
+                return di.Name.ToUpper();
+            }
+        }
     }
 }

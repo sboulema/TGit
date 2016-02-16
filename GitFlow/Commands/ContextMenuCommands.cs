@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using SamirBoulema.TGIT.Helpers;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SamirBoulema.TGIT.Commands
@@ -119,14 +120,14 @@ namespace SamirBoulema.TGIT.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             dte.ActiveDocument.Save();
 
-            var revisions = processHelper.StartProcessGitResult($"log -2 --pretty=format:%h {currentFilePath}");
+            var revisions = processHelper.GitResult(Path.GetDirectoryName(currentFilePath), $"log -2 --pretty=format:%h {fileHelper.GetExactFileName(currentFilePath)}");
             if (!revisions.Contains(","))
             {
                 MessageBox.Show("Could not determine the last committed revision!", "TGIT", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                processHelper.StartTortoiseGitProc($"/command:diff /path:\"{currentFilePath}\" /startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}");
+                processHelper.StartTortoiseGitProc($"/command:diff /path:\"{fileHelper.GetExactPathName(currentFilePath)}\" /startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}");
             }
         }
     }
