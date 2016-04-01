@@ -25,7 +25,7 @@ namespace SamirBoulema.TGIT.Helpers
             stopwatch = new Stopwatch();
         }
 
-        public bool StartProcessGit(string commands)
+        public bool StartProcessGit(string commands, bool showAlert = true)
         {
             solutionDir = fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return false;
@@ -37,7 +37,7 @@ namespace SamirBoulema.TGIT.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c {Path.GetPathRoot(solutionDir).TrimEnd('\\')} && cd \"{solutionDir}\" && \"{git}\" {commands}",
+                    Arguments = $"/c cd /D \"{solutionDir}\" && \"{git}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -57,7 +57,7 @@ namespace SamirBoulema.TGIT.Helpers
             {
                 return true;
             }
-            if (!string.IsNullOrEmpty(error))
+            if (!string.IsNullOrEmpty(error) && showAlert)
             {
                 MessageBox.Show(error, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -88,7 +88,7 @@ namespace SamirBoulema.TGIT.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c {Path.GetPathRoot(solutionDir).TrimEnd('\\')} && cd \"{solutionDir}\" && \"{git}\" {commands}",
+                    Arguments = $"/c cd /D \"{solutionDir}\" && \"{git}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -117,7 +117,7 @@ namespace SamirBoulema.TGIT.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c {Path.GetPathRoot(workingDir).TrimEnd('\\')} && cd \"{workingDir}\" && \"{git}\" {commands}",
+                    Arguments = $"/c cd /D \"{workingDir}\" && \"{git}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

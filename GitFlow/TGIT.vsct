@@ -28,6 +28,8 @@
       <!--GitFlow Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitGitFlowMenu" priority="0x0100" type="Menu">
         <Parent guid="guidTGitCmdSet" id="firstMenuGroup"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>GitFlow</ButtonText>
           <CommandName>GitFlow</CommandName>
@@ -37,6 +39,8 @@
       <!--GitHubFlow Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitGitHubFlowMenu" priority="0x0200" type="Menu">
         <Parent guid="guidTGitCmdSet" id="firstMenuGroup"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>GitHubFlow</ButtonText>
           <CommandName>GitHubFlow</CommandName>

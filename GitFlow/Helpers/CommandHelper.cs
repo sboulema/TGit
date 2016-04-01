@@ -34,6 +34,11 @@ namespace SamirBoulema.TGIT.Helpers
             return menuItem;
         }
 
+        public OleMenuCommand CreateCommand(uint commandId)
+        {
+            return CreateCommand(null, commandId);
+        }
+
         public void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Enabled = processHelper.StartProcessGit("stash list");
@@ -68,6 +73,16 @@ namespace SamirBoulema.TGIT.Helpers
             {
                 command.Enabled = true;
             }
+        }
+
+        public void GitFlow_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Visible = gitHelper.BranchExists(options.MasterBranch) && gitHelper.BranchExists(options.DevelopBranch);
+        }
+
+        public void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Visible = gitHelper.BranchExists(options.MasterBranch) && !gitHelper.BranchExists(options.DevelopBranch);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace SamirBoulema.TGIT
             options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
             fileHelper = new FileHelper(dte);
             processHelper = new ProcessHelper(dte);
-            gitHelper = new GitHelper(fileHelper, options.FeatureBranch, options.ReleaseBranch, options.HotfixBranch);
+            gitHelper = new GitHelper(fileHelper, processHelper, options.FeatureBranch, options.ReleaseBranch, options.HotfixBranch);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -50,8 +50,9 @@ namespace SamirBoulema.TGIT
 
             new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options, mcs).AddCommands();
 
-            OleMenuCommand tgitMenu = commandHelper.CreateCommand(null, PkgCmdIDList.TGitMenu);
-            OleMenuCommand tgitContextMenu = commandHelper.CreateCommand(null, PkgCmdIDList.TGitContextMenu);
+            // Add all menus
+            OleMenuCommand tgitMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
+            OleMenuCommand tgitContextMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
             switch (dte.Version)
             {
                 case "11.0":
@@ -66,6 +67,14 @@ namespace SamirBoulema.TGIT
             }       
             mcs.AddCommand(tgitMenu);
             mcs.AddCommand(tgitContextMenu);
+
+            OleMenuCommand tgitGitFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitFlowMenu);
+            tgitGitFlowMenu.BeforeQueryStatus += commandHelper.GitFlow_BeforeQueryStatus;
+            mcs.AddCommand(tgitGitFlowMenu);
+
+            OleMenuCommand tgitGitHubFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
+            tgitGitHubFlowMenu.BeforeQueryStatus += commandHelper.GitHubFlow_BeforeQueryStatus;
+            mcs.AddCommand(tgitGitHubFlowMenu);
         }
     }
 }

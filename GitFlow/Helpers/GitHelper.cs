@@ -10,11 +10,13 @@ namespace SamirBoulema.TGIT.Helpers
     public class GitHelper
     {
         private FileHelper fileHelper;
+        private ProcessHelper processHelper;
         private string featureBranch, releaseBranch, hotfixBranch;
 
-        public GitHelper(FileHelper fileHelper, string featureBranch, string releaseBranch, string hotfixBranch)
+        public GitHelper(FileHelper fileHelper, ProcessHelper processHelper, string featureBranch, string releaseBranch, string hotfixBranch)
         {
             this.fileHelper = fileHelper;
+            this.processHelper = processHelper;
             this.featureBranch = featureBranch;
             this.releaseBranch = releaseBranch;
             this.hotfixBranch = hotfixBranch;
@@ -28,7 +30,7 @@ namespace SamirBoulema.TGIT.Helpers
             string commitMessage = commitMessageTemplate;
             commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false));
             commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentBranchName(true));
-            commitMessage = commitMessage.Replace("$(Configuration)", dte.Solution.SolutionBuild.ActiveConfiguration.Name);
+            commitMessage = commitMessage.Replace("$(Configuration)", dte.Solution.SolutionBuild.ActiveConfiguration?.Name);
             //commitMessage = commitMessage.Replace("$(Platform)", (string)_dte.Solution.Projects.Item(1).ConfigurationManager.PlatformNames);
             commitMessage = commitMessage.Replace("$(DevEnvDir)", (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7\\", dte.Version, ""));
             //commitMessage = commitMessage.Replace("$(ProjectDir)", Path.GetDirectoryName(_dte.Solution.Projects.Item(1).FullName));
@@ -49,6 +51,12 @@ namespace SamirBoulema.TGIT.Helpers
         public string GetCurrentBranchName(bool trimPrefix)
         {
             string solutionDir = fileHelper.GetSolutionDir();
+
+            if (string.IsNullOrEmpty(solutionDir))
+            {
+                return string.Empty;
+            }
+
             string branchName = string.Empty;
             string error = string.Empty;
             string drive = Path.GetPathRoot(solutionDir).TrimEnd('\\');
@@ -94,6 +102,11 @@ namespace SamirBoulema.TGIT.Helpers
                 MessageBox.Show(error, "Unable to detect branch name", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return branchName;
+        }
+
+        public bool BranchExists(string branchName)
+        {
+            return processHelper.StartProcessGit($"rev-parse --verify {branchName}", false);
         }
     }
 }

@@ -49,6 +49,8 @@
 
         public const uint TGitMenu = 0x1021;
         public const uint TGitContextMenu = 0x1027;
+        public const uint TGitGitFlowMenu = 0x2000;
+        public const uint TGitGitHubFlowMenu = 0x3000;
 
         public const uint Resolve = 0x137;
         public const uint Sync = 0x138;

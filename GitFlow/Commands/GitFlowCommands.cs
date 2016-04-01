@@ -33,26 +33,26 @@ namespace SamirBoulema.TGIT.Commands
         public void AddCommands()
         {
             //GitFlow Commands
-            //Finish Feature
+            //Start/Finish Feature
             commandHelper.AddCommand(StartFeatureCommand, PkgCmdIDList.StartFeature);
             OleMenuCommand finishFeature = commandHelper.CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature);
             finishFeature.BeforeQueryStatus += commandHelper.Feature_BeforeQueryStatus;
             mcs.AddCommand(finishFeature);
 
-            //Finish Release
+            //Start/Finish Release
             commandHelper.AddCommand(StartReleaseCommand, PkgCmdIDList.StartRelease);
             OleMenuCommand finishRelease = commandHelper.CreateCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
             finishRelease.BeforeQueryStatus += commandHelper.Release_BeforeQueryStatus;
             mcs.AddCommand(finishRelease);
 
-            //Finish Hotfix
+            //Start/Finish Hotfix
             commandHelper.AddCommand(StartHotfixCommand, PkgCmdIDList.StartHotfix);
             OleMenuCommand finishHotfix = commandHelper.CreateCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
             finishHotfix.BeforeQueryStatus += commandHelper.Hotfix_BeforeQueryStatus;
             mcs.AddCommand(finishHotfix);
 
             //GitHubFlow Commands
-            //Finish Feature
+            //Start/Finish Feature
             commandHelper.AddCommand(StartFeatureGitHubCommand, PkgCmdIDList.StartFeatureGitHub);
             OleMenuCommand finishFeatureGitHub = commandHelper.CreateCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
             finishFeatureGitHub.BeforeQueryStatus += commandHelper.Feature_BeforeQueryStatus;

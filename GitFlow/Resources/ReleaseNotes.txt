@@ -1,10 +1,20 @@
+2.9
+- Support the new VS"15" "Open Folder" feature
+- Check if repo is using gitflow or githubflow
+
+2.8
+- Visual Studio "15" compatibility
+
+2.7
+- Improve processing of GIT commands
+
 2.6
 - Fixed bug in the "Diff with previous version" feature
 
 2.5
 - Only enable Finish features when on the correct branch
 - New icons
-- Added GitHubFlow features
+- Added G
 - Improved repo credentials 
 
 2.3.2
