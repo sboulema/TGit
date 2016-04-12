@@ -79,7 +79,13 @@
     
       <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
-      </Group>    
+      </Group>
+      <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
+        <Parent guid="HTMLContext" id="menu" />
+      </Group>
+      <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
+        <Parent guid="CSSContext" id="menu" />
+      </Group>
       <Group guid="guidTGitCmdSet" id="firstContextMenuGroup" priority="0x0700">
         <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
       </Group>
@@ -388,7 +394,14 @@
       <IDSymbol name="stash" value="17" />
       <IDSymbol name="fetch" value="18" />
     </GuidSymbol>
-    
+
+    <GuidSymbol name="HTMLContext" value="{78F03954-2FB8-4087-8CE7-59D71710B3BB}">
+      <IDSymbol name="menu" value="0x0001"/>
+    </GuidSymbol>
+    <GuidSymbol name="CSSContext" value="{64DA400E-B4AD-4D67-AA92-4B7ACB01ECD5}">
+      <IDSymbol name="menu" value="0x0002"/>
+    </GuidSymbol>
+
     <GuidSymbol name="guidTGitPkg" value="{6c58d6e5-11ba-43ba-9a63-a624f264ec06}" />
     <GuidSymbol name="guidTGitCmdSet" value="{6a672d8c-b58f-4329-9bc9-015fc15f9d1a}">
       <!--Main Menu-->

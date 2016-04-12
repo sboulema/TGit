@@ -1,3 +1,6 @@
+3.0
+- Added the context menu to HTML and CSS files
+
 2.9
 - Support the new VS"15" "Open Folder" feature
 - Check if repo is using gitflow or githubflow
