@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TGIT")]
 [assembly: AssemblyDescription("Control TortoiseGIT from within Visual Studio")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Funda Real Estate B.V.")]
+[assembly: AssemblyCompany("Samir L. Boulema")]
 [assembly: AssemblyProduct("TGIT")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
