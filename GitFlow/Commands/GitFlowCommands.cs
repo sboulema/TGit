@@ -1,30 +1,28 @@
-﻿using EnvDTE;
-using SamirBoulema.TGIT.Helpers;
+﻿using SamirBoulema.TGIT.Helpers;
 using Microsoft.VisualBasic;
 using System;
+using System.IO;
 using Microsoft.VisualStudio.Shell;
 
 namespace SamirBoulema.TGIT.Commands
 {
     public class GitFlowCommands
     {
-        private ProcessHelper processHelper;
-        private CommandHelper commandHelper;
-        private FileHelper fileHelper;
-        private GitHelper gitHelper;
-        private DTE dte;
-        private OptionPageGrid options;
-        private string gitBin;
+        private readonly ProcessHelper processHelper;
+        private readonly CommandHelper commandHelper;
+        private readonly FileHelper fileHelper;
+        private readonly GitHelper gitHelper;
+        private readonly OptionPageGrid options;
+        private readonly string gitBin;
         private readonly OleMenuCommandService mcs;
 
         public GitFlowCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, FileHelper fileHelper,
-            DTE dte, OptionPageGrid options, OleMenuCommandService mcs)
+            OptionPageGrid options, OleMenuCommandService mcs)
         {
             this.processHelper = processHelper;
             this.commandHelper = commandHelper;
             this.gitHelper = gitHelper;
             this.fileHelper = fileHelper;
-            this.dte = dte;
             this.options = options;
             gitBin = fileHelper.GetMSysGit();
             this.mcs = mcs;
@@ -72,12 +70,11 @@ namespace SamirBoulema.TGIT.Commands
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
-                string.Format("/c cd \"{1}\" && " +
-                    "echo ^> git checkout {2} && \"{4}\" checkout {2} && " +
-                    "echo ^> git pull && \"{4}\" pull && " +
-                    "echo ^> git checkout -b {3}/{0} {2} && \"{4}\" checkout -b {3}/{0} {2}",
-                    featureName, solutionDir, options.DevelopBranch, options.FeatureBranch, gitBin),
-                string.Format("Starting feature {0}", featureName)
+                $"/c cd \"{solutionDir}\" && " +
+                    FormatCLICommand($"checkout {options.DevelopBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"checkout -b {options.FeatureBranch}/{featureName} {options.DevelopBranch}", true),
+                $"Starting feature {featureName}"
             );
         }
 
@@ -95,9 +92,9 @@ namespace SamirBoulema.TGIT.Commands
             processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
-                $"echo ^> git checkout {options.MasterBranch} && \"{gitBin}\" checkout {options.MasterBranch} && " +
-                $"echo ^> git pull && \"{gitBin}\" pull && " +
-                $"echo ^> git checkout -b {options.FeatureBranch}/{featureName} {options.MasterBranch} && \"{gitBin}\" checkout -b {options.FeatureBranch}/{featureName} {options.MasterBranch}",
+                    FormatCLICommand($"checkout {options.MasterBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"checkout -b {options.FeatureBranch}/{featureName} {options.MasterBranch}", true),
                 $"Starting feature {featureName}"
             );
         }
@@ -111,21 +108,26 @@ namespace SamirBoulema.TGIT.Commands
             /* 1. Switch to the develop branch
              * 2. Pull latest changes on develop
              * 3. Merge the feature branch to develop
-             * 4. Delete the local feature branch
-             * 5. Delete the remote feature branch
-             * 6. Push all changes to develop
+             * 4. Push all changes to develop
+             * 5. Delete the local feature branch
+             * 6. Delete the remote feature branch
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
-                string.Format("/c cd \"{1}\" && " +
-                    "echo ^> git checkout {2} && \"{4}\" checkout {2} && " +
-                    "echo ^> git pull && \"{4}\" pull && " +
-                    "echo ^> git merge --no-ff {3}/{0} && \"{4}\" merge --no-ff {3}/{0} && " +
-                    "echo ^> git branch -d {3}/{0} && \"{4}\" branch -d {3}/{0} && " +
-                    "echo ^> git push origin --delete {3}/{0} && \"{4}\" push origin --delete {3}/{0} && " +
-                    "echo ^> git push origin {2} && \"{4}\" push origin {2}",
-                    featureName, solutionDir, options.DevelopBranch, options.FeatureBranch, gitBin),
-                string.Format("Finishing feature {0}", featureName));
+                $"/c cd \"{solutionDir}\" && " +
+                    FormatCLICommand($"checkout {options.DevelopBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"merge --no-ff {options.FeatureBranch}/{featureName}") +
+                    FormatCLICommand($"push origin {options.DevelopBranch}") + 
+                    FormatCLICommand($"branch -d {options.FeatureBranch}/{featureName}") +
+                    FormatCLICommand($"push origin --delete {options.FeatureBranch}/{featureName}", true), 
+                $"Finishing feature {featureName}"
+            );
+        }
+
+        private string FormatCLICommand(string gitCommand, bool appendNextLine = false)
+        {
+            return $"echo ^> {Path.GetFileNameWithoutExtension(gitBin)} {gitCommand} && \"{gitBin}\" {gitCommand}{(appendNextLine ? " && " : string.Empty)}";
         }
 
         private void FinishFeatureGitHubCommand(object sender, EventArgs e)
@@ -137,19 +139,19 @@ namespace SamirBoulema.TGIT.Commands
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
              * 3. Merge the feature branch to master
-             * 4. Delete the local feature branch
-             * 5. Delete the remote feature branch
-             * 6. Push all changes to master
+             * 4. Push all changes to master
+             * 5. Delete the local feature branch
+             * 6. Delete the remote feature branch
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
-                $"echo ^> git checkout {options.MasterBranch} && \"{gitBin}\" checkout {options.MasterBranch} && " +
-                $"echo ^> git pull && \"{gitBin}\" pull && " +
-                $"echo ^> git merge --no-ff {options.FeatureBranch}/{featureName} && \"{gitBin}\" merge --no-ff {options.FeatureBranch}/{featureName} && " +
-                $"echo ^> git branch -d {options.FeatureBranch}/{featureName} && \"{gitBin}\" branch -d {options.FeatureBranch}/{featureName} && " +
-                $"echo ^> git push origin --delete {options.FeatureBranch}/{featureName} && \"{gitBin}\" push origin --delete {options.FeatureBranch}/{featureName} && " +
-                $"echo ^> git push origin {options.MasterBranch} && \"{gitBin}\" push origin {options.MasterBranch}",
+                    FormatCLICommand($"checkout {options.MasterBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"merge --no-ff {options.FeatureBranch}/{featureName}") +
+                    FormatCLICommand($"push origin {options.MasterBranch}") +
+                    FormatCLICommand($"branch -d {options.FeatureBranch}/{featureName}") +
+                    FormatCLICommand($"push origin --delete {options.FeatureBranch}/{featureName}", true),
                 $"Finishing feature {featureName}");
         }
 
@@ -166,12 +168,11 @@ namespace SamirBoulema.TGIT.Commands
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
-                string.Format("/c cd \"{1}\" && " +
-                    "echo ^> git checkout {2} && \"{4}\" checkout {2} && " +
-                    "echo ^> git pull && \"{4}\" pull && " +
-                    "echo ^> git checkout -b {3}/{0} {2} && \"{4}\" checkout -b {3}/{0} {2}",
-                    releaseVersion, solutionDir, options.DevelopBranch, options.ReleaseBranch, gitBin),
-                string.Format("Starting release {0}", releaseVersion)
+                $"/c cd \"{solutionDir}\" && " +
+                    FormatCLICommand($"checkout {options.DevelopBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"checkout -b {options.ReleaseBranch}/{releaseVersion} {options.DevelopBranch}", true),
+                $"Starting release {releaseVersion}"
             );
         }
 
@@ -188,29 +189,29 @@ namespace SamirBoulema.TGIT.Commands
              * 5. Switch to the develop branch
              * 6. Pull latest changes on develop
              * 7. Merge the release branch to develop
-             * 8. Delete the local release branch
-             * 9. Delete the remote release branch
-             * 10. Push all changes to develop
-             * 11. Push all changes to master
-             * 12. Push the tag
+             * 8. Push all changes to develop
+             * 9. Push all changes to master
+             * 10. Push the tag
+             * 11. Delete the local release branch
+             * 12. Delete the remote release branch
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
-                string.Format("/c cd \"{1}\" && " +
-                    "echo ^> git checkout {4} && \"{5}\" checkout {4} && " +
-                    "echo ^> git pull && \"{5}\" pull && " +
-                    "echo ^> git merge --no-ff {3}/{0} && \"{5}\" merge --no-ff {3}/{0} && " +
-                    "echo ^> git tag {0} && \"{5}\" tag {0} && " +
-                    "echo ^> git checkout {2} && \"{5}\" checkout {2} && " +
-                    "echo ^> git pull && \"{5}\" pull && " +
-                    "echo ^> git merge --no-ff {3}/{0} && \"{5}\" merge --no-ff {3}/{0} && " +
-                    "echo ^> git branch -d {3}/{0} && \"{5}\" branch -d {3}/{0} && " +
-                    "echo ^> git push origin --delete {3}/{0} && \"{5}\" push origin --delete {3}/{0} && " +
-                    "echo ^> git push origin {2} && \"{5}\" push origin {2} && " +
-                    "echo ^> git push origin {4} && \"{5}\" push origin {4} && " +
-                    "echo ^> git push origin {0} && \"{5}\" push origin {0}",
-                    releaseName, solutionDir, options.DevelopBranch, options.ReleaseBranch, options.MasterBranch, gitBin),
-                string.Format("Finishing release {0}", releaseName));
+                $"/c cd \"{solutionDir}\" && " +
+                    FormatCLICommand($"checkout {options.MasterBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"merge --no-ff {options.ReleaseBranch}/{releaseName}") +
+                    FormatCLICommand($"tag {releaseName}") +
+                    FormatCLICommand($"checkout {options.DevelopBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"merge --no-ff {options.ReleaseBranch}/{releaseName}") +
+                    FormatCLICommand($"push origin {options.DevelopBranch}") +
+                    FormatCLICommand($"push origin {options.MasterBranch}") +
+                    FormatCLICommand($"push origin {releaseName}") +
+                    FormatCLICommand($"branch -d {options.ReleaseBranch}/{releaseName}") +
+                    FormatCLICommand($"push origin --delete {options.ReleaseBranch}/{releaseName}", true),
+                $"Finishing release {releaseName}"
+            );
         }
 
         private void StartHotfixCommand(object sender, EventArgs e)
@@ -226,12 +227,11 @@ namespace SamirBoulema.TGIT.Commands
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
-                string.Format("/c cd \"{1}\" && " +
-                    "echo ^> git checkout {2} && \"{4}\" checkout {2} && " +
-                    "echo ^> git pull && \"{4}\" pull && " +
-                    "echo ^> git checkout -b {3}/{0} {2} && \"{4}\" checkout -b {3}/{0} {2}",
-                    hotfixVersion, solutionDir, options.MasterBranch, options.HotfixBranch, gitBin),
-                string.Format("Starting hotfix {0}", hotfixVersion)
+                $"/c cd \"{solutionDir}\" && " +
+                    FormatCLICommand($"checkout {options.MasterBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"checkout -b {options.HotfixBranch}/{hotfixVersion} {options.MasterBranch}", true),
+                $"Starting hotfix {hotfixVersion}"
             );
         }
 
@@ -244,33 +244,33 @@ namespace SamirBoulema.TGIT.Commands
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
              * 3. Merge the hotfix branch to master
-             * 4. Tag the release
+             * 4. Tag the hotfix
              * 5. Switch to the develop branch
              * 6. Pull latest changes on develop
              * 7. Merge the hotfix branch to develop
-             * 8. Delete the local hotfix branch
-             * 9. Delete the remote hotfix branch
-             * 10. Push all changes to develop
-             * 11. Push all changes to master
-             * 12. Push the tag
+             * 8. Push all changes to develop
+             * 9. Push all changes to master
+             * 10. Push the tag
+             * 11. Delete the local hotfix branch
+             * 12. Delete the remote hotfix branch
              */
             processHelper.StartProcessGui(
                 "cmd.exe",
-                string.Format("/c cd \"{1}\" && " +
-                    "echo ^> git checkout {4} && \"{5}\" checkout {4} && " +
-                    "echo ^> git pull && \"{5}\" pull && " +
-                    "echo ^> git merge --no-ff {3}/{0} && \"{5}\" merge --no-ff {3}/{0} && " +
-                    "echo ^> git tag {0} && \"{5}\" tag {0} && " +
-                    "echo ^> git checkout {2} && \"{5}\" checkout {2} && " +
-                    "echo ^> git pull && \"{5}\" pull && " +
-                    "echo ^> git merge --no-ff {3}/{0} && \"{5}\" merge --no-ff {3}/{0} && " +
-                    "echo ^> git branch -d {3}/{0} && \"{5}\" branch -d {3}/{0} && " +
-                    "echo ^> git push origin --delete {3}/{0} && \"{5}\" push origin --delete {3}/{0} && " +
-                    "echo ^> git push origin {2} && \"{5}\" push origin {2} && " +
-                    "echo ^> git push origin {4} && \"{5}\" push origin {4} && " +
-                    "echo ^> git push origin {0} && \"{5}\" push origin {0}",
-                    hotfixName, solutionDir, options.DevelopBranch, options.HotfixBranch, options.MasterBranch, gitBin),
-                string.Format("Finishing hotfix {0}", hotfixName));
+                $"/c cd \"{solutionDir}\" && " +
+                    FormatCLICommand($"checkout {options.MasterBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"merge --no-ff {options.HotfixBranch}/{hotfixName}") +
+                    FormatCLICommand($"tag {hotfixName}") +
+                    FormatCLICommand($"checkout {options.DevelopBranch}") +
+                    FormatCLICommand("pull") +
+                    FormatCLICommand($"merge --no-ff {options.HotfixBranch}/{hotfixName}") +
+                    FormatCLICommand($"push origin {options.DevelopBranch}") +
+                    FormatCLICommand($"push origin {options.MasterBranch}") +
+                    FormatCLICommand($"push origin {hotfixName}") +
+                    FormatCLICommand($"branch -d {options.HotfixBranch}/{hotfixName}") +
+                    FormatCLICommand($"push origin --delete {options.HotfixBranch}/{hotfixName}", true),
+                $"Finishing hotfix {hotfixName}"
+            );
         }
     }
 }

@@ -48,7 +48,7 @@ namespace SamirBoulema.TGIT
 
             new ContextMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options).AddCommands();
 
-            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options, mcs).AddCommands();
+            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, options, mcs).AddCommands();
 
             // Add all menus
             OleMenuCommand tgitMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
