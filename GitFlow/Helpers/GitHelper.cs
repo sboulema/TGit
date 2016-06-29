@@ -106,7 +106,7 @@ namespace SamirBoulema.TGIT.Helpers
 
         public bool BranchExists(string branchName)
         {
-            return processHelper.StartProcessGit($"rev-parse --verify {branchName}", false);
+            return processHelper.StartProcessGit($"rev-parse --verify origin/{branchName}", false);
         }
     }
 }
