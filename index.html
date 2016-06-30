@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Tgit by sboulema</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Tgit</h1>
+        <h2>Control TortoiseGIT from within Visual Studio</h2>
+        <a href="https://github.com/sboulema/TGIT" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="tgit" class="anchor" href="#tgit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TGIT</h1>
+
+<p>Control TortoiseGIT from within Visual Studio</p>
+
+<p><a href="https://www.myget.org/"><img src="https://www.myget.org/BuildSource/Badge/tgit?identifier=3efad407-2f96-4e1e-a0cc-beb30194d3cb" alt="tgit MyGet Build Status"></a></p>
+
+<h1>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h1>
+
+<ol>
+<li>Install the <a href="https://visualstudiogallery.msdn.microsoft.com/be8a61ca-9358-4f43-80e3-4fc73b09dff3">TGIT extension</a>
+</li>
+<li>Install <a href="https://code.google.com/p/tortoisegit/">TortoiseGIT</a>
+</li>
+<li>Install <a href="http://msysgit.github.io/">MSysGit</a>
+</li>
+</ol>
+
+<h1>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h1>
+
+<p>TGIT has several GitFlow options: "Develop branch prefix", "Feature branches prefix", "Master branch prefix", "Release branches prefix".
+These options determine the prefix of the branches used in the gitflow branching model.
+<a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
+
+<p>TGIT also has an option to specify a default commit message. You can change this to regular text or use the folowing macros:
+<a href="https://msdn.microsoft.com/en-us/library/c02as0cs.aspx">https://msdn.microsoft.com/en-us/library/c02as0cs.aspx</a></p>
+
+<h1>
+<a id="gitflow" class="anchor" href="#gitflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gitflow</h1>
+
+<p>So what exactly are those gitflow menu items doing?</p>
+
+<h5>
+<a id="start-new-feature" class="anchor" href="#start-new-feature" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start New Feature</h5>
+
+<ol>
+<li>Switch to the develop branch</li>
+<li>Pull latest changes on develop</li>
+<li>Create and switch to a new branch</li>
+</ol>
+
+<h5>
+<a id="finish-feature" class="anchor" href="#finish-feature" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Finish Feature</h5>
+
+<ol>
+<li>Switch to the develop branch</li>
+<li>Pull latest changes on develop</li>
+<li>Merge the feature branch to develop</li>
+<li>Delete the local feature branch</li>
+<li>Delete the remote feature branch</li>
+<li>Push all changes to develop</li>
+</ol>
+
+<h5>
+<a id="start-new-release" class="anchor" href="#start-new-release" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start New Release</h5>
+
+<ol>
+<li>Switch to the develop branch</li>
+<li>Pull latest changes on develop</li>
+<li>Create and switch to a new release branch</li>
+</ol>
+
+<h5>
+<a id="finish-release" class="anchor" href="#finish-release" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Finish Release</h5>
+
+<ol>
+<li>Switch to the master branch</li>
+<li>Pull latest changes on master</li>
+<li>Merge the release branch to master</li>
+<li>Tag the release</li>
+<li>Switch to the develop branch</li>
+<li>Pull latest changes on develop</li>
+<li>Merge the release branch to develop</li>
+<li>Delete the local release branch</li>
+<li>Delete the remote release branch</li>
+<li>Push all changes to develop</li>
+<li>Push all changes to master</li>
+<li>Push the tag</li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/sboulema/TGIT/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/sboulema/TGIT/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/sboulema/TGIT"></a> is maintained by <a href="https://github.com/sboulema">sboulema</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
