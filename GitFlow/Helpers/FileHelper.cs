@@ -9,7 +9,7 @@ namespace SamirBoulema.TGIT.Helpers
 {
     public class FileHelper
     {
-        private DTE _dte;
+        private readonly DTE _dte;
 
         public FileHelper(DTE dte)
         {

@@ -28,8 +28,8 @@ namespace SamirBoulema.TGIT.Helpers
 
         public OleMenuCommand CreateCommand(EventHandler handler, uint commandId)
         {
-            CommandID menuCommandId = new CommandID(GuidList.GuidTgitCmdSet, (int)commandId);
-            OleMenuCommand menuItem = new OleMenuCommand(handler, menuCommandId);
+            var menuCommandId = new CommandID(GuidList.GuidTgitCmdSet, (int)commandId);
+            var menuItem = new OleMenuCommand(handler, menuCommandId);
             menuItem.BeforeQueryStatus += Solution_BeforeQueryStatus;
             return menuItem;
         }
@@ -66,7 +66,7 @@ namespace SamirBoulema.TGIT.Helpers
 
         private void Solution_BeforeQueryStatus(object sender, EventArgs e)
         {
-            OleMenuCommand command = (OleMenuCommand)sender;
+            var command = (OleMenuCommand)sender;
             command.Enabled = false;
 
             if (!string.IsNullOrEmpty(fileHelper.GetSolutionDir()))

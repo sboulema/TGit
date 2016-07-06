@@ -9,9 +9,9 @@ namespace SamirBoulema.TGIT.Helpers
 {
     public class GitHelper
     {
-        private FileHelper fileHelper;
-        private ProcessHelper processHelper;
-        private string featureBranch, releaseBranch, hotfixBranch;
+        private readonly FileHelper fileHelper;
+        private readonly ProcessHelper processHelper;
+        private readonly string featureBranch, releaseBranch, hotfixBranch;
 
         public GitHelper(FileHelper fileHelper, ProcessHelper processHelper, string featureBranch, string releaseBranch, string hotfixBranch)
         {
@@ -43,8 +43,8 @@ namespace SamirBoulema.TGIT.Helpers
             commitMessage = commitMessage.Replace("$(SolutionName)", dte.Solution.FullName);
             commitMessage = commitMessage.Replace("$(SolutionFileName)", dte.Solution.FileName);
             commitMessage = commitMessage.Replace("$(SolutionExt)", Path.GetExtension(dte.Solution.FileName));
-            commitMessage = commitMessage.Replace("$(VSInstallDir)", (string)Registry.GetValue(string.Format("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\{0}", dte.Version), "InstallDir", ""));
-            commitMessage = commitMessage.Replace("$(FxCopDir)", (string)Registry.GetValue(string.Format("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\{0}\\Edev", dte.Version), "FxCopDir", ""));
+            commitMessage = commitMessage.Replace("$(VSInstallDir)", (string)Registry.GetValue($"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\{dte.Version}", "InstallDir", ""));
+            commitMessage = commitMessage.Replace("$(FxCopDir)", (string)Registry.GetValue($"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\{dte.Version}\\Edev", "FxCopDir", ""));
             return commitMessage;
         }
 
@@ -57,15 +57,15 @@ namespace SamirBoulema.TGIT.Helpers
                 return string.Empty;
             }
 
-            string branchName = string.Empty;
-            string error = string.Empty;
-            string drive = Path.GetPathRoot(solutionDir).TrimEnd('\\');
+            var branchName = string.Empty;
+            var error = string.Empty;
+            var drive = Path.GetPathRoot(solutionDir).TrimEnd('\\');
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = string.Format("/c cd \"{0}\" && {1} && \"{2}\" symbolic-ref -q --short HEAD", solutionDir, drive, fileHelper.GetMSysGit()),
+                    Arguments = $"/c cd \"{solutionDir}\" && {drive} && \"{fileHelper.GetMSysGit()}\" symbolic-ref -q --short HEAD",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -87,11 +87,11 @@ namespace SamirBoulema.TGIT.Helpers
                 {
                     return branchName.Substring(featureBranch.Length + 1);
                 }
-                else if (branchName.StartsWith(releaseBranch) && trimPrefix)
+                if (branchName.StartsWith(releaseBranch) && trimPrefix)
                 {
                     return branchName.Substring(releaseBranch.Length + 1);
                 }
-                else if (branchName.StartsWith(hotfixBranch) && trimPrefix)
+                if (branchName.StartsWith(hotfixBranch) && trimPrefix)
                 {
                     return branchName.Substring(hotfixBranch.Length + 1);
                 }

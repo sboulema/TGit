@@ -1,7 +1,6 @@
 ﻿using EnvDTE;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows.Forms;
 using Process = System.Diagnostics.Process;
 
@@ -9,12 +8,12 @@ namespace SamirBoulema.TGIT.Helpers
 {
     public class ProcessHelper
     {
-        private FileHelper fileHelper;
+        private readonly FileHelper fileHelper;
         private string solutionDir;
-        private string tortoiseGitProc, git;
-        private DTE dte;
+        private readonly string tortoiseGitProc, git;
+        private readonly DTE dte;
         private OutputBox outputBox;
-        private Stopwatch stopwatch;
+        private readonly Stopwatch stopwatch;
 
         public ProcessHelper(DTE dte)
         {
@@ -72,7 +71,7 @@ namespace SamirBoulema.TGIT.Helpers
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, string.Format("{0} not found", tortoiseGitProc), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, $"{tortoiseGitProc} not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -181,7 +180,7 @@ namespace SamirBoulema.TGIT.Helpers
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, string.Format("{0} not found", application), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(e.Message, $"{application} not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -204,8 +203,7 @@ namespace SamirBoulema.TGIT.Helpers
             stopwatch.Stop();
             var exitCodeText = process.ExitCode == 0 ? "Succes" : "Error";
 
-            outputBox.BeginInvoke((Action)(() => outputBox.textBox.AppendText(string.Format("{0}{1} ({2} ms @ {3})", Environment.NewLine, exitCodeText,
-                stopwatch.ElapsedMilliseconds, process.StartTime))));
+            outputBox.BeginInvoke((Action)(() => outputBox.textBox.AppendText($"{Environment.NewLine}{exitCodeText} ({stopwatch.ElapsedMilliseconds} ms @ {process.StartTime})")));
             outputBox.BeginInvoke((Action)(() => outputBox.okButton.Enabled = true));
         }
     }

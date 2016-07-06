@@ -8,12 +8,12 @@ namespace SamirBoulema.TGIT.Commands
 {
     public class ContextMenuCommands
     {
-        private ProcessHelper processHelper;
-        private CommandHelper commandHelper;
-        private FileHelper fileHelper;
-        private GitHelper gitHelper;
-        private DTE dte;
-        private OptionPageGrid options;
+        private readonly ProcessHelper processHelper;
+        private readonly CommandHelper commandHelper;
+        private readonly FileHelper fileHelper;
+        private readonly GitHelper gitHelper;
+        private readonly DTE dte;
+        private readonly OptionPageGrid options;
 
         public ContextMenuCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, FileHelper fileHelper, 
             DTE dte, OptionPageGrid options)
