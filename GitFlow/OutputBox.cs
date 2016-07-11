@@ -8,12 +8,14 @@ namespace SamirBoulema.TGIT
 {
     public sealed partial class OutputBox : Form
     {
-        private DTE dte;
+        private readonly FileHelper _fileHelper;
+        private readonly ProcessHelper _processHelper;
 
         public OutputBox(DTE dte)
         {
             InitializeComponent();
-            this.dte = dte;
+            _fileHelper = new FileHelper(dte);
+            _processHelper = new ProcessHelper(dte);
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -26,17 +28,17 @@ namespace SamirBoulema.TGIT
         private void ResolveButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            string solutionDir = new FileHelper(dte).GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            new ProcessHelper(dte).StartTortoiseGitProc(string.Format("/command:resolve /path:\"{0}\"", solutionDir));
+            _processHelper.StartTortoiseGitProc($"/command:resolve /path:\"{solutionDir}\"");
         }
 
         private void StashButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            string solutionDir = new FileHelper(dte).GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            new ProcessHelper(dte).StartTortoiseGitProc(string.Format("/command:repostatus /path:\"{0}\"", solutionDir));
+            _processHelper.StartTortoiseGitProc($"/command:repostatus /path:\"{solutionDir}\"");
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)
@@ -45,20 +47,24 @@ namespace SamirBoulema.TGIT
 
             if (textBox.Text.ToLower().Contains("fix conflicts") && !flowLayoutPanel1.Controls.Find("Resolve", true).Any())
             {
-                var resolveButton = new Button();
-                resolveButton.Text = "Resolve";
-                resolveButton.Name = "Resolve";
-                resolveButton.AutoSize = true;
+                var resolveButton = new Button
+                {
+                    Text = "Resolve",
+                    Name = "Resolve",
+                    AutoSize = true
+                };
                 resolveButton.Click += ResolveButton_Click;
                 flowLayoutPanel1.Controls.Add(resolveButton);
             }
 
             if (textBox.Text.ToLower().Contains("stash") && !flowLayoutPanel1.Controls.Find("Stash", true).Any())
             {
-                var stashButton = new Button();
-                stashButton.Text = "Show changes";
-                stashButton.Name = "Stash";
-                stashButton.AutoSize = true;
+                var stashButton = new Button
+                {
+                    Text = "Show changes",
+                    Name = "Stash",
+                    AutoSize = true
+                };
                 stashButton.Click += StashButton_Click;
                 flowLayoutPanel1.Controls.Add(stashButton);
             }
