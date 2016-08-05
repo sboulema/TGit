@@ -9,17 +9,17 @@ namespace SamirBoulema.TGIT.Helpers
 {
     public class GitHelper
     {
-        private readonly FileHelper fileHelper;
-        private readonly ProcessHelper processHelper;
-        private readonly string featureBranch, releaseBranch, hotfixBranch;
+        private readonly FileHelper _fileHelper;
+        private readonly ProcessHelper _processHelper;
+        private readonly string _featureBranch, _releaseBranch, _hotfixBranch;
 
         public GitHelper(FileHelper fileHelper, ProcessHelper processHelper, string featureBranch, string releaseBranch, string hotfixBranch)
         {
-            this.fileHelper = fileHelper;
-            this.processHelper = processHelper;
-            this.featureBranch = featureBranch;
-            this.releaseBranch = releaseBranch;
-            this.hotfixBranch = hotfixBranch;
+            _fileHelper = fileHelper;
+            _processHelper = processHelper;
+            _featureBranch = featureBranch;
+            _releaseBranch = releaseBranch;
+            _hotfixBranch = hotfixBranch;
         }
 
         public string GetCommitMessage(string commitMessageTemplate, DTE dte)
@@ -50,7 +50,7 @@ namespace SamirBoulema.TGIT.Helpers
 
         public string GetCurrentBranchName(bool trimPrefix)
         {
-            string solutionDir = fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
 
             if (string.IsNullOrEmpty(solutionDir))
             {
@@ -65,7 +65,7 @@ namespace SamirBoulema.TGIT.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd \"{solutionDir}\" && {drive} && \"{fileHelper.GetMSysGit()}\" symbolic-ref -q --short HEAD",
+                    Arguments = $"/c cd \"{solutionDir}\" && {drive} && \"{_fileHelper.GetMSysGit()}\" symbolic-ref -q --short HEAD",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -83,17 +83,17 @@ namespace SamirBoulema.TGIT.Helpers
             }
             if (branchName != null)
             {
-                if (branchName.StartsWith(featureBranch) && trimPrefix)
+                if (branchName.StartsWith(_featureBranch) && trimPrefix)
                 {
-                    return branchName.Substring(featureBranch.Length + 1);
+                    return branchName.Substring(_featureBranch.Length + 1);
                 }
-                if (branchName.StartsWith(releaseBranch) && trimPrefix)
+                if (branchName.StartsWith(_releaseBranch) && trimPrefix)
                 {
-                    return branchName.Substring(releaseBranch.Length + 1);
+                    return branchName.Substring(_releaseBranch.Length + 1);
                 }
-                if (branchName.StartsWith(hotfixBranch) && trimPrefix)
+                if (branchName.StartsWith(_hotfixBranch) && trimPrefix)
                 {
-                    return branchName.Substring(hotfixBranch.Length + 1);
+                    return branchName.Substring(_hotfixBranch.Length + 1);
                 }
                 return branchName;
             }
@@ -106,7 +106,16 @@ namespace SamirBoulema.TGIT.Helpers
 
         public bool BranchExists(string branchName)
         {
-            return processHelper.StartProcessGit($"rev-parse --verify origin/{branchName}", false);
+            return _processHelper.StartProcessGit($"rev-parse --verify origin/{branchName}", false);
+        }
+
+        public string GetSshSetup()
+        {
+            var remoteOriginPuttyKeyfile = _processHelper.StartProcessGitResult("config --get remote.origin.puttykeyfile");
+            if (string.IsNullOrEmpty(remoteOriginPuttyKeyfile)) return string.Empty;
+
+            _processHelper.Start("pageant", remoteOriginPuttyKeyfile);
+            return $"set GIT_SSH={_fileHelper.GetTortoiseGitPlink()} && ";
         }
     }
 }

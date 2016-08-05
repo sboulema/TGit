@@ -142,6 +142,11 @@ namespace SamirBoulema.TGIT.Helpers
             Process.Start(application);
         }
 
+        public void Start(string application, string arguments)
+        {
+            Process.Start(application, arguments);
+        }
+
         public void StartProcessGui(string application, string args, string title)
         {
             var dialogResult = DialogResult.OK;
