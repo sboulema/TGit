@@ -211,10 +211,6 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\GettingStartedGuide.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Resource Include="Resources\octicons.png" />
     <Content Include="Resources\License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

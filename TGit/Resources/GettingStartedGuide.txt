@@ -1,8 +1,0 @@
-Getting Started Guide
-
-Installation:
--------------
-
-1. Install the TGit extension (https://visualstudiogallery.msdn.microsoft.com/132a30d8-f318-4a53-8386-2c9fe52d77a1)
-2. Install TortoiseGIT (https://code.google.com/p/tortoisegit/)
-3. Install MSysGit (http://msysgit.github.io/)

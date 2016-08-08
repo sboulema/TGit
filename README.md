@@ -9,11 +9,11 @@ Control TortoiseGit from within Visual Studio
 3. Install [MSysGit](http://msysgit.github.io/)
 
 # Options
-TGIT has several GitFlow options: "Develop branch prefix", "Feature branches prefix", "Master branch prefix", "Release branches prefix".
+TGit has several GitFlow options: "Develop branch prefix", "Feature branches prefix", "Master branch prefix", "Release branches prefix".
 These options determine the prefix of the branches used in the gitflow branching model.
 http://nvie.com/posts/a-successful-git-branching-model/
 
-TGIT also has an option to specify a default commit message. You can change this to regular text or use the folowing macros:
+TGit also has an option to specify a default commit message. You can change this to regular text or use the folowing macros:
 https://msdn.microsoft.com/en-us/library/c02as0cs.aspx
 
 # Gitflow

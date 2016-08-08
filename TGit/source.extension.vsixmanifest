@@ -3,14 +3,14 @@
   <Metadata>
     <Identity Id="2eb0e74d-a27d-4c41-bca4-7e9e9befaa18" Version="3.4" Language="en-US" Publisher="Samir L. Boulema" />
     <DisplayName>TGit</DisplayName>
-    <Description xml:space="preserve">Control TortoiseGIT from within Visual Studio</Description>
-    <MoreInfo>http://visualstudiogallery.msdn.microsoft.com/be8a61ca-9358-4f43-80e3-4fc73b09dff3</MoreInfo>
+    <Description xml:space="preserve">Control TortoiseGit from within Visual Studio</Description>
+    <MoreInfo>https://github.com/sboulema/TGit</MoreInfo>
     <License>Resources\License.txt</License>
-    <GettingStartedGuide>Resources\GettingStartedGuide.txt</GettingStartedGuide>
-    <ReleaseNotes>Resources\ReleaseNotes.txt</ReleaseNotes>
+    <GettingStartedGuide>https://github.com/sboulema/TGit/blob/master/README.md</GettingStartedGuide>
+    <ReleaseNotes>https://github.com/sboulema/TGit/releases</ReleaseNotes>
     <Icon>Resources\Package.ico</Icon>
     <PreviewImage>Resources\Preview.jpg</PreviewImage>
-    <Tags>GIT, Source control, Tortoise, repository</Tags>
+    <Tags>Git, Source control, Tortoise, repository</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Version="[12.0,16.0)" Id="Microsoft.VisualStudio.Pro" />
