@@ -82,7 +82,7 @@ namespace SamirBoulema.TGit
         {
             get
             {
-                return _commitMessage == null ? "$(FeatureName)" : _commitMessage;
+                return _commitMessage ?? string.Empty;
             }
             set { _commitMessage = value; }
         }
