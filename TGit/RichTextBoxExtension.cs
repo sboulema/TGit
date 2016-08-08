@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace SamirBoulema.TGIT
+namespace SamirBoulema.TGit
 {
     public static class RichTextBoxExtension
     {

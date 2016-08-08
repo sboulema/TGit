@@ -3,14 +3,14 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace SamirBoulema.TGIT
+namespace SamirBoulema.TGit
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [CLSCompliant(false), ComVisible(true)]
     public class OptionPageGrid : DialogPage
     {
         private string _developBranch { get; set; }
-        [Category("TGIT")]
+        [Category("TGit")]
         [DisplayName(@"Develop branch prefix")]
         [Description("Prefix for your Gitflow develop branch")]
         public string DevelopBranch
@@ -23,7 +23,7 @@ namespace SamirBoulema.TGIT
         }
 
         private string _featureBranch { get; set; }
-        [Category("TGIT")]
+        [Category("TGit")]
         [DisplayName(@"Feature branches prefix")]
         [Description("Prefix for your Gitflow feature branches")]
         public string FeatureBranch
@@ -36,7 +36,7 @@ namespace SamirBoulema.TGIT
         }
 
         private string _releaseBranch { get; set; }
-        [Category("TGIT")]
+        [Category("TGit")]
         [DisplayName(@"Release branches prefix")]
         [Description("Prefix for your Gitflow release branches")]
         public string ReleaseBranch
@@ -49,7 +49,7 @@ namespace SamirBoulema.TGIT
         }
 
         private string _masterBranch { get; set; }
-        [Category("TGIT")]
+        [Category("TGit")]
         [DisplayName(@"Master branches prefix")]
         [Description("Prefix for your Gitflow master branch")]
         public string MasterBranch
@@ -62,7 +62,7 @@ namespace SamirBoulema.TGIT
         }
 
         private string _hotfixBranch { get; set; }
-        [Category("TGIT")]
+        [Category("TGit")]
         [DisplayName(@"Hotfix branches prefix")]
         [Description("Prefix for your Gitflow hotfix branch")]
         public string HotfixBranch
@@ -75,7 +75,7 @@ namespace SamirBoulema.TGIT
         }
 
         private string _commitMessage { get; set; }
-        [Category("TGIT")]
+        [Category("TGit")]
         [DisplayName(@"Default commit message")]
         [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
         public string CommitMessage

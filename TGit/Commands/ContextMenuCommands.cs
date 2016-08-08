@@ -1,10 +1,10 @@
 ﻿using EnvDTE;
-using SamirBoulema.TGIT.Helpers;
+using SamirBoulema.TGit.Helpers;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SamirBoulema.TGIT.Commands
+namespace SamirBoulema.TGit.Commands
 {
     public class ContextMenuCommands
     {
@@ -123,7 +123,7 @@ namespace SamirBoulema.TGIT.Commands
             var revisions = processHelper.GitResult(Path.GetDirectoryName(currentFilePath), $"log -2 --pretty=format:%h {fileHelper.GetExactFileName(currentFilePath)}");
             if (!revisions.Contains(","))
             {
-                MessageBox.Show("Could not determine the last committed revision!", "TGIT", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Could not determine the last committed revision!", "TGit", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

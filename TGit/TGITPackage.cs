@@ -1,21 +1,20 @@
-﻿using System;
-using System.ComponentModel.Design;
+﻿using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using SamirBoulema.TGIT.Helpers;
-using SamirBoulema.TGIT.Commands;
+using SamirBoulema.TGit.Helpers;
+using SamirBoulema.TGit.Commands;
 
-namespace SamirBoulema.TGIT
+namespace SamirBoulema.TGit
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
-    [ProvideOptionPage(typeof(OptionPageGrid), "TGIT", "General", 0, 0, true)]
-    public sealed class TgitPackage : Package
+    [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
+    public sealed class TGitPackage : Package
     {
         private DTE dte;
         private OptionPageGrid options;       
@@ -61,8 +60,8 @@ namespace SamirBoulema.TGIT
                     tgitContextMenu.Text = "TGIT";
                     break;
                 default:
-                    tgitMenu.Text = "Tgit";
-                    tgitContextMenu.Text = "Tgit";
+                    tgitMenu.Text = "TGit";
+                    tgitContextMenu.Text = "TGit";
                     break;
             }       
             mcs.AddCommand(tgitMenu);

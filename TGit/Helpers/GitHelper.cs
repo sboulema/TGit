@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using Process = System.Diagnostics.Process;
 
-namespace SamirBoulema.TGIT.Helpers
+namespace SamirBoulema.TGit.Helpers
 {
     public class GitHelper
     {

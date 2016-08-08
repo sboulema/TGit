@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.Design;
 
-namespace SamirBoulema.TGIT.Helpers
+namespace SamirBoulema.TGit.Helpers
 {
     public class CommandHelper
     {

@@ -1,18 +1,18 @@
 ﻿using EnvDTE;
-using SamirBoulema.TGIT.Helpers;
+using SamirBoulema.TGit.Helpers;
 using System;
 using System.Windows.Forms;
 
-namespace SamirBoulema.TGIT
+namespace SamirBoulema.TGit
 {
     public partial class Credentials : Form
     {
-        private ProcessHelper processHelper;
+        private readonly ProcessHelper _processHelper;
 
         public Credentials(DTE dte)
         {
             InitializeComponent();
-            processHelper = new ProcessHelper(dte);
+            _processHelper = new ProcessHelper(dte);
             emailTextBox.KeyDown += EmailTextBox_KeyDown;
         }
 
@@ -31,8 +31,8 @@ namespace SamirBoulema.TGIT
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            processHelper.StartProcessGit(string.Format("config user.name \"{0}\"", nameTextBox.Text));
-            processHelper.StartProcessGit(string.Format("config user.email \"{0}\"", emailTextBox.Text));
+            _processHelper.StartProcessGit(string.Format("config user.name \"{0}\"", nameTextBox.Text));
+            _processHelper.StartProcessGit(string.Format("config user.email \"{0}\"", emailTextBox.Text));
             DialogResult = DialogResult.OK;
             Close();
         }

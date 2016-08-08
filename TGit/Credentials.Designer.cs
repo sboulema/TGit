@@ -1,4 +1,4 @@
-﻿namespace SamirBoulema.TGIT
+﻿namespace SamirBoulema.TGit
 {
     partial class Credentials
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SamirBoulema.TGIT
+namespace SamirBoulema.TGit
 {
     static class GuidList
     {

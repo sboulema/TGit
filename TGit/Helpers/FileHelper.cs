@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace SamirBoulema.TGIT.Helpers
+namespace SamirBoulema.TGit.Helpers
 {
     public class FileHelper
     {

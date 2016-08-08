@@ -1,9 +1,9 @@
 ﻿using EnvDTE;
-using SamirBoulema.TGIT.Helpers;
+using SamirBoulema.TGit.Helpers;
 using Microsoft.VisualStudio.Shell;
 using System;
 
-namespace SamirBoulema.TGIT.Commands
+namespace SamirBoulema.TGit.Commands
 {
     public class MainMenuCommands
     {

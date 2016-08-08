@@ -12,3 +12,6 @@ GitFlow/obj/
 /.vs
 /packages
 /GitFlow/*.csdat
+/TGit/*.user
+/TGit/bin
+/TGit/obj

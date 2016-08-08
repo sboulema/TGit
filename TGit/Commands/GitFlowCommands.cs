@@ -1,10 +1,10 @@
-﻿using SamirBoulema.TGIT.Helpers;
+﻿using SamirBoulema.TGit.Helpers;
 using Microsoft.VisualBasic;
 using System;
 using System.IO;
 using Microsoft.VisualStudio.Shell;
 
-namespace SamirBoulema.TGIT.Commands
+namespace SamirBoulema.TGit.Commands
 {
     public class GitFlowCommands
     {

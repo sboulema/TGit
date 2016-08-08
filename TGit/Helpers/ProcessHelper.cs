@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Process = System.Diagnostics.Process;
 
-namespace SamirBoulema.TGIT.Helpers
+namespace SamirBoulema.TGit.Helpers
 {
     public class ProcessHelper
     {
@@ -59,7 +59,7 @@ namespace SamirBoulema.TGIT.Helpers
             }
             if (!string.IsNullOrEmpty(error) && showAlert)
             {
-                MessageBox.Show(error, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(error, "TGit error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }

@@ -1,4 +1,4 @@
-﻿namespace SamirBoulema.TGIT
+﻿namespace SamirBoulema.TGit
 {
     sealed partial class OutputBox
     {
@@ -99,7 +99,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OutputBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TGIT";
+            this.Text = "TGit";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
