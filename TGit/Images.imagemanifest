@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ This file defines icon ID's and which image files they correspond to. This file is used in 
+ conjunction with the CustomMoniker.vsct file to provide the necessary data to display your 
+ custom moniker in menu buttons, toolbars, etc.
+-->
+<ImageManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/VisualStudio/ImageManifestSchema/2014">
+  <Symbols>
+    <String Name="Resources" Value="/TGit;Component/Resources/Images" />
+    <Guid Name="CustomMoniker" Value="{d53d7256-d44d-4245-bdd2-bfd22943659c}" />
+    <ID Name="Branch" Value="1" />
+  </Symbols>
+  <Images>
+    <Image Guid="$(CustomMoniker)" ID="$(Branch)">
+      <Source Uri="$(Resources)/Branch_16.png">
+        <Size Value="16" />
+      </Source>
+    </Image>
+  </Images>
+  <ImageLists />
+</ImageManifest>
