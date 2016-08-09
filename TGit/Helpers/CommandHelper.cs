@@ -10,9 +10,9 @@ namespace SamirBoulema.TGit.Helpers
         private readonly FileHelper fileHelper;
         private readonly GitHelper gitHelper;
         private readonly OleMenuCommandService mcs;
-        private readonly OptionPageGrid options;
+        private readonly OptionFlowPageGrid options;
 
-        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs, OptionPageGrid options)
+        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs, OptionFlowPageGrid options)
         {
             this.processHelper = processHelper;
             this.fileHelper = fileHelper;

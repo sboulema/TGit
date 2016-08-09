@@ -7,7 +7,7 @@ namespace SamirBoulema.TGit
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [CLSCompliant(false), ComVisible(true)]
-    public class OptionPageGrid : DialogPage
+    public class OptionFlowPageGrid : DialogPage
     {
         private string _developBranch { get; set; }
         [Category("TGit")]
@@ -50,7 +50,7 @@ namespace SamirBoulema.TGit
 
         private string _masterBranch { get; set; }
         [Category("TGit")]
-        [DisplayName(@"Master branches prefix")]
+        [DisplayName(@"Master branch prefix")]
         [Description("Prefix for your Gitflow master branch")]
         public string MasterBranch
         {
@@ -72,19 +72,6 @@ namespace SamirBoulema.TGit
                 return string.IsNullOrEmpty(_hotfixBranch) ? "hotfix" : _hotfixBranch;
             }
             set { _hotfixBranch = value; }
-        }
-
-        private string _commitMessage { get; set; }
-        [Category("TGit")]
-        [DisplayName(@"Default commit message")]
-        [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
-        public string CommitMessage
-        {
-            get
-            {
-                return _commitMessage ?? string.Empty;
-            }
-            set { _commitMessage = value; }
         }
     }
 }

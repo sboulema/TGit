@@ -14,10 +14,11 @@ namespace SamirBoulema.TGit
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(OptionFlowPageGrid), "TGit", "Flow", 0, 0, true)]
     public sealed class TGitPackage : Package
     {
-        private DTE dte;
-        private OptionPageGrid options;       
+        private DTE _dte;
+        private OptionFlowPageGrid _options;       
         private FileHelper fileHelper;
         private ProcessHelper processHelper;
         private CommandHelper commandHelper;
@@ -31,28 +32,29 @@ namespace SamirBoulema.TGit
         {
             base.Initialize();
 
-            dte = (DTE)GetService(typeof(DTE));
-            options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-            fileHelper = new FileHelper(dte);
-            processHelper = new ProcessHelper(dte);
-            gitHelper = new GitHelper(fileHelper, processHelper, options.FeatureBranch, options.ReleaseBranch, options.HotfixBranch);
+            _dte = (DTE)GetService(typeof(DTE));
+            _options = (OptionFlowPageGrid)GetDialogPage(typeof(OptionFlowPageGrid));
+            var generalOptions = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+            fileHelper = new FileHelper(_dte);
+            processHelper = new ProcessHelper(_dte);
+            gitHelper = new GitHelper(fileHelper, processHelper, _options.FeatureBranch, _options.ReleaseBranch, _options.HotfixBranch);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
-            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            commandHelper = new CommandHelper(processHelper, fileHelper, gitHelper, mcs, options);
+            commandHelper = new CommandHelper(processHelper, fileHelper, gitHelper, mcs, _options);
 
-            new MainMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options, mcs).AddCommands();
+            new MainMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, _dte, generalOptions, mcs).AddCommands();
 
-            new ContextMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, dte, options).AddCommands();
+            new ContextMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, _dte, generalOptions).AddCommands();
 
-            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, options, mcs).AddCommands();
+            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, _options, mcs).AddCommands();
 
             // Add all menus
-            OleMenuCommand tgitMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
-            OleMenuCommand tgitContextMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
-            switch (dte.Version)
+            var tgitMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
+            var tgitContextMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
+            switch (_dte.Version)
             {
                 case "11.0":
                 case "12.0":
@@ -67,11 +69,11 @@ namespace SamirBoulema.TGit
             mcs.AddCommand(tgitMenu);
             mcs.AddCommand(tgitContextMenu);
 
-            OleMenuCommand tgitGitFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitFlowMenu);
+            var tgitGitFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitFlowMenu);
             tgitGitFlowMenu.BeforeQueryStatus += commandHelper.GitFlow_BeforeQueryStatus;
             mcs.AddCommand(tgitGitFlowMenu);
 
-            OleMenuCommand tgitGitHubFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
+            var tgitGitHubFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
             tgitGitHubFlowMenu.BeforeQueryStatus += commandHelper.GitHubFlow_BeforeQueryStatus;
             mcs.AddCommand(tgitGitHubFlowMenu);
         }

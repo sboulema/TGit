@@ -12,12 +12,12 @@ namespace SamirBoulema.TGit.Commands
         private readonly CommandHelper _commandHelper;
         private readonly FileHelper _fileHelper;
         private readonly GitHelper _gitHelper;
-        private readonly OptionPageGrid _options;
+        private readonly OptionFlowPageGrid _options;
         private readonly string _gitBin;
         private readonly OleMenuCommandService _mcs;
 
         public GitFlowCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, FileHelper fileHelper,
-            OptionPageGrid options, OleMenuCommandService mcs)
+            OptionFlowPageGrid options, OleMenuCommandService mcs)
         {
             _processHelper = processHelper;
             _commandHelper = commandHelper;

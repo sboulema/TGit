@@ -157,7 +157,10 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\GitHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
-    <Compile Include="Options.cs">
+    <Compile Include="OptionsGeneral.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OptionsFlow.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="OutputBox.cs">
