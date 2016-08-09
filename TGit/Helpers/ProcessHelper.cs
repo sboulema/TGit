@@ -199,9 +199,9 @@ namespace SamirBoulema.TGit.Helpers
 
             var text = outLine.Data + Environment.NewLine;
 
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox1.AppendText(text, text.StartsWith(">"))));
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox1.Select(_outputBox.richTextBox1.TextLength - text.Length + 1, 0)));
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox1.ScrollToCaret()));
+            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.AppendText(text, text.StartsWith(">"))));
+            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.Select(_outputBox.richTextBox.TextLength - text.Length + 1, 0)));
+            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.ScrollToCaret()));
         }
 
         private void process_Exited(object sender, EventArgs e)
@@ -214,12 +214,12 @@ namespace SamirBoulema.TGit.Helpers
             var exitCodeText = process.ExitCode == 0 ? "Succes" : "Error";
             var summaryText = $"{Environment.NewLine}{exitCodeText} ({_stopwatch.ElapsedMilliseconds} ms @ {process.StartTime})";
 
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox1.AppendText(
+            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.AppendText(
                 summaryText, 
                 process.ExitCode == 0 ? Color.Blue : Color.Red,
                 true)));
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox1.Select(_outputBox.richTextBox1.TextLength - summaryText.Length + Environment.NewLine.Length, 0)));
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox1.ScrollToCaret()));
+            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.Select(_outputBox.richTextBox.TextLength - summaryText.Length + Environment.NewLine.Length, 0)));
+            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.ScrollToCaret()));
             _outputBox.BeginInvoke((Action) (() => _outputBox.okButton.Enabled = true));
         }
     }

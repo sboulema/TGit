@@ -21,7 +21,7 @@ namespace SamirBoulema.TGit
         private void okButton_Click(object sender, EventArgs e)
         {
             Close();
-            textBox.Clear();
+            richTextBox.Clear();
             okButton.Enabled = false;
         }
 
@@ -43,9 +43,9 @@ namespace SamirBoulema.TGit
 
         private void textBox_TextChanged(object sender, EventArgs e)
         {
-            if (!textBox.Text.ToLower().Contains("error")) return;
+            if (!richTextBox.Text.ToLower().Contains("error")) return;
 
-            if (textBox.Text.ToLower().Contains("fix conflicts") && !flowLayoutPanel1.Controls.Find("Resolve", true).Any())
+            if (richTextBox.Text.ToLower().Contains("fix conflicts") && !flowLayoutPanel1.Controls.Find("Resolve", true).Any())
             {
                 var resolveButton = new Button
                 {
@@ -57,7 +57,7 @@ namespace SamirBoulema.TGit
                 flowLayoutPanel1.Controls.Add(resolveButton);
             }
 
-            if (textBox.Text.ToLower().Contains("stash") && !flowLayoutPanel1.Controls.Find("Stash", true).Any())
+            if (richTextBox.Text.ToLower().Contains("stash") && !flowLayoutPanel1.Controls.Find("Stash", true).Any())
             {
                 var stashButton = new Button
                 {
