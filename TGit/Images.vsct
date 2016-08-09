@@ -13,7 +13,24 @@
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable">
   <Symbols>
     <GuidSymbol name="CustomMoniker" value="{d53d7256-d44d-4245-bdd2-bfd22943659c}">
-      <IDSymbol name="Branch" value="1" />
+      <IDSymbol name="ShowChanges" value="1" />
+      <IDSymbol name="Pull" value="2" />
+      <IDSymbol name="Push" value="3" />
+      <IDSymbol name="ShowLog" value="4" />
+      <IDSymbol name="Revert" value="5" />
+      <IDSymbol name="Branch" value="6" />
+      <IDSymbol name="Merge" value="7" />
+      <IDSymbol name="Differences" value="8" />
+      <IDSymbol name="Blame" value="9" />
+      <IDSymbol name="Repo" value="10" />
+      <IDSymbol name="Resolve" value="11" />
+      <IDSymbol name="Sync" value="12" />
+      <IDSymbol name="Commit" value="13" />
+      <IDSymbol name="Disk" value="14" />
+      <IDSymbol name="Switch" value="15" />
+      <IDSymbol name="Cleanup" value="16" />
+      <IDSymbol name="Stash" value="17" />
+      <IDSymbol name="Fetch" value="18" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

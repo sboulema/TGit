@@ -8,13 +8,79 @@
   <Symbols>
     <String Name="Resources" Value="/TGit;Component/Resources/Images" />
     <Guid Name="CustomMoniker" Value="{d53d7256-d44d-4245-bdd2-bfd22943659c}" />
-    <ID Name="Branch" Value="1" />
+    <ID Name="ShowChanges" Value="1" />
+    <ID Name="Pull" Value="2" />
+    <ID Name="Push" Value="3" />
+    <ID Name="ShowLog" Value="4" />
+    <ID Name="Revert" Value="5" />
+    <ID Name="Branch" Value="6" />
+    <ID Name="Merge" Value="7" />
+    <ID Name="Differences" Value="8" />
+    <ID Name="Blame" Value="9" />
+    <ID Name="Repo" Value="10" />
+    <ID Name="Resolve" Value="11" />
+    <ID Name="Sync" Value="12" />
+    <ID Name="Commit" Value="13" />
+    <ID Name="Disk" Value="14" />
+    <ID Name="Switch" Value="15" />
+    <ID Name="Cleanup" Value="16" />
+    <ID Name="Stash" Value="17" />
+    <ID Name="Fetch" Value="18" />
   </Symbols>
   <Images>
+    <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
+      <Source Uri="$(Resources)/ShowChanges.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Pull)">
+      <Source Uri="$(Resources)/Pull.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Push)">
+      <Source Uri="$(Resources)/Push.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(ShowLog)">
+      <Source Uri="$(Resources)/ShowLog.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Revert)">
+      <Source Uri="$(Resources)/Revert.xaml" />
+    </Image>
     <Image Guid="$(CustomMoniker)" ID="$(Branch)">
-      <Source Uri="$(Resources)/Branch_16.png">
-        <Size Value="16" />
-      </Source>
+      <Source Uri="$(Resources)/Branch.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Merge)">
+      <Source Uri="$(Resources)/Merge.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Differences)">
+      <Source Uri="$(Resources)/Differences.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Blame)">
+      <Source Uri="$(Resources)/Blame.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Repo)">
+      <Source Uri="$(Resources)/Repo.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Resolve)">
+      <Source Uri="$(Resources)/Resolve.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Sync)">
+      <Source Uri="$(Resources)/Sync.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Commit)">
+      <Source Uri="$(Resources)/Commit.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Disk)">
+      <Source Uri="$(Resources)/Disk.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Switch)">
+      <Source Uri="$(Resources)/Switch.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Cleanup)">
+      <Source Uri="$(Resources)/Cleanup.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Stash)">
+      <Source Uri="$(Resources)/Stash.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Fetch)">
+      <Source Uri="$(Resources)/Fetch.xaml" />
     </Image>
   </Images>
   <ImageLists />
