@@ -21,14 +21,14 @@ namespace SamirBoulema.TGit.Helpers
             return (string) Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe");
         }
 
+        public string GetTortoiseGitPlink()
+        {
+            return (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitPlink.exe");
+        }
+
         public string GetMSysGit()
         {
-            string regPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\TortoiseGit", "MSysGit", null);
-
-            if (string.IsNullOrEmpty(regPath))
-            {
-                return @"C:\Program Files (x86)\Git\bin\git.exe";
-            }
+            var regPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\TortoiseGit", "MSysGit", @"C:\Program Files (x86)\Git\bin\git.exe");
             return Path.Combine(regPath, "git.exe");
         }
 
@@ -100,9 +100,7 @@ namespace SamirBoulema.TGit.Helpers
                     GetExactPathName(di.Parent.FullName),
                     di.Parent.GetFileSystemInfos(di.Name)[0].Name);
             }
-            else {
-                return di.Name.ToUpper();
-            }
+            return di.Name.ToUpper();
         }
     }
 }

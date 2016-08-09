@@ -33,35 +33,35 @@ namespace SamirBoulema.TGit.Commands
             //GitFlow Commands
             //Start/Finish Feature
             _commandHelper.AddCommand(StartFeatureCommand, PkgCmdIDList.StartFeature);
-            OleMenuCommand finishFeature = _commandHelper.CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature);
+            var finishFeature = _commandHelper.CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature);
             finishFeature.BeforeQueryStatus += _commandHelper.Feature_BeforeQueryStatus;
             _mcs.AddCommand(finishFeature);
 
             //Start/Finish Release
             _commandHelper.AddCommand(StartReleaseCommand, PkgCmdIDList.StartRelease);
-            OleMenuCommand finishRelease = _commandHelper.CreateCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
+            var finishRelease = _commandHelper.CreateCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
             finishRelease.BeforeQueryStatus += _commandHelper.Release_BeforeQueryStatus;
             _mcs.AddCommand(finishRelease);
 
             //Start/Finish Hotfix
             _commandHelper.AddCommand(StartHotfixCommand, PkgCmdIDList.StartHotfix);
-            OleMenuCommand finishHotfix = _commandHelper.CreateCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
+            var finishHotfix = _commandHelper.CreateCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
             finishHotfix.BeforeQueryStatus += _commandHelper.Hotfix_BeforeQueryStatus;
             _mcs.AddCommand(finishHotfix);
 
             //GitHubFlow Commands
             //Start/Finish Feature
             _commandHelper.AddCommand(StartFeatureGitHubCommand, PkgCmdIDList.StartFeatureGitHub);
-            OleMenuCommand finishFeatureGitHub = _commandHelper.CreateCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
+            var finishFeatureGitHub = _commandHelper.CreateCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
             finishFeatureGitHub.BeforeQueryStatus += _commandHelper.Feature_BeforeQueryStatus;
             _mcs.AddCommand(finishFeatureGitHub);
         }
 
         private void StartFeatureCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
+            var featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
             if (string.IsNullOrEmpty(featureName)) return;
 
             /* 1. Switch to the develop branch
@@ -71,6 +71,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.DevelopBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"checkout -b {_options.FeatureBranch}/{featureName} {_options.DevelopBranch}", false),
@@ -80,9 +81,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartFeatureGitHubCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
+            var featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
             if (string.IsNullOrEmpty(featureName)) return;
 
             /* 1. Switch to the master branch
@@ -92,6 +93,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"checkout -b {_options.FeatureBranch}/{featureName} {_options.MasterBranch}", false),
@@ -101,9 +103,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishFeatureCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string featureName = _gitHelper.GetCurrentBranchName(true);
+            var featureName = _gitHelper.GetCurrentBranchName(true);
 
             /* 1. Switch to the develop branch
              * 2. Pull latest changes on develop
@@ -115,6 +117,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.DevelopBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {_options.FeatureBranch}/{featureName}") +
@@ -132,9 +135,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishFeatureGitHubCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string featureName = _gitHelper.GetCurrentBranchName(true);
+            var featureName = _gitHelper.GetCurrentBranchName(true);
 
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
@@ -146,6 +149,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {_options.FeatureBranch}/{featureName}") +
@@ -157,9 +161,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartReleaseCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string releaseVersion = Interaction.InputBox("Release Version:", "Start New Release");
+            var releaseVersion = Interaction.InputBox("Release Version:", "Start New Release");
             if (string.IsNullOrEmpty(releaseVersion)) return;
 
             /* 1. Switch to the develop branch
@@ -169,6 +173,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.DevelopBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"checkout -b {_options.ReleaseBranch}/{releaseVersion} {_options.DevelopBranch}", false),
@@ -178,9 +183,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishReleaseCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string releaseName = _gitHelper.GetCurrentBranchName(true);
+            var releaseName = _gitHelper.GetCurrentBranchName(true);
 
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
@@ -198,6 +203,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {_options.ReleaseBranch}/{releaseName}") +
@@ -216,9 +222,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartHotfixCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string hotfixVersion = Interaction.InputBox("Hotfix Version:", "Start New Hotfix");
+            var hotfixVersion = Interaction.InputBox("Hotfix Version:", "Start New Hotfix");
             if (string.IsNullOrEmpty(hotfixVersion)) return;
 
             /* 1. Switch to the master branch
@@ -228,6 +234,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"checkout -b {_options.HotfixBranch}/{hotfixVersion} {_options.MasterBranch}", false),
@@ -237,9 +244,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishHotfixCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
-            string hotfixName = _gitHelper.GetCurrentBranchName(true);
+            var hotfixName = _gitHelper.GetCurrentBranchName(true);
 
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
@@ -257,6 +264,7 @@ namespace SamirBoulema.TGit.Commands
             _processHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{solutionDir}\" && " +
+                    _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {_options.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {_options.HotfixBranch}/{hotfixName}") +
