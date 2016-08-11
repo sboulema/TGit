@@ -81,8 +81,8 @@ namespace SamirBoulema.TGit.Helpers
             _solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(_solutionDir)) return string.Empty;
 
-            string output = string.Empty;
-            string error = string.Empty;
+            var output = string.Empty;
+            var error = string.Empty;
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -159,19 +159,24 @@ namespace SamirBoulema.TGit.Helpers
             {
                 try
                 {
-                    var process = new Process();
-                    process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.RedirectStandardError = true;
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.CreateNoWindow = true;
-                    process.EnableRaisingEvents = true;
+                    var process = new Process
+                    {
+                        StartInfo =
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            FileName = application,
+                            Arguments = args,
+                            WorkingDirectory = _solutionDir
+                        },
+                        EnableRaisingEvents = true
+                    };
                     process.Exited += process_Exited;
                     process.OutputDataReceived += OutputDataHandler;
                     process.ErrorDataReceived += OutputDataHandler;
-                    process.StartInfo.FileName = application;
-                    process.StartInfo.Arguments = args;
-                    process.StartInfo.WorkingDirectory = _solutionDir;
 
                     _outputBox = new OutputBox(_dte);
 

@@ -104,9 +104,14 @@ namespace SamirBoulema.TGit.Helpers
             return branchName;
         }
 
-        public bool BranchExists(string branchName)
+        public bool IsGitFlow()
         {
-            return _processHelper.StartProcessGit($"rev-parse --verify origin/{branchName}", false);
+            return _processHelper.StartProcessGit("config --get gitflow.branch.master", false);
+        }
+
+        public bool IsGitHubFlow()
+        {
+            return !IsGitFlow();
         }
 
         public string GetSshSetup()
