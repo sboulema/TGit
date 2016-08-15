@@ -1,9 +1,6 @@
 ﻿using EnvDTE;
 using Microsoft.Win32;
-using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
-using Process = System.Diagnostics.Process;
 
 namespace SamirBoulema.TGit.Helpers
 {
@@ -116,6 +113,11 @@ namespace SamirBoulema.TGit.Helpers
         public bool IsReleaseBranch()
         {
             return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.release"));
+        }
+
+        public bool RemoteBranchExists(string branch)
+        {
+            return _processHelper.StartProcessGit($"show-ref refs/remotes/origin/{branch}");
         }
     }
 }

@@ -25,6 +25,12 @@ namespace SamirBoulema.TGit.Helpers
             _stopwatch = new Stopwatch();
         }
 
+        /// <summary>
+        /// Execute a Git command and return true if output is non-empty
+        /// </summary>
+        /// <param name="commands">Git command to be executed</param>
+        /// <param name="showAlert">Show an alert dialog when error output is non-empty</param>
+        /// <returns>True if output is non-empty</returns>
         public bool StartProcessGit(string commands, bool showAlert = true)
         {
             _solutionDir = _fileHelper.GetSolutionDir();
@@ -76,6 +82,11 @@ namespace SamirBoulema.TGit.Helpers
             }
         }
 
+        /// <summary>
+        /// Execute a Git command and return the output
+        /// </summary>
+        /// <param name="commands">Git command to be executed</param>
+        /// <returns>Git output</returns>
         public string StartProcessGitResult(string commands)
         {
             _solutionDir = _fileHelper.GetSolutionDir();

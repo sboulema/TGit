@@ -169,7 +169,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"merge --no-ff {featureBranch}") +
                     FormatCliCommand($"push origin {flowOptions.DevelopBranch}") + 
                     FormatCliCommand($"branch -d {featureBranch}") +
-                    FormatCliCommand($"push origin --delete {featureBranch}", false), 
+                    (_gitHelper.RemoteBranchExists(featureBranch) ? FormatCliCommand($"push origin --delete {featureBranch}", false) : "echo."),
                 $"Finishing feature {featureName}"
             );
         }
@@ -203,7 +203,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"merge --no-ff {featureBranch}") +
                     FormatCliCommand($"push origin {flowOptions.MasterBranch}") +
                     FormatCliCommand($"branch -d {featureBranch}") +
-                    FormatCliCommand($"push origin --delete {featureBranch}", false),
+                    (_gitHelper.RemoteBranchExists(featureBranch) ? FormatCliCommand($"push origin --delete {featureBranch}", false) : "echo."),
                 $"Finishing feature {featureName}");
         }
 
@@ -267,7 +267,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"push origin {flowOptions.MasterBranch}") +
                     FormatCliCommand($"push origin {releaseName}") +
                     FormatCliCommand($"branch -d {releaseBranch}") +
-                    FormatCliCommand($"push origin --delete {releaseBranch}", false),
+                    (_gitHelper.RemoteBranchExists(releaseBranch) ? FormatCliCommand($"push origin --delete {releaseBranch}", false) : "echo."),
                 $"Finishing release {releaseName}"
             );
         }
@@ -332,7 +332,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"push origin {flowOptions.MasterBranch}") +
                     FormatCliCommand($"push origin {hotfixName}") +
                     FormatCliCommand($"branch -d {hotfixBranch}") +
-                    FormatCliCommand($"push origin --delete {hotfixBranch}", false),
+                    (_gitHelper.RemoteBranchExists(hotfixBranch) ? FormatCliCommand($"push origin --delete {hotfixBranch}", false) : "echo."),
                 $"Finishing hotfix {hotfixName}"
             );
         }
