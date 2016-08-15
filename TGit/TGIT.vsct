@@ -105,38 +105,51 @@
       <!--GitFlow Buttons-->
       <Button guid="guidTGitCmdSet" id="startFeature" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Start New Feature</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishFeature" priority="0x0101" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Finish Feature</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="startRelease" priority="0x0133" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Start New Release</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishRelease" priority="0x0134" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Finish Release</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="startHotfix" priority="0x0135" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Start New Hotfix</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishHotfix" priority="0x0136" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Finish Hotfix</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="init" priority="0x0139" type="Button">
+        <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Init</ButtonText>
         </Strings>
       </Button>
 
@@ -424,6 +437,8 @@
       <IDSymbol name="finishRelease" value="0x0134" />
       <IDSymbol name="startHotfix" value="0x0135" />
       <IDSymbol name="finishHotfix" value="0x0136" />
+
+      <IDSymbol name="init" value="0x0139" />
       
       <!--GitHubFlow Menu-->
       <IDSymbol name="TGitGitHubFlowMenu" value="0x3000"/>

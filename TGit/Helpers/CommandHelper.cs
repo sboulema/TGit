@@ -6,24 +6,22 @@ namespace SamirBoulema.TGit.Helpers
 {
     public class CommandHelper
     {
-        private readonly ProcessHelper processHelper;
-        private readonly FileHelper fileHelper;
-        private readonly GitHelper gitHelper;
-        private readonly OleMenuCommandService mcs;
-        private readonly OptionFlowPageGrid options;
+        private readonly ProcessHelper _processHelper;
+        private readonly FileHelper _fileHelper;
+        private readonly GitHelper _gitHelper;
+        private readonly OleMenuCommandService _mcs;
 
-        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs, OptionFlowPageGrid options)
+        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs)
         {
-            this.processHelper = processHelper;
-            this.fileHelper = fileHelper;
-            this.gitHelper = gitHelper;
-            this.mcs = mcs;
-            this.options = options;
+            _processHelper = processHelper;
+            _fileHelper = fileHelper;
+            _gitHelper = gitHelper;
+            _mcs = mcs;
         }
 
         public void AddCommand(EventHandler handler, uint commandId)
         {
-            mcs.AddCommand(CreateCommand(handler, commandId));
+            _mcs.AddCommand(CreateCommand(handler, commandId));
         }
 
         public OleMenuCommand CreateCommand(EventHandler handler, uint commandId)
@@ -41,27 +39,30 @@ namespace SamirBoulema.TGit.Helpers
 
         public void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Enabled = processHelper.StartProcessGit("stash list");
+            ((OleMenuCommand)sender).Enabled = _processHelper.StartProcessGit("stash list");
         }
 
         private void Diff_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Enabled = processHelper.StartProcessGit("diff");
+            ((OleMenuCommand)sender).Enabled = _processHelper.StartProcessGit("diff");
         }
 
         public void Feature_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Enabled = gitHelper.GetCurrentBranchName(false).StartsWith(options.FeatureBranch);
+            ((OleMenuCommand)sender).Visible = _gitHelper.IsGitFlow();
+            ((OleMenuCommand)sender).Enabled = _gitHelper.IsFeatureBranch();
         }
 
         public void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Enabled = gitHelper.GetCurrentBranchName(false).StartsWith(options.HotfixBranch);
+            ((OleMenuCommand)sender).Visible = _gitHelper.IsGitFlow();
+            ((OleMenuCommand)sender).Enabled = _gitHelper.IsHotfixBranch();
         }
 
         public void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Enabled = gitHelper.GetCurrentBranchName(false).StartsWith(options.ReleaseBranch);
+            ((OleMenuCommand)sender).Visible = _gitHelper.IsGitFlow();
+            ((OleMenuCommand)sender).Enabled = _gitHelper.IsReleaseBranch();
         }
 
         private void Solution_BeforeQueryStatus(object sender, EventArgs e)
@@ -69,7 +70,7 @@ namespace SamirBoulema.TGit.Helpers
             var command = (OleMenuCommand)sender;
             command.Enabled = false;
 
-            if (!string.IsNullOrEmpty(fileHelper.GetSolutionDir()))
+            if (!string.IsNullOrEmpty(_fileHelper.GetSolutionDir()))
             {
                 command.Enabled = true;
             }
@@ -77,12 +78,12 @@ namespace SamirBoulema.TGit.Helpers
 
         public void GitFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Visible = gitHelper.BranchExists(options.MasterBranch) && gitHelper.BranchExists(options.DevelopBranch);
+            ((OleMenuCommand) sender).Visible = _gitHelper.IsGitFlow();
         }
 
         public void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Visible = gitHelper.BranchExists(options.MasterBranch) && !gitHelper.BranchExists(options.DevelopBranch);
+            ((OleMenuCommand) sender).Visible = _gitHelper.IsGitHubFlow();
         }
     }
 }

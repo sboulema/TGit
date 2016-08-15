@@ -54,5 +54,6 @@
 
         public const uint Resolve = 0x137;
         public const uint Sync = 0x138;
+        public const uint Init = 0x139;
     }
 }
