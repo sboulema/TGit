@@ -46,58 +46,24 @@ namespace SamirBoulema.TGit.Helpers
 
         public string GetCurrentBranchName(bool trimPrefix)
         {
-            var solutionDir = _fileHelper.GetSolutionDir();
             var flowOptions = GetFlowOptions();
+            var branchName = _processHelper.StartProcessGitResult("symbolic-ref -q --short HEAD");
 
-            if (string.IsNullOrEmpty(solutionDir))
+            if (branchName == null) return string.Empty;
+
+            if (branchName.StartsWith(flowOptions.FeaturePrefix) && trimPrefix)
             {
-                return string.Empty;
+                return branchName.Substring(flowOptions.FeaturePrefix.Length);
+            }
+            if (branchName.StartsWith(flowOptions.ReleasePrefix) && trimPrefix)
+            {
+                return branchName.Substring(flowOptions.ReleasePrefix.Length);
+            }
+            if (branchName.StartsWith(flowOptions.HotfixPrefix) && trimPrefix)
+            {
+                return branchName.Substring(flowOptions.HotfixPrefix.Length);
             }
 
-            var branchName = string.Empty;
-            var error = string.Empty;
-            var drive = Path.GetPathRoot(solutionDir).TrimEnd('\\');
-            var proc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c cd \"{solutionDir}\" && {drive} && \"{_fileHelper.GetMSysGit()}\" symbolic-ref -q --short HEAD",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            while (!proc.StandardOutput.EndOfStream)
-            {
-                branchName = proc.StandardOutput.ReadLine();
-            }
-            while (!proc.StandardError.EndOfStream)
-            {
-                error += proc.StandardError.ReadLine();
-            }
-            if (branchName != null)
-            {
-                if (branchName.StartsWith(flowOptions.FeaturePrefix) && trimPrefix)
-                {
-                    return branchName.Substring(flowOptions.FeaturePrefix.Length + 1);
-                }
-                if (branchName.StartsWith(flowOptions.ReleasePrefix) && trimPrefix)
-                {
-                    return branchName.Substring(flowOptions.ReleasePrefix.Length + 1);
-                }
-                if (branchName.StartsWith(flowOptions.HotfixPrefix) && trimPrefix)
-                {
-                    return branchName.Substring(flowOptions.HotfixPrefix.Length + 1);
-                }
-                return branchName;
-            }
-            if (!string.IsNullOrEmpty(error))
-            {
-                MessageBox.Show(error, "Unable to detect branch name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             return branchName;
         }
 

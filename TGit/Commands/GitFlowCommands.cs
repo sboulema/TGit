@@ -149,8 +149,8 @@ namespace SamirBoulema.TGit.Commands
         {
             var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
+            var featureBranch = _gitHelper.GetCurrentBranchName(false);
             var featureName = _gitHelper.GetCurrentBranchName(true);
-
             var flowOptions = _gitHelper.GetFlowOptions();
 
             /* 1. Switch to the develop branch
@@ -166,10 +166,10 @@ namespace SamirBoulema.TGit.Commands
                     _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {flowOptions.FeaturePrefix}{featureName}") +
+                    FormatCliCommand($"merge --no-ff {featureBranch}") +
                     FormatCliCommand($"push origin {flowOptions.DevelopBranch}") + 
-                    FormatCliCommand($"branch -d {flowOptions.FeaturePrefix}{featureName}") +
-                    FormatCliCommand($"push origin --delete {flowOptions.FeaturePrefix}{featureName}", false), 
+                    FormatCliCommand($"branch -d {featureBranch}") +
+                    FormatCliCommand($"push origin --delete {featureBranch}", false), 
                 $"Finishing feature {featureName}"
             );
         }
@@ -183,8 +183,8 @@ namespace SamirBoulema.TGit.Commands
         {
             var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
+            var featureBranch = _gitHelper.GetCurrentBranchName(false);
             var featureName = _gitHelper.GetCurrentBranchName(true);
-
             var flowOptions = _gitHelper.GetFlowOptions();
 
             /* 1. Switch to the master branch
@@ -200,10 +200,10 @@ namespace SamirBoulema.TGit.Commands
                     _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {flowOptions.MasterBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {flowOptions.FeaturePrefix}{featureName}") +
+                    FormatCliCommand($"merge --no-ff {featureBranch}") +
                     FormatCliCommand($"push origin {flowOptions.MasterBranch}") +
-                    FormatCliCommand($"branch -d {flowOptions.FeaturePrefix}{featureName}") +
-                    FormatCliCommand($"push origin --delete {flowOptions.FeaturePrefix}{featureName}", false),
+                    FormatCliCommand($"branch -d {featureBranch}") +
+                    FormatCliCommand($"push origin --delete {featureBranch}", false),
                 $"Finishing feature {featureName}");
         }
 
@@ -235,8 +235,8 @@ namespace SamirBoulema.TGit.Commands
         {
             var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
+            var releaseBranch = _gitHelper.GetCurrentBranchName(false);
             var releaseName = _gitHelper.GetCurrentBranchName(true);
-
             var flowOptions = _gitHelper.GetFlowOptions();
 
             /* 1. Switch to the master branch
@@ -258,16 +258,16 @@ namespace SamirBoulema.TGit.Commands
                     _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {flowOptions.MasterBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {flowOptions.ReleasePrefix}{releaseName}") +
+                    FormatCliCommand($"merge --no-ff {releaseBranch}") +
                     FormatCliCommand($"tag {releaseName}") +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {flowOptions.ReleasePrefix}{releaseName}") +
+                    FormatCliCommand($"merge --no-ff {releaseBranch}") +
                     FormatCliCommand($"push origin {flowOptions.DevelopBranch}") +
                     FormatCliCommand($"push origin {flowOptions.MasterBranch}") +
                     FormatCliCommand($"push origin {releaseName}") +
-                    FormatCliCommand($"branch -d {flowOptions.ReleasePrefix}{releaseName}") +
-                    FormatCliCommand($"push origin --delete {flowOptions.ReleasePrefix}{releaseName}", false),
+                    FormatCliCommand($"branch -d {releaseBranch}") +
+                    FormatCliCommand($"push origin --delete {releaseBranch}", false),
                 $"Finishing release {releaseName}"
             );
         }
@@ -300,8 +300,8 @@ namespace SamirBoulema.TGit.Commands
         {
             var solutionDir = _fileHelper.GetSolutionDir();
             if (string.IsNullOrEmpty(solutionDir)) return;
+            var hotfixBranch = _gitHelper.GetCurrentBranchName(false);
             var hotfixName = _gitHelper.GetCurrentBranchName(true);
-
             var flowOptions = _gitHelper.GetFlowOptions();
 
             /* 1. Switch to the master branch
@@ -323,16 +323,16 @@ namespace SamirBoulema.TGit.Commands
                     _gitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {flowOptions.MasterBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {flowOptions.HotfixPrefix}{hotfixName}") +
+                    FormatCliCommand($"merge --no-ff {hotfixBranch}") +
                     FormatCliCommand($"tag {hotfixName}") +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {flowOptions.HotfixPrefix}{hotfixName}") +
+                    FormatCliCommand($"merge --no-ff {hotfixBranch}") +
                     FormatCliCommand($"push origin {flowOptions.DevelopBranch}") +
                     FormatCliCommand($"push origin {flowOptions.MasterBranch}") +
                     FormatCliCommand($"push origin {hotfixName}") +
-                    FormatCliCommand($"branch -d {flowOptions.HotfixPrefix}{hotfixName}") +
-                    FormatCliCommand($"push origin --delete {flowOptions.HotfixPrefix}{hotfixName}", false),
+                    FormatCliCommand($"branch -d {hotfixBranch}") +
+                    FormatCliCommand($"push origin --delete {hotfixBranch}", false),
                 $"Finishing hotfix {hotfixName}"
             );
         }
