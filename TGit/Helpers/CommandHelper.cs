@@ -10,15 +10,13 @@ namespace SamirBoulema.TGit.Helpers
         private readonly FileHelper _fileHelper;
         private readonly GitHelper _gitHelper;
         private readonly OleMenuCommandService _mcs;
-        private readonly OptionFlowPageGrid _options;
 
-        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs, OptionFlowPageGrid options)
+        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs)
         {
             _processHelper = processHelper;
             _fileHelper = fileHelper;
             _gitHelper = gitHelper;
             _mcs = mcs;
-            _options = options;
         }
 
         public void AddCommand(EventHandler handler, uint commandId)
@@ -52,19 +50,19 @@ namespace SamirBoulema.TGit.Helpers
         public void Feature_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = _gitHelper.IsGitFlow();
-            ((OleMenuCommand)sender).Enabled = _gitHelper.GetCurrentBranchName(false).StartsWith(_options.FeaturePrefix);
+            ((OleMenuCommand)sender).Enabled = _gitHelper.IsFeatureBranch();
         }
 
         public void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = _gitHelper.IsGitFlow();
-            ((OleMenuCommand)sender).Enabled = _gitHelper.GetCurrentBranchName(false).StartsWith(_options.HotfixPrefix);
+            ((OleMenuCommand)sender).Enabled = _gitHelper.IsHotfixBranch();
         }
 
         public void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = _gitHelper.IsGitFlow();
-            ((OleMenuCommand)sender).Enabled = _gitHelper.GetCurrentBranchName(false).StartsWith(_options.ReleasePrefix);
+            ((OleMenuCommand)sender).Enabled = _gitHelper.IsReleaseBranch();
         }
 
         private void Solution_BeforeQueryStatus(object sender, EventArgs e)

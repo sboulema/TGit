@@ -11,15 +11,11 @@ namespace SamirBoulema.TGit.Helpers
     {
         private readonly FileHelper _fileHelper;
         private readonly ProcessHelper _processHelper;
-        private readonly string _featureBranch, _releaseBranch, _hotfixBranch;
 
-        public GitHelper(FileHelper fileHelper, ProcessHelper processHelper, string featureBranch, string releaseBranch, string hotfixBranch)
+        public GitHelper(FileHelper fileHelper, ProcessHelper processHelper)
         {
             _fileHelper = fileHelper;
             _processHelper = processHelper;
-            _featureBranch = featureBranch;
-            _releaseBranch = releaseBranch;
-            _hotfixBranch = hotfixBranch;
         }
 
         public string GetCommitMessage(string commitMessageTemplate, DTE dte)
@@ -51,6 +47,7 @@ namespace SamirBoulema.TGit.Helpers
         public string GetCurrentBranchName(bool trimPrefix)
         {
             var solutionDir = _fileHelper.GetSolutionDir();
+            var flowOptions = GetFlowOptions();
 
             if (string.IsNullOrEmpty(solutionDir))
             {
@@ -83,17 +80,17 @@ namespace SamirBoulema.TGit.Helpers
             }
             if (branchName != null)
             {
-                if (branchName.StartsWith(_featureBranch) && trimPrefix)
+                if (branchName.StartsWith(flowOptions.FeaturePrefix) && trimPrefix)
                 {
-                    return branchName.Substring(_featureBranch.Length + 1);
+                    return branchName.Substring(flowOptions.FeaturePrefix.Length + 1);
                 }
-                if (branchName.StartsWith(_releaseBranch) && trimPrefix)
+                if (branchName.StartsWith(flowOptions.ReleasePrefix) && trimPrefix)
                 {
-                    return branchName.Substring(_releaseBranch.Length + 1);
+                    return branchName.Substring(flowOptions.ReleasePrefix.Length + 1);
                 }
-                if (branchName.StartsWith(_hotfixBranch) && trimPrefix)
+                if (branchName.StartsWith(flowOptions.HotfixPrefix) && trimPrefix)
                 {
-                    return branchName.Substring(_hotfixBranch.Length + 1);
+                    return branchName.Substring(flowOptions.HotfixPrefix.Length + 1);
                 }
                 return branchName;
             }
@@ -121,6 +118,38 @@ namespace SamirBoulema.TGit.Helpers
 
             _processHelper.Start("pageant", remoteOriginPuttyKeyfile);
             return $"set GIT_SSH={_fileHelper.GetTortoiseGitPlink()} && ";
+        }
+
+        public FlowOptions GetFlowOptions()
+        {
+            return new FlowOptions
+            {
+                MasterBranch = _processHelper.StartProcessGitResult("config --get gitflow.branch.master"),
+                DevelopBranch = _processHelper.StartProcessGitResult("config --get gitflow.branch.develop"),
+                FeaturePrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.feature"),
+                ReleasePrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.release"),
+                HotfixPrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.hotfix")
+            };
+        }
+
+        public string GetOption(string option)
+        {
+            return _processHelper.StartProcessGitResult($"config --get {option}");
+        }
+
+        public bool IsFeatureBranch()
+        {
+            return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.feature"));
+        }
+
+        public bool IsHotfixBranch()
+        {
+            return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.hotfix"));
+        }
+
+        public bool IsReleaseBranch()
+        {
+            return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.release"));
         }
     }
 }

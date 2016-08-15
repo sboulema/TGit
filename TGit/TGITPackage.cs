@@ -14,7 +14,6 @@ namespace SamirBoulema.TGit
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
-    [ProvideOptionPage(typeof(OptionFlowPageGrid), "TGit", "Flow", 0, 0, true)]
     public sealed class TGitPackage : Package
     {
         private DTE _dte;     
@@ -31,25 +30,23 @@ namespace SamirBoulema.TGit
         {
             base.Initialize();
 
-            _dte = (DTE)GetService(typeof(DTE));
-            var flowOptions = (OptionFlowPageGrid)GetDialogPage(typeof(OptionFlowPageGrid));          
+            _dte = (DTE)GetService(typeof(DTE));        
             var generalOptions = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
             fileHelper = new FileHelper(_dte);
             processHelper = new ProcessHelper(_dte);
-            flowOptions.SetProcessHelper(processHelper);
-            gitHelper = new GitHelper(fileHelper, processHelper, flowOptions.FeaturePrefix, flowOptions.ReleasePrefix, flowOptions.HotfixPrefix);
+            gitHelper = new GitHelper(fileHelper, processHelper);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            commandHelper = new CommandHelper(processHelper, fileHelper, gitHelper, mcs, flowOptions);
+            commandHelper = new CommandHelper(processHelper, fileHelper, gitHelper, mcs);
 
             new MainMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, _dte, generalOptions, mcs).AddCommands();
 
             new ContextMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, _dte, generalOptions).AddCommands();
 
-            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, flowOptions, mcs).AddCommands();
+            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, mcs).AddCommands();
 
             // Add all menus
             var tgitMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
