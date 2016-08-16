@@ -7,16 +7,16 @@ namespace SamirBoulema.TGit.Helpers
     public class CommandHelper
     {
         private readonly ProcessHelper _processHelper;
-        private readonly FileHelper _fileHelper;
         private readonly GitHelper _gitHelper;
         private readonly OleMenuCommandService _mcs;
+        private readonly TGitPackage _package;
 
-        public CommandHelper(ProcessHelper processHelper, FileHelper fileHelper, GitHelper gitHelper, OleMenuCommandService mcs)
+        public CommandHelper(ProcessHelper processHelper, GitHelper gitHelper, OleMenuCommandService mcs, TGitPackage package)
         {
             _processHelper = processHelper;
-            _fileHelper = fileHelper;
             _gitHelper = gitHelper;
             _mcs = mcs;
+            _package = package;
         }
 
         public void AddCommand(EventHandler handler, uint commandId)
@@ -48,44 +48,41 @@ namespace SamirBoulema.TGit.Helpers
         }
 
         public void Feature_BeforeQueryStatus(object sender, EventArgs e)
-        {
-            var hasSolution = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir());
-            ((OleMenuCommand)sender).Visible = hasSolution && _gitHelper.IsGitFlow();
-            ((OleMenuCommand)sender).Enabled = hasSolution && _gitHelper.IsFeatureBranch();
+        {         
+            ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _gitHelper.IsFeatureBranch();
         }
 
         public void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
-            var hasSolution = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir());
-            ((OleMenuCommand)sender).Visible = hasSolution && _gitHelper.IsGitFlow();
-            ((OleMenuCommand)sender).Enabled = hasSolution && _gitHelper.IsHotfixBranch();
+            ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _gitHelper.IsHotfixBranch();
         }
 
         public void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
-            var hasSolution = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir());
-            ((OleMenuCommand)sender).Visible = hasSolution && _gitHelper.IsGitFlow();
-            ((OleMenuCommand)sender).Enabled = hasSolution && _gitHelper.IsReleaseBranch();
+            ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _gitHelper.IsReleaseBranch();
         }
 
         public void Solution_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Enabled = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir());
+            ((OleMenuCommand) sender).Enabled = _package.HasSolutionDir();
         }
 
         public void SolutionVisibility_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir());
+            ((OleMenuCommand) sender).Visible = _package.HasSolutionDir();
         }
 
         public void GitFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir()) && _gitHelper.IsGitFlow();
+            ((OleMenuCommand) sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
         }
 
         public void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = !string.IsNullOrEmpty(_fileHelper.GetSolutionDir()) && _gitHelper.IsGitHubFlow();
+            ((OleMenuCommand) sender).Visible = _package.HasSolutionDir() && !_package.IsGitFlow;
         }
     }
 }

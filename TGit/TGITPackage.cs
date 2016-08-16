@@ -23,6 +23,10 @@ namespace SamirBoulema.TGit
         private CommandHelper _commandHelper;
         private GitHelper _gitHelper;
 
+        private SolutionEvents _events;
+        public string SolutionDir;
+        public bool IsGitFlow;
+
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -37,11 +41,14 @@ namespace SamirBoulema.TGit
             _processHelper = new ProcessHelper(_dte);
             _gitHelper = new GitHelper(_fileHelper, _processHelper);
 
+            _events = _dte.Events.SolutionEvents;
+            _events.Opened += SolutionEvents_Opened;
+
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            _commandHelper = new CommandHelper(_processHelper, _fileHelper, _gitHelper, mcs);
+            _commandHelper = new CommandHelper(_processHelper, _gitHelper, mcs, this);
 
             new MainMenuCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, _dte, generalOptions, mcs).AddCommands();
 
@@ -74,6 +81,17 @@ namespace SamirBoulema.TGit
             var tgitGitHubFlowMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
             tgitGitHubFlowMenu.BeforeQueryStatus += _commandHelper.GitHubFlow_BeforeQueryStatus;
             mcs.AddCommand(tgitGitHubFlowMenu);
+        }
+
+        private void SolutionEvents_Opened()
+        {
+            SolutionDir = _fileHelper.GetSolutionDir();
+            IsGitFlow = _processHelper.StartProcessGit("config --get gitflow.branch.master", false);
+        }
+
+        public bool HasSolutionDir()
+        {
+            return !string.IsNullOrEmpty(SolutionDir);
         }
     }
 }
