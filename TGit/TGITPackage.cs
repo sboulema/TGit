@@ -14,13 +14,14 @@ namespace SamirBoulema.TGit
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
+    // ReSharper disable once InconsistentNaming
     public sealed class TGitPackage : Package
     {
         private DTE _dte;     
-        private FileHelper fileHelper;
-        private ProcessHelper processHelper;
-        private CommandHelper commandHelper;
-        private GitHelper gitHelper;
+        private FileHelper _fileHelper;
+        private ProcessHelper _processHelper;
+        private CommandHelper _commandHelper;
+        private GitHelper _gitHelper;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -32,25 +33,25 @@ namespace SamirBoulema.TGit
 
             _dte = (DTE)GetService(typeof(DTE));        
             var generalOptions = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-            fileHelper = new FileHelper(_dte);
-            processHelper = new ProcessHelper(_dte);
-            gitHelper = new GitHelper(fileHelper, processHelper);
+            _fileHelper = new FileHelper(_dte);
+            _processHelper = new ProcessHelper(_dte);
+            _gitHelper = new GitHelper(_fileHelper, _processHelper);
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            commandHelper = new CommandHelper(processHelper, fileHelper, gitHelper, mcs);
+            _commandHelper = new CommandHelper(_processHelper, _fileHelper, _gitHelper, mcs);
 
-            new MainMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, _dte, generalOptions, mcs).AddCommands();
+            new MainMenuCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, _dte, generalOptions, mcs).AddCommands();
 
-            new ContextMenuCommands(processHelper, commandHelper, gitHelper, fileHelper, _dte, generalOptions).AddCommands();
+            new ContextMenuCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, _dte, generalOptions).AddCommands();
 
-            new GitFlowCommands(processHelper, commandHelper, gitHelper, fileHelper, mcs).AddCommands();
+            new GitFlowCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, mcs).AddCommands();
 
             // Add all menus
-            var tgitMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
-            var tgitContextMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
+            var tgitMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
+            var tgitContextMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
             switch (_dte.Version)
             {
                 case "11.0":
@@ -66,12 +67,12 @@ namespace SamirBoulema.TGit
             mcs.AddCommand(tgitMenu);
             mcs.AddCommand(tgitContextMenu);
 
-            var tgitGitFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitFlowMenu);
-            //tgitGitFlowMenu.BeforeQueryStatus += commandHelper.GitFlow_BeforeQueryStatus;
+            var tgitGitFlowMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitGitFlowMenu);
+            tgitGitFlowMenu.BeforeQueryStatus += _commandHelper.SolutionVisibility_BeforeQueryStatus;
             mcs.AddCommand(tgitGitFlowMenu);
 
-            var tgitGitHubFlowMenu = commandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
-            tgitGitHubFlowMenu.BeforeQueryStatus += commandHelper.GitHubFlow_BeforeQueryStatus;
+            var tgitGitHubFlowMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
+            tgitGitHubFlowMenu.BeforeQueryStatus += _commandHelper.GitHubFlow_BeforeQueryStatus;
             mcs.AddCommand(tgitGitHubFlowMenu);
         }
     }
