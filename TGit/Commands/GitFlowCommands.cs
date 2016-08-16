@@ -90,8 +90,9 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"config --add gitflow.prefix.feature {flowDialog.FlowOptions.FeaturePrefix}") +
                     FormatCliCommand($"config --add gitflow.prefix.release {flowDialog.FlowOptions.ReleasePrefix}") +
                     FormatCliCommand($"config --add gitflow.prefix.hotfix {flowDialog.FlowOptions.HotfixPrefix}") +
-                    FormatCliCommand($"checkout -B {flowDialog.FlowOptions.DevelopBranch} {flowDialog.FlowOptions.MasterBranch}") +
-                    FormatCliCommand($"push -u origin {flowDialog.FlowOptions.DevelopBranch}", false),
+                    (_gitHelper.RemoteBranchExists(flowDialog.FlowOptions.DevelopBranch) ?
+                        "echo." : 
+                        FormatCliCommand($"checkout -b {flowDialog.FlowOptions.DevelopBranch}", false)),
                     "Initializing GitFlow"
                 );
             }
