@@ -7,14 +7,12 @@ namespace SamirBoulema.TGit.Helpers
     public class CommandHelper
     {
         private readonly ProcessHelper _processHelper;
-        private readonly GitHelper _gitHelper;
         private readonly OleMenuCommandService _mcs;
         private readonly TGitPackage _package;
 
-        public CommandHelper(ProcessHelper processHelper, GitHelper gitHelper, OleMenuCommandService mcs, TGitPackage package)
+        public CommandHelper(ProcessHelper processHelper, OleMenuCommandService mcs, TGitPackage package)
         {
             _processHelper = processHelper;
-            _gitHelper = gitHelper;
             _mcs = mcs;
             _package = package;
         }
@@ -50,19 +48,19 @@ namespace SamirBoulema.TGit.Helpers
         public void Feature_BeforeQueryStatus(object sender, EventArgs e)
         {         
             ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _gitHelper.IsFeatureBranch();
+            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _package.BranchName.StartsWith(_package.FlowOptions.FeaturePrefix);
         }
 
         public void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _gitHelper.IsHotfixBranch();
+            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _package.BranchName.StartsWith(_package.FlowOptions.HotfixPrefix);
         }
 
         public void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _gitHelper.IsReleaseBranch();
+            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _package.BranchName.StartsWith(_package.FlowOptions.ReleasePrefix);
         }
 
         public void Solution_BeforeQueryStatus(object sender, EventArgs e)

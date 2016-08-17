@@ -17,20 +17,11 @@ namespace SamirBoulema.TGit.Helpers
 
         public string GetCommitMessage(string commitMessageTemplate, DTE dte)
         {
-            //var projectDir = _dte.Solution.Projects.Item(1).FullName;
-            //var projectFileName = _dte.Solution.Projects.Item(1).FileName;
-
-            string commitMessage = commitMessageTemplate;
+            var commitMessage = commitMessageTemplate;
             commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false));
             commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentBranchName(true));
             commitMessage = commitMessage.Replace("$(Configuration)", dte.Solution.SolutionBuild.ActiveConfiguration?.Name);
-            //commitMessage = commitMessage.Replace("$(Platform)", (string)_dte.Solution.Projects.Item(1).ConfigurationManager.PlatformNames);
             commitMessage = commitMessage.Replace("$(DevEnvDir)", (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7\\", dte.Version, ""));
-            //commitMessage = commitMessage.Replace("$(ProjectDir)", Path.GetDirectoryName(_dte.Solution.Projects.Item(1).FullName));
-            //commitMessage = commitMessage.Replace("$(ProjectPath)", Path.GetFullPath(_dte.Solution.Projects.Item(1).FullName));
-            //commitMessage = commitMessage.Replace("$(ProjectName)", _dte.Solution.Projects.Item(1).FullName);
-            //commitMessage = commitMessage.Replace("$(ProjectFileName)", _dte.Solution.Projects.Item(1).FileName);
-            //commitMessage = commitMessage.Replace("$(ProjectExt)", Path.GetExtension(_dte.Solution.Projects.Item(1).FileName));
             commitMessage = commitMessage.Replace("$(SolutionDir)", Path.GetDirectoryName(dte.Solution.FullName));
             commitMessage = commitMessage.Replace("$(SolutionPath)", Path.GetFullPath(dte.Solution.FullName));
             commitMessage = commitMessage.Replace("$(SolutionName)", dte.Solution.FullName);
@@ -64,16 +55,6 @@ namespace SamirBoulema.TGit.Helpers
             return branchName;
         }
 
-        public bool IsGitFlow()
-        {
-            return _processHelper.StartProcessGit("config --get gitflow.branch.master", false);
-        }
-
-        public bool IsGitHubFlow()
-        {
-            return !IsGitFlow();
-        }
-
         public string GetSshSetup()
         {
             var remoteOriginPuttyKeyfile = _processHelper.StartProcessGitResult("config --get remote.origin.puttykeyfile");
@@ -93,26 +74,6 @@ namespace SamirBoulema.TGit.Helpers
                 ReleasePrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.release"),
                 HotfixPrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.hotfix")
             };
-        }
-
-        public string GetOption(string option)
-        {
-            return _processHelper.StartProcessGitResult($"config --get {option}");
-        }
-
-        public bool IsFeatureBranch()
-        {
-            return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.feature"));
-        }
-
-        public bool IsHotfixBranch()
-        {
-            return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.hotfix"));
-        }
-
-        public bool IsReleaseBranch()
-        {
-            return GetCurrentBranchName(false).StartsWith(GetOption("gitflow.prefix.release"));
         }
 
         public bool RemoteBranchExists(string branch)

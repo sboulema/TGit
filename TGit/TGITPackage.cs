@@ -24,8 +24,11 @@ namespace SamirBoulema.TGit
         private GitHelper _gitHelper;
 
         private SolutionEvents _events;
+        private WindowEvents _windowEvents;
         public string SolutionDir;
         public bool IsGitFlow;
+        public FlowOptions FlowOptions;
+        public string BranchName;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -43,12 +46,16 @@ namespace SamirBoulema.TGit
 
             _events = _dte.Events.SolutionEvents;
             _events.Opened += SolutionEvents_Opened;
+            _events.AfterClosing += _events_AfterClosing;
+
+            _windowEvents = _dte.Events.WindowEvents;
+            _windowEvents.WindowActivated += WindowEvents_WindowActivated;   
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            _commandHelper = new CommandHelper(_processHelper, _gitHelper, mcs, this);
+            _commandHelper = new CommandHelper(_processHelper, mcs, this);
 
             new MainMenuCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, _dte, generalOptions, mcs).AddCommands();
 
@@ -83,10 +90,24 @@ namespace SamirBoulema.TGit
             mcs.AddCommand(tgitGitHubFlowMenu);
         }
 
+        private void WindowEvents_WindowActivated(Window GotFocus, Window LostFocus)
+        {
+            SolutionEvents_Opened();
+        }
+
+        private void _events_AfterClosing()
+        {
+            SolutionDir = string.Empty;
+            BranchName = string.Empty;
+            IsGitFlow = false;
+        }
+
         private void SolutionEvents_Opened()
         {
             SolutionDir = _fileHelper.GetSolutionDir();
             IsGitFlow = _processHelper.StartProcessGit("config --get gitflow.branch.master", false);
+            FlowOptions = _gitHelper.GetFlowOptions();
+            BranchName = _gitHelper.GetCurrentBranchName(false);
         }
 
         public bool HasSolutionDir()

@@ -46,26 +46,26 @@ namespace SamirBoulema.TGit.Commands
 
         private void ShowLogContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:log /path:\"{currentFilePath}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void DiskBrowserContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _processHelper.Start(currentFilePath);
         }
         private void RepoBrowserContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _processHelper.StartTortoiseGitProc($"/command:repobrowser /path:\"{currentFilePath}\"");
         }
         private void BlameContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             int currentLineIndex = ((TextDocument)_dte.ActiveDocument.Object(string.Empty)).Selection.CurrentLine;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
@@ -73,42 +73,42 @@ namespace SamirBoulema.TGit.Commands
         }
         private void MergeContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:merge /path:\"{currentFilePath}\"");
         }
         private void PullContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:pull /path:\"{currentFilePath}\"");
         }
         private void FetchContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:fetch /path:\"{currentFilePath}\"");
         }
         private void CommitContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:commit /path:\"{currentFilePath}\" /logmsg:\"{_gitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte)}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void RevertContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:revert /path:\"{currentFilePath}\"");
         }
         private void DiffContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
             _processHelper.StartTortoiseGitProc($"/command:diff /path:\"{currentFilePath}\"");
@@ -116,7 +116,7 @@ namespace SamirBoulema.TGit.Commands
 
         private void PrefDiffContextCommand(object sender, EventArgs e)
         {
-            string currentFilePath = _dte.ActiveDocument.FullName;
+            var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
 
