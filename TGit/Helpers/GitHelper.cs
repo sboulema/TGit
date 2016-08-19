@@ -6,12 +6,10 @@ namespace SamirBoulema.TGit.Helpers
 {
     public class GitHelper
     {
-        private readonly FileHelper _fileHelper;
         private readonly ProcessHelper _processHelper;
 
-        public GitHelper(FileHelper fileHelper, ProcessHelper processHelper)
+        public GitHelper(ProcessHelper processHelper)
         {
-            _fileHelper = fileHelper;
             _processHelper = processHelper;
         }
 
@@ -61,7 +59,7 @@ namespace SamirBoulema.TGit.Helpers
             if (string.IsNullOrEmpty(remoteOriginPuttyKeyfile)) return string.Empty;
 
             _processHelper.Start("pageant", remoteOriginPuttyKeyfile);
-            return $"set GIT_SSH={_fileHelper.GetTortoiseGitPlink()} && ";
+            return $"set GIT_SSH={FileHelper.GetTortoiseGitPlink()} && ";
         }
 
         public FlowOptions GetFlowOptions()

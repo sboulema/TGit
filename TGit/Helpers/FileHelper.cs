@@ -7,39 +7,32 @@ using System.Windows.Forms;
 
 namespace SamirBoulema.TGit.Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
-        private readonly DTE _dte;
-
-        public FileHelper(DTE dte)
-        {
-            _dte = dte;
-        }
-
-        public string GetTortoiseGitProc()
+        public static string GetTortoiseGitProc()
         {
             return (string) Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe");
         }
 
-        public string GetTortoiseGitPlink()
+        public static string GetTortoiseGitPlink()
         {
             return (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitPlink.exe");
         }
 
-        public string GetMSysGit()
+        public static string GetMSysGit()
         {
             var regPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\TortoiseGit", "MSysGit", @"C:\Program Files (x86)\Git\bin\git.exe");
             return Path.Combine(regPath, "git.exe");
         }
 
-        public void SaveAllFiles()
+        public static void SaveAllFiles(DTE dte)
         {
-            _dte.ExecuteCommand("File.SaveAll");
+            dte.ExecuteCommand("File.SaveAll");
         }
 
-        public string GetSolutionDir()
+        public static string GetSolutionDir(DTE dte)
         {
-            string fileName = _dte.Solution.FullName;
+            string fileName = dte.Solution.FullName;
             if (!string.IsNullOrEmpty(fileName))
             {
                 var path = Path.GetDirectoryName(fileName);
@@ -73,7 +66,7 @@ namespace SamirBoulema.TGit.Helpers
         /// Get case sensitive path.
         /// http://stackoverflow.com/questions/325931/getting-actual-file-name-with-proper-casing-on-windows-with-net
         /// </summary>
-        public string GetExactFileName(string pathName)
+        public static string GetExactFileName(string pathName)
         {
             if (!(File.Exists(pathName) || Directory.Exists(pathName)))
                 return pathName;
@@ -87,7 +80,7 @@ namespace SamirBoulema.TGit.Helpers
             return di.Name.ToUpper();
         }
 
-        public string GetExactPathName(string pathName)
+        public static string GetExactPathName(string pathName)
         {
             if (!(File.Exists(pathName) || Directory.Exists(pathName)))
                 return pathName;

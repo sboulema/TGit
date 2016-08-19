@@ -26,5 +26,15 @@ namespace SamirBoulema.TGit
         [DisplayName(@"Close dialog after operation")]
         [Description("0: Close manually, 1: Auto-close if no further options are available, 2: Auto-close if no errors")]
         public int CloseOnEnd { get; set; }
+
+        [Category("TGit")]
+        [DisplayName(@"Delete local branch")]
+        [Description("When finishing a feature delete the local branch by default")]
+        public bool DeleteLocalBranch { get; set; }
+
+        [Category("TGit")]
+        [DisplayName(@"Delete remote branch")]
+        [Description("When finishing a feature delete the remote branch by default")]
+        public bool DeleteRemoteBranch { get; set; }
     }
 }

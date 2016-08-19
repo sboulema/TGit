@@ -10,18 +10,16 @@ namespace SamirBoulema.TGit.Commands
     {
         private readonly ProcessHelper _processHelper;
         private readonly CommandHelper _commandHelper;
-        private readonly FileHelper _fileHelper;
         private readonly GitHelper _gitHelper;
         private readonly DTE _dte;
         private readonly OptionPageGrid _generalOptions;
 
-        public ContextMenuCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, FileHelper fileHelper, 
+        public ContextMenuCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, 
             DTE dte, OptionPageGrid generalOptions)
         {
             _processHelper = processHelper;
             _commandHelper = commandHelper;
             _gitHelper = gitHelper;
-            _fileHelper = fileHelper;
             _dte = dte;
             _generalOptions = generalOptions;
         }
@@ -120,14 +118,14 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
 
-            var revisions = _processHelper.GitResult(Path.GetDirectoryName(currentFilePath), $"log -2 --pretty=format:%h {_fileHelper.GetExactFileName(currentFilePath)}");
+            var revisions = _processHelper.GitResult(Path.GetDirectoryName(currentFilePath), $"log -2 --pretty=format:%h {FileHelper.GetExactFileName(currentFilePath)}");
             if (!revisions.Contains(","))
             {
                 MessageBox.Show("Could not determine the last committed revision!", "TGit", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                _processHelper.StartTortoiseGitProc($"/command:diff /path:\"{_fileHelper.GetExactPathName(currentFilePath)}\" /startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}");
+                _processHelper.StartTortoiseGitProc($"/command:diff /path:\"{FileHelper.GetExactPathName(currentFilePath)}\" /startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}");
             }
         }
     }

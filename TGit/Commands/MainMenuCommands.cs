@@ -9,19 +9,17 @@ namespace SamirBoulema.TGit.Commands
     {
         private readonly ProcessHelper _processHelper;
         private readonly CommandHelper _commandHelper;
-        private readonly FileHelper _fileHelper;
         private readonly GitHelper _gitHelper;
         private readonly DTE _dte;
         private readonly OptionPageGrid _generalOptions;
         private readonly OleMenuCommandService _mcs;
 
-        public MainMenuCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, FileHelper fileHelper,
+        public MainMenuCommands(ProcessHelper processHelper, CommandHelper commandHelper, GitHelper gitHelper, 
             DTE dte, OptionPageGrid generalOptions, OleMenuCommandService mcs)
         {
             _processHelper = processHelper;
             _commandHelper = commandHelper;
             _gitHelper = gitHelper;
-            _fileHelper = fileHelper;
             _dte = dte;
             _generalOptions = generalOptions;
             _mcs = mcs;
@@ -59,116 +57,116 @@ namespace SamirBoulema.TGit.Commands
 
         private void ShowChangesCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:repostatus /path:\"{solutionDir}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void PullCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:pull /path:\"{solutionDir}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void FetchCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:fetch /path:\"{solutionDir}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void CommitCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc(
                 $"/command:commit /path:\"{solutionDir}\" /logmsg:\"{_gitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte)}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void PushCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.StartTortoiseGitProc($"/command:push /path:\"{solutionDir}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void ShowLogCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.StartTortoiseGitProc($"/command:log /path:\"{solutionDir}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void DiskBrowserCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.Start(solutionDir);
         }
         private void RepoBrowserCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.StartTortoiseGitProc($"/command:repobrowser /path:\"{solutionDir}\"");
         }
         private void CreateStashCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:stashsave /path:\"{solutionDir}\"");
         }
         private void ApplyStashCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:reflog /ref:refs/stash /path:\"{solutionDir}\"");
         }
         private void BranchCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:branch /path:\"{solutionDir}\"");
         }
         private void SwitchCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:switch /path:\"{solutionDir}\"");
         }
         private void MergeCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:merge /path:\"{solutionDir}\"");
         }
         private void RevertCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
-            _fileHelper.SaveAllFiles();
+            FileHelper.SaveAllFiles(_dte);
             _processHelper.StartTortoiseGitProc($"/command:revert /path:\"{solutionDir}\"");
         }
         private void CleanupCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.StartTortoiseGitProc($"/command:cleanup /path:\"{solutionDir}\"");
         }
 
         private void ResolveCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.StartTortoiseGitProc($"/command:resolve /path:\"{solutionDir}\"");
         }
 
         private void SyncCommand(object sender, EventArgs e)
         {
-            string solutionDir = _fileHelper.GetSolutionDir();
+            string solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(solutionDir)) return;
             _processHelper.StartTortoiseGitProc($"/command:sync /path:\"{solutionDir}\"");
         }

@@ -38,6 +38,9 @@ namespace SamirBoulema.TGit.Helpers
         public void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Enabled = _processHelper.StartProcessGit("stash list");
+
+            // Update all settings once the TGit menu opens
+            _package.SolutionEvents_Opened();
         }
 
         private void Diff_BeforeQueryStatus(object sender, EventArgs e)

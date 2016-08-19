@@ -9,19 +9,17 @@ namespace SamirBoulema.TGit.Helpers
 {
     public class ProcessHelper
     {
-        private readonly FileHelper _fileHelper;
-        private string _solutionDir;
-        private readonly string _tortoiseGitProc, _git;
         private readonly DTE _dte;
+        private string _solutionDir;
+        private readonly string _tortoiseGitProc, _git;     
         private OutputBox _outputBox;
         private readonly Stopwatch _stopwatch;
 
         public ProcessHelper(DTE dte)
         {
             _dte = dte;
-            _fileHelper = new FileHelper(dte);
-            _tortoiseGitProc = _fileHelper.GetTortoiseGitProc();
-            _git = _fileHelper.GetMSysGit();
+            _tortoiseGitProc = FileHelper.GetTortoiseGitProc();
+            _git = FileHelper.GetMSysGit();
             _stopwatch = new Stopwatch();
         }
 
@@ -33,7 +31,7 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns>True if output is non-empty</returns>
         public bool StartProcessGit(string commands, bool showAlert = true)
         {
-            _solutionDir = _fileHelper.GetSolutionDir();
+            _solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(_solutionDir)) return false;
 
             var output = string.Empty;
@@ -89,7 +87,7 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns>Git output</returns>
         public string StartProcessGitResult(string commands)
         {
-            _solutionDir = _fileHelper.GetSolutionDir();
+            _solutionDir = FileHelper.GetSolutionDir(_dte);
             if (string.IsNullOrEmpty(_solutionDir)) return string.Empty;
 
             var output = string.Empty;
@@ -158,7 +156,8 @@ namespace SamirBoulema.TGit.Helpers
             Process.Start(application, arguments);
         }
 
-        public void StartProcessGui(string application, string args, string title)
+        public Process StartProcessGui(string application, string args, string title, string branchName = "", 
+            OutputBox outputBox = null, OptionPageGrid options = null)
         {
             var dialogResult = DialogResult.OK;
             if (!StartProcessGit("config user.name") || !StartProcessGit("config user.email"))
@@ -189,7 +188,15 @@ namespace SamirBoulema.TGit.Helpers
                     process.OutputDataReceived += OutputDataHandler;
                     process.ErrorDataReceived += OutputDataHandler;
 
-                    _outputBox = new OutputBox(_dte);
+                    if (outputBox == null)
+                    {
+                        _outputBox = new OutputBox(_dte, branchName, options);
+                        _outputBox.Show();
+                    }
+                    else
+                    {
+                        _outputBox = outputBox;
+                    }                    
 
                     _stopwatch.Reset();
                     _stopwatch.Start();
@@ -199,12 +206,16 @@ namespace SamirBoulema.TGit.Helpers
 
                     _outputBox.Text = title;
                     _outputBox.Show();
+
+                    return process;
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message, $"{application} not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            return null;
         }
 
         private void OutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
@@ -215,9 +226,18 @@ namespace SamirBoulema.TGit.Helpers
 
             var text = outLine.Data + Environment.NewLine;
 
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.AppendText(text, text.StartsWith(">"))));
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.Select(_outputBox.richTextBox.TextLength - text.Length + 1, 0)));
-            _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.ScrollToCaret()));
+            if (_outputBox.InvokeRequired)
+            {
+                _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.AppendText(text, text.StartsWith(">"))));
+                _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.Select(_outputBox.richTextBox.TextLength - text.Length + 1, 0)));
+                _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.ScrollToCaret()));
+            }
+            else
+            {
+                _outputBox.richTextBox.AppendText(text, text.StartsWith(">"));
+                _outputBox.richTextBox.Select(_outputBox.richTextBox.TextLength - text.Length + 1, 0);
+                _outputBox.richTextBox.ScrollToCaret();
+            }
         }
 
         private void process_Exited(object sender, EventArgs e)

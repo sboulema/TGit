@@ -17,14 +17,12 @@ namespace SamirBoulema.TGit
     // ReSharper disable once InconsistentNaming
     public sealed class TGitPackage : Package
     {
-        private DTE _dte;     
-        private FileHelper _fileHelper;
+        private DTE _dte;
         private ProcessHelper _processHelper;
         private CommandHelper _commandHelper;
         private GitHelper _gitHelper;
 
         private SolutionEvents _events;
-        private WindowEvents _windowEvents;
         public string SolutionDir;
         public bool IsGitFlow;
         public FlowOptions FlowOptions;
@@ -39,17 +37,13 @@ namespace SamirBoulema.TGit
             base.Initialize();
 
             _dte = (DTE)GetService(typeof(DTE));        
-            var generalOptions = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-            _fileHelper = new FileHelper(_dte);
+            var options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
             _processHelper = new ProcessHelper(_dte);
-            _gitHelper = new GitHelper(_fileHelper, _processHelper);
+            _gitHelper = new GitHelper(_processHelper);
 
             _events = _dte.Events.SolutionEvents;
             _events.Opened += SolutionEvents_Opened;
             _events.AfterClosing += _events_AfterClosing;
-
-            _windowEvents = _dte.Events.WindowEvents;
-            _windowEvents.WindowActivated += WindowEvents_WindowActivated;   
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -57,11 +51,11 @@ namespace SamirBoulema.TGit
 
             _commandHelper = new CommandHelper(_processHelper, mcs, this);
 
-            new MainMenuCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, _dte, generalOptions, mcs).AddCommands();
+            new MainMenuCommands(_processHelper, _commandHelper, _gitHelper, _dte, options, mcs).AddCommands();
 
-            new ContextMenuCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, _dte, generalOptions).AddCommands();
+            new ContextMenuCommands(_processHelper, _commandHelper, _gitHelper, _dte, options).AddCommands();
 
-            new GitFlowCommands(_processHelper, _commandHelper, _gitHelper, _fileHelper, mcs).AddCommands();
+            new GitFlowCommands(_processHelper, _commandHelper, _gitHelper, mcs, _dte, options).AddCommands();
 
             // Add all menus
             var tgitMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
@@ -90,11 +84,6 @@ namespace SamirBoulema.TGit
             mcs.AddCommand(tgitGitHubFlowMenu);
         }
 
-        private void WindowEvents_WindowActivated(Window GotFocus, Window LostFocus)
-        {
-            SolutionEvents_Opened();
-        }
-
         private void _events_AfterClosing()
         {
             SolutionDir = string.Empty;
@@ -102,9 +91,9 @@ namespace SamirBoulema.TGit
             IsGitFlow = false;
         }
 
-        private void SolutionEvents_Opened()
+        public void SolutionEvents_Opened()
         {
-            SolutionDir = _fileHelper.GetSolutionDir();
+            SolutionDir = FileHelper.GetSolutionDir(_dte);
             IsGitFlow = _processHelper.StartProcessGit("config --get gitflow.branch.master", false);
             FlowOptions = _gitHelper.GetFlowOptions();
             BranchName = _gitHelper.GetCurrentBranchName(false);
