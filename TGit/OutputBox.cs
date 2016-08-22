@@ -55,12 +55,7 @@ namespace SamirBoulema.TGit
                      string.Empty, this
                  );
                 process.WaitForExit();
-                if (process.ExitCode == 0)
-                {
-                    Close();
-                    richTextBox.Clear();
-                    okButton.Enabled = false;
-                }
+                okButton.Click += OkButton_Click_Close;
             }
             else
             {
@@ -68,6 +63,13 @@ namespace SamirBoulema.TGit
                 richTextBox.Clear();
                 okButton.Enabled = false;
             }         
+        }
+
+        private void OkButton_Click_Close(object sender, EventArgs e)
+        {
+            Close();
+            richTextBox.Clear();
+            okButton.Enabled = false;
         }
 
         private static string FormatCliCommand(string gitCommand, bool appendNextLine = true)
