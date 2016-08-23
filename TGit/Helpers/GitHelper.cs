@@ -4,16 +4,9 @@ using System.IO;
 
 namespace SamirBoulema.TGit.Helpers
 {
-    public class GitHelper
+    public static class GitHelper
     {
-        private readonly ProcessHelper _processHelper;
-
-        public GitHelper(ProcessHelper processHelper)
-        {
-            _processHelper = processHelper;
-        }
-
-        public string GetCommitMessage(string commitMessageTemplate, DTE dte)
+        public static string GetCommitMessage(string commitMessageTemplate, DTE dte)
         {
             var commitMessage = commitMessageTemplate;
             commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false));
@@ -30,53 +23,45 @@ namespace SamirBoulema.TGit.Helpers
             return commitMessage;
         }
 
-        public string GetCurrentBranchName(bool trimPrefix)
+        public static string GetCurrentBranchName(bool trimPrefix)
         {
-            var flowOptions = GetFlowOptions();
-            var branchName = _processHelper.StartProcessGitResult("symbolic-ref -q --short HEAD");
+            var branchName = ProcessHelper.StartProcessGitResult("symbolic-ref -q --short HEAD");
 
             if (branchName == null) return string.Empty;
 
-            if (branchName.StartsWith(flowOptions.FeaturePrefix) && trimPrefix)
+            if (branchName.StartsWith(EnvHelper.FlowOptions.FeaturePrefix) && trimPrefix)
             {
-                return branchName.Substring(flowOptions.FeaturePrefix.Length);
+                return branchName.Substring(EnvHelper.FlowOptions.FeaturePrefix.Length);
             }
-            if (branchName.StartsWith(flowOptions.ReleasePrefix) && trimPrefix)
+            if (branchName.StartsWith(EnvHelper.FlowOptions.ReleasePrefix) && trimPrefix)
             {
-                return branchName.Substring(flowOptions.ReleasePrefix.Length);
+                return branchName.Substring(EnvHelper.FlowOptions.ReleasePrefix.Length);
             }
-            if (branchName.StartsWith(flowOptions.HotfixPrefix) && trimPrefix)
+            if (branchName.StartsWith(EnvHelper.FlowOptions.HotfixPrefix) && trimPrefix)
             {
-                return branchName.Substring(flowOptions.HotfixPrefix.Length);
+                return branchName.Substring(EnvHelper.FlowOptions.HotfixPrefix.Length);
             }
 
             return branchName;
         }
 
-        public string GetSshSetup()
+        public static string GetSshSetup()
         {
-            var remoteOriginPuttyKeyfile = _processHelper.StartProcessGitResult("config --get remote.origin.puttykeyfile");
+            var remoteOriginPuttyKeyfile = ProcessHelper.StartProcessGitResult("config --get remote.origin.puttykeyfile");
             if (string.IsNullOrEmpty(remoteOriginPuttyKeyfile)) return string.Empty;
 
-            _processHelper.Start("pageant", remoteOriginPuttyKeyfile);
+            ProcessHelper.Start("pageant", remoteOriginPuttyKeyfile);
             return $"set GIT_SSH={FileHelper.GetTortoiseGitPlink()} && ";
         }
 
-        public FlowOptions GetFlowOptions()
+        public static FlowOptions GetFlowOptions()
         {
-            return new FlowOptions
-            {
-                MasterBranch = _processHelper.StartProcessGitResult("config --get gitflow.branch.master"),
-                DevelopBranch = _processHelper.StartProcessGitResult("config --get gitflow.branch.develop"),
-                FeaturePrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.feature"),
-                ReleasePrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.release"),
-                HotfixPrefix = _processHelper.StartProcessGitResult("config --get gitflow.prefix.hotfix")
-            };
+            return new FlowOptions(ProcessHelper.StartProcessGitResult("config --get-regexp gitflow"));
         }
 
-        public bool RemoteBranchExists(string branch)
+        public static bool RemoteBranchExists(string branch)
         {
-            return _processHelper.StartProcessGit($"show-ref refs/remotes/origin/{branch}");
+            return ProcessHelper.StartProcessGit($"show-ref refs/remotes/origin/{branch}");
         }
     }
 }

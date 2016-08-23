@@ -169,7 +169,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\GitFlowCommands.cs" />
+    <Compile Include="Commands\GitFlowMenuCommands.cs" />
     <Compile Include="Commands\MainMenuCommands.cs" />
     <Compile Include="Commands\ContextMenuCommands.cs" />
     <Compile Include="Flow.cs">
@@ -190,6 +190,7 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\GitHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
+    <Compile Include="Helpers\EnvHelper.cs" />
     <Compile Include="OptionsGeneral.cs">
       <SubType>Component</SubType>
     </Compile>

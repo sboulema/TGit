@@ -18,15 +18,8 @@ namespace SamirBoulema.TGit
     public sealed class TGitPackage : Package
     {
         private DTE _dte;
-        private ProcessHelper _processHelper;
         private CommandHelper _commandHelper;
-        private GitHelper _gitHelper;
-
         private SolutionEvents _events;
-        public string SolutionDir;
-        public bool IsGitFlow;
-        public FlowOptions FlowOptions;
-        public string BranchName;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -38,24 +31,22 @@ namespace SamirBoulema.TGit
 
             _dte = (DTE)GetService(typeof(DTE));        
             var options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-            _processHelper = new ProcessHelper(_dte);
-            _gitHelper = new GitHelper(_processHelper);
 
             _events = _dte.Events.SolutionEvents;
             _events.Opened += SolutionEvents_Opened;
-            _events.AfterClosing += _events_AfterClosing;
+            _events.AfterClosing += SolutionEvents_AfterClosing;
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null == mcs) return;
 
-            _commandHelper = new CommandHelper(_processHelper, mcs, this);
+            _commandHelper = new CommandHelper(mcs);
 
-            new MainMenuCommands(_processHelper, _commandHelper, _gitHelper, _dte, options, mcs).AddCommands();
+            new MainMenuCommands(_commandHelper, _dte, options).AddCommands();
 
-            new ContextMenuCommands(_processHelper, _commandHelper, _gitHelper, _dte, options).AddCommands();
+            new ContextMenuCommands(_commandHelper, _dte, options).AddCommands();
 
-            new GitFlowCommands(_processHelper, _commandHelper, _gitHelper, mcs, _dte, options).AddCommands();
+            new GitFlowMenuCommands(_commandHelper, options).AddCommands();
 
             // Add all menus
             var tgitMenu = _commandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
@@ -84,24 +75,19 @@ namespace SamirBoulema.TGit
             mcs.AddCommand(tgitGitHubFlowMenu);
         }
 
-        private void _events_AfterClosing()
+        private static void SolutionEvents_AfterClosing()
         {
-            SolutionDir = string.Empty;
-            BranchName = string.Empty;
-            IsGitFlow = false;
+            EnvHelper.Clear();
         }
 
         public void SolutionEvents_Opened()
         {
-            SolutionDir = FileHelper.GetSolutionDir(_dte);
-            IsGitFlow = _processHelper.StartProcessGit("config --get gitflow.branch.master", false);
-            FlowOptions = _gitHelper.GetFlowOptions();
-            BranchName = _gitHelper.GetCurrentBranchName(false);
-        }
-
-        public bool HasSolutionDir()
-        {
-            return !string.IsNullOrEmpty(SolutionDir);
-        }
+            EnvHelper.GetTortoiseGitProc();
+            EnvHelper.GetGit();
+            EnvHelper.GetSolutionDir(_dte);
+            EnvHelper.GetFlowOptions();
+            EnvHelper.GetBranchName();
+            EnvHelper.GetStash();
+        }     
     }
 }

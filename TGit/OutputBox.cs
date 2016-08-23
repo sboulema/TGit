@@ -9,17 +9,11 @@ namespace SamirBoulema.TGit
 {
     public sealed partial class OutputBox : Form
     {
-        private readonly DTE _dte;
-        private readonly ProcessHelper _processHelper;
-        private readonly GitHelper _gitHelper;
         private readonly string _branchName;
 
-        public OutputBox(DTE dte, string branchName, OptionPageGrid options)
+        public OutputBox(string branchName, OptionPageGrid options)
         {
             InitializeComponent();
-            _dte = dte;
-            _processHelper = new ProcessHelper(dte);
-            _gitHelper = new GitHelper(_processHelper);
             _branchName = branchName;
 
             richTextBox.TextChanged += textBox_TextChanged;
@@ -31,7 +25,7 @@ namespace SamirBoulema.TGit
             }
             else
             {
-                remoteBranchCheckBox.Enabled = new GitHelper(_processHelper).RemoteBranchExists(branchName);
+                remoteBranchCheckBox.Enabled = GitHelper.RemoteBranchExists(branchName);
             }
 
             if (options != null)
@@ -45,14 +39,13 @@ namespace SamirBoulema.TGit
         {
             if (localBranchCheckBox.Checked || remoteBranchCheckBox.Checked)
             {
-                var process = _processHelper.StartProcessGui(
+                var process = ProcessHelper.StartProcessGui(
                      "cmd.exe",
-                     $"/c cd \"{FileHelper.GetSolutionDir(_dte)}\" && " +
-                         _gitHelper.GetSshSetup() +
+                     $"/c cd \"{EnvHelper.SolutionDir}\" && " +
+                         GitHelper.GetSshSetup() +
                          FormatCliCommand($"branch -d {_branchName}") +
                          (remoteBranchCheckBox.Checked ? FormatCliCommand($"push origin --delete {_branchName}", false) : "echo."),
-                     "Deleting branches...",
-                     string.Empty, this
+                     "Deleting branches...", string.Empty, this
                  );
                 process.WaitForExit();
                 okButton.Click += OkButton_Click_Close;
@@ -80,17 +73,15 @@ namespace SamirBoulema.TGit
         private void ResolveButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            var solutionDir = FileHelper.GetSolutionDir(_dte);
-            if (string.IsNullOrEmpty(solutionDir)) return;
-            _processHelper.StartTortoiseGitProc($"/command:resolve /path:\"{solutionDir}\"");
+            if (string.IsNullOrEmpty(EnvHelper.SolutionDir)) return;
+            ProcessHelper.StartTortoiseGitProc($"/command:resolve /path:\"{EnvHelper.SolutionDir}\"");
         }
 
         private void StashButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            var solutionDir = FileHelper.GetSolutionDir(_dte);
-            if (string.IsNullOrEmpty(solutionDir)) return;
-            _processHelper.StartTortoiseGitProc($"/command:repostatus /path:\"{solutionDir}\"");
+            if (string.IsNullOrEmpty(EnvHelper.SolutionDir)) return;
+            ProcessHelper.StartTortoiseGitProc($"/command:repostatus /path:\"{EnvHelper.SolutionDir}\"");
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)

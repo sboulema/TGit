@@ -6,20 +6,21 @@ namespace SamirBoulema.TGit.Helpers
 {
     public class CommandHelper
     {
-        private readonly ProcessHelper _processHelper;
         private readonly OleMenuCommandService _mcs;
-        private readonly TGitPackage _package;
 
-        public CommandHelper(ProcessHelper processHelper, OleMenuCommandService mcs, TGitPackage package)
+        public CommandHelper(OleMenuCommandService mcs)
         {
-            _processHelper = processHelper;
             _mcs = mcs;
-            _package = package;
         }
 
         public void AddCommand(EventHandler handler, uint commandId)
         {
             _mcs.AddCommand(CreateCommand(handler, commandId));
+        }
+
+        public void AddCommand(MenuCommand command)
+        {
+            _mcs.AddCommand(command);
         }
 
         public OleMenuCommand CreateCommand(EventHandler handler, uint commandId)
@@ -37,53 +38,45 @@ namespace SamirBoulema.TGit.Helpers
 
         public void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Enabled = _processHelper.StartProcessGit("stash list");
-
-            // Update all settings once the TGit menu opens
-            _package.SolutionEvents_Opened();
-        }
-
-        private void Diff_BeforeQueryStatus(object sender, EventArgs e)
-        {
-            ((OleMenuCommand)sender).Enabled = _processHelper.StartProcessGit("diff");
+            ((OleMenuCommand) sender).Enabled = EnvHelper.HasStash;
         }
 
         public void Feature_BeforeQueryStatus(object sender, EventArgs e)
-        {         
-            ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _package.BranchName.StartsWith(_package.FlowOptions.FeaturePrefix);
+        {        
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.FlowOptions.FeaturePrefix);
         }
 
         public void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _package.BranchName.StartsWith(_package.FlowOptions.HotfixPrefix);
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.FlowOptions.HotfixPrefix);
         }
 
         public void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = _package.HasSolutionDir() && _package.BranchName.StartsWith(_package.FlowOptions.ReleasePrefix);
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.FlowOptions.ReleasePrefix);
         }
 
         public void Solution_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Enabled = _package.HasSolutionDir();
+            ((OleMenuCommand) sender).Enabled = EnvHelper.HasSolutionDir();
         }
 
         public void SolutionVisibility_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = _package.HasSolutionDir();
+            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir();
         }
 
         public void GitFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = _package.HasSolutionDir() && _package.IsGitFlow;
+            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
         }
 
         public void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = _package.HasSolutionDir() && !_package.IsGitFlow;
+            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && !EnvHelper.IsGitFlow;
         }
     }
 }
