@@ -3,38 +3,39 @@ using SamirBoulema.TGit.Helpers;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.Shell;
 
 namespace SamirBoulema.TGit.Commands
 {
     public class ContextMenuCommands
     {
-        private readonly CommandHelper _commandHelper;
         private readonly DTE _dte;
         private readonly OptionPageGrid _generalOptions;
+        private readonly OleMenuCommandService _mcs;
 
-        public ContextMenuCommands(CommandHelper commandHelper, DTE dte, OptionPageGrid generalOptions)
+        public ContextMenuCommands(OleMenuCommandService mcs, DTE dte, OptionPageGrid generalOptions)
         {
-            _commandHelper = commandHelper;
             _dte = dte;
+            _mcs = mcs;
             _generalOptions = generalOptions;
         }
 
         public void AddCommands()
         {
-            _commandHelper.AddCommand(ShowLogContextCommand, PkgCmdIDList.ShowLogContext);
-            _commandHelper.AddCommand(DiskBrowserContextCommand, PkgCmdIDList.DiskBrowserContext);
-            _commandHelper.AddCommand(RepoBrowserContextCommand, PkgCmdIDList.RepoBrowserContext);
+            CommandHelper.AddCommand(_mcs, ShowLogContextCommand, PkgCmdIDList.ShowLogContext);
+            CommandHelper.AddCommand(_mcs, DiskBrowserContextCommand, PkgCmdIDList.DiskBrowserContext);
+            CommandHelper.AddCommand(_mcs, RepoBrowserContextCommand, PkgCmdIDList.RepoBrowserContext);
 
-            _commandHelper.AddCommand(BlameContextCommand, PkgCmdIDList.BlameContext);
+            CommandHelper.AddCommand(_mcs, BlameContextCommand, PkgCmdIDList.BlameContext);
 
-            _commandHelper.AddCommand(MergeContextCommand, PkgCmdIDList.MergeContext);
+            CommandHelper.AddCommand(_mcs, MergeContextCommand, PkgCmdIDList.MergeContext);
 
-            _commandHelper.AddCommand(PullContextCommand, PkgCmdIDList.PullContext);
-            _commandHelper.AddCommand(FetchContextCommand, PkgCmdIDList.FetchContext);
-            _commandHelper.AddCommand(CommitContextCommand, PkgCmdIDList.CommitContext);
-            _commandHelper.AddCommand(RevertContextCommand, PkgCmdIDList.RevertContext);
-            _commandHelper.AddCommand(DiffContextCommand, PkgCmdIDList.DiffContext);
-            _commandHelper.AddCommand(PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext);
+            CommandHelper.AddCommand(_mcs, PullContextCommand, PkgCmdIDList.PullContext);
+            CommandHelper.AddCommand(_mcs, FetchContextCommand, PkgCmdIDList.FetchContext);
+            CommandHelper.AddCommand(_mcs, CommitContextCommand, PkgCmdIDList.CommitContext);
+            CommandHelper.AddCommand(_mcs, RevertContextCommand, PkgCmdIDList.RevertContext);
+            CommandHelper.AddCommand(_mcs, DiffContextCommand, PkgCmdIDList.DiffContext);
+            CommandHelper.AddCommand(_mcs, PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext);
         }
 
         private void ShowLogContextCommand(object sender, EventArgs e)

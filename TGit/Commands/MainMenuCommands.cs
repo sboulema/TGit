@@ -1,47 +1,49 @@
 ﻿using EnvDTE;
 using SamirBoulema.TGit.Helpers;
 using System;
+using Microsoft.VisualStudio.Shell;
 
 namespace SamirBoulema.TGit.Commands
 {
     public class MainMenuCommands
     {
-        private readonly CommandHelper _commandHelper;
         private readonly DTE _dte;
+        private readonly OleMenuCommandService _mcs;
         private readonly OptionPageGrid _generalOptions;
 
-        public MainMenuCommands(CommandHelper commandHelper, DTE dte, OptionPageGrid generalOptions)
+        public MainMenuCommands(OleMenuCommandService mcs, DTE dte, OptionPageGrid generalOptions)
         {
-            _commandHelper = commandHelper;
             _dte = dte;
+            _mcs = mcs;
             _generalOptions = generalOptions;
         }
 
         public void AddCommands()
         {
-            _commandHelper.AddCommand(ShowChangesCommand, PkgCmdIDList.ShowChanges);
-            _commandHelper.AddCommand(PullCommand, PkgCmdIDList.Pull);
-            _commandHelper.AddCommand(FetchCommand, PkgCmdIDList.Fetch);
-            _commandHelper.AddCommand(CommitCommand, PkgCmdIDList.Commit);
-            _commandHelper.AddCommand(PushCommand, PkgCmdIDList.Push);
+            CommandHelper.AddCommand(_mcs, ShowChangesCommand, PkgCmdIDList.ShowChanges);
+            CommandHelper.AddCommand(_mcs, PullCommand, PkgCmdIDList.Pull);
+            CommandHelper.AddCommand(_mcs, FetchCommand, PkgCmdIDList.Fetch);
+            CommandHelper.AddCommand(_mcs, CommitCommand, PkgCmdIDList.Commit);
+            CommandHelper.AddCommand(_mcs, PushCommand, PkgCmdIDList.Push);
 
-            _commandHelper.AddCommand(ShowLogCommand, PkgCmdIDList.ShowLog);
-            _commandHelper.AddCommand(DiskBrowserCommand, PkgCmdIDList.DiskBrowser);
-            _commandHelper.AddCommand(RepoBrowserCommand, PkgCmdIDList.RepoBrowser);
+            CommandHelper.AddCommand(_mcs, ShowLogCommand, PkgCmdIDList.ShowLog);
+            CommandHelper.AddCommand(_mcs, DiskBrowserCommand, PkgCmdIDList.DiskBrowser);
+            CommandHelper.AddCommand(_mcs, RepoBrowserCommand, PkgCmdIDList.RepoBrowser);
 
-            _commandHelper.AddCommand(CreateStashCommand, PkgCmdIDList.CreateStash);
-            var applyStash = _commandHelper.CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash);
-            applyStash.BeforeQueryStatus += _commandHelper.ApplyStash_BeforeQueryStatus;
-            _commandHelper.AddCommand(applyStash);
+            CommandHelper.AddCommand(_mcs, CreateStashCommand, PkgCmdIDList.CreateStash);
+            var applyStash = CommandHelper.CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash);
+            applyStash.BeforeQueryStatus += CommandHelper.ApplyStash_BeforeQueryStatus;
+            CommandHelper.AddCommand(_mcs, applyStash);
 
-            _commandHelper.AddCommand(BranchCommand, PkgCmdIDList.Branch);
-            _commandHelper.AddCommand(SwitchCommand, PkgCmdIDList.Switch);
-            _commandHelper.AddCommand(MergeCommand, PkgCmdIDList.Merge);
+            CommandHelper.AddCommand(_mcs, BranchCommand, PkgCmdIDList.Branch);
+            CommandHelper.AddCommand(_mcs, SwitchCommand, PkgCmdIDList.Switch);
+            CommandHelper.AddCommand(_mcs, MergeCommand, PkgCmdIDList.Merge);
 
-            _commandHelper.AddCommand(RevertCommand, PkgCmdIDList.Revert);
-            _commandHelper.AddCommand(ResolveCommand, PkgCmdIDList.Resolve);
-            _commandHelper.AddCommand(SyncCommand, PkgCmdIDList.Sync);
-            _commandHelper.AddCommand(CleanupCommand, PkgCmdIDList.Cleanup);
+            CommandHelper.AddCommand(_mcs, RevertCommand, PkgCmdIDList.Revert);
+            CommandHelper.AddCommand(_mcs, ResolveCommand, PkgCmdIDList.Resolve);
+            CommandHelper.AddCommand(_mcs, SyncCommand, PkgCmdIDList.Sync);
+            CommandHelper.AddCommand(_mcs, CleanupCommand, PkgCmdIDList.Cleanup);
+            CommandHelper.AddCommand(_mcs, BrowseRefCommand, PkgCmdIDList.BrowseRef);
         }
 
         private void PreCommand()
@@ -141,6 +143,12 @@ namespace SamirBoulema.TGit.Commands
         {
             PreCommand();
             ProcessHelper.StartTortoiseGitProc($"/command:sync /path:\"{EnvHelper.SolutionDir}\"");
+        }
+
+        private void BrowseRefCommand(object sender, EventArgs e)
+        {
+            PreCommand();
+            ProcessHelper.StartTortoiseGitProc($"/command:refbrowse /path:\"{EnvHelper.SolutionDir}\"");
         }
     }
 }

@@ -297,6 +297,14 @@
         </Strings>
       </Button>
 
+      <Button guid="guidTGitCmdSet" id="browseRef" priority="0x0500" type="Button">
+        <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Icon guid="guidImages" id="browseRef" />
+        <Strings>
+          <ButtonText>Browse references...</ButtonText>
+        </Strings>
+      </Button>
+
       <Button guid="guidTGitCmdSet" id="showLogContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
         <Icon guid="guidImages" id="showLog" />
@@ -407,6 +415,7 @@
       <IDSymbol name="cleanup" value="16" />
       <IDSymbol name="stash" value="17" />
       <IDSymbol name="fetch" value="18" />
+      <IDSymbol name="browseRef" value="19" />
     </GuidSymbol>
 
     <GuidSymbol name="HTMLContext" value="{78F03954-2FB8-4087-8CE7-59D71710B3BB}">
@@ -476,6 +485,8 @@
       <IDSymbol name="cleanup" value="0x0116" />
       <IDSymbol name="resolve" value="0x0137" />
       <IDSymbol name="sync" value="0x0138" />
+
+      <IDSymbol name="browseRef" value="0x0140" />
 
       <IDSymbol name="showLogContext" value="0x0117" />
       <IDSymbol name="diskBrowserContext" value="0x0118" />

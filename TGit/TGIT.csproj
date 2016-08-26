@@ -172,11 +172,11 @@
     <Compile Include="Commands\GitFlowMenuCommands.cs" />
     <Compile Include="Commands\MainMenuCommands.cs" />
     <Compile Include="Commands\ContextMenuCommands.cs" />
-    <Compile Include="Flow.cs">
+    <Compile Include="FlowDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Flow.Designer.cs">
-      <DependentUpon>Flow.cs</DependentUpon>
+    <Compile Include="FlowDialog.Designer.cs">
+      <DependentUpon>FlowDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Credentials.cs">
       <SubType>Form</SubType>
@@ -212,8 +212,8 @@
     <Compile Include="PkgCmdID.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Flow.resx">
-      <DependentUpon>Flow.cs</DependentUpon>
+    <EmbeddedResource Include="FlowDialog.resx">
+      <DependentUpon>FlowDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Credentials.resx">
       <DependentUpon>Credentials.cs</DependentUpon>
@@ -302,6 +302,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Images\Commit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Images\BrowseRef.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

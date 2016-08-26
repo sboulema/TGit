@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace SamirBoulema.TGit
 {
-    public partial class Flow : Form
+    public partial class FlowDialog : Form
     {
         public FlowOptions FlowOptions;
 
-        public Flow()
+        public FlowDialog()
         {
             InitializeComponent();
         }

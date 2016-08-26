@@ -26,6 +26,7 @@
     <ID Name="Cleanup" Value="16" />
     <ID Name="Stash" Value="17" />
     <ID Name="Fetch" Value="18" />
+    <ID Name="BrowseRef" Value="19" />
   </Symbols>
   <Images>
     <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
@@ -81,6 +82,9 @@
     </Image>
     <Image Guid="$(CustomMoniker)" ID="$(Fetch)">
       <Source Uri="$(Resources)/Fetch.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(BrowseRef)">
+      <Source Uri="$(Resources)/BrowseRef.xaml" />
     </Image>
   </Images>
   <ImageLists />
