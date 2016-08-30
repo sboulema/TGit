@@ -34,6 +34,7 @@
             this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.localBranchCheckBox = new System.Windows.Forms.CheckBox();
             this.remoteBranchCheckBox = new System.Windows.Forms.CheckBox();
+            this.pushCheckBox = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,7 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this.okButton);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(141, 290);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(141, 315);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(347, 32);
             this.flowLayoutPanel1.TabIndex = 4;
@@ -78,7 +79,7 @@
             // 
             this.localBranchCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.localBranchCheckBox.AutoSize = true;
-            this.localBranchCheckBox.Location = new System.Drawing.Point(12, 281);
+            this.localBranchCheckBox.Location = new System.Drawing.Point(12, 306);
             this.localBranchCheckBox.Name = "localBranchCheckBox";
             this.localBranchCheckBox.Size = new System.Drawing.Size(118, 17);
             this.localBranchCheckBox.TabIndex = 5;
@@ -89,18 +90,29 @@
             // 
             this.remoteBranchCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.remoteBranchCheckBox.AutoSize = true;
-            this.remoteBranchCheckBox.Location = new System.Drawing.Point(12, 305);
+            this.remoteBranchCheckBox.Location = new System.Drawing.Point(12, 330);
             this.remoteBranchCheckBox.Name = "remoteBranchCheckBox";
             this.remoteBranchCheckBox.Size = new System.Drawing.Size(128, 17);
             this.remoteBranchCheckBox.TabIndex = 6;
             this.remoteBranchCheckBox.Text = "Delete remote branch";
             this.remoteBranchCheckBox.UseVisualStyleBackColor = true;
             // 
+            // pushCheckBox
+            // 
+            this.pushCheckBox.AutoSize = true;
+            this.pushCheckBox.Location = new System.Drawing.Point(12, 283);
+            this.pushCheckBox.Name = "pushCheckBox";
+            this.pushCheckBox.Size = new System.Drawing.Size(94, 17);
+            this.pushCheckBox.TabIndex = 7;
+            this.pushCheckBox.Text = "Push changes";
+            this.pushCheckBox.UseVisualStyleBackColor = true;
+            // 
             // OutputBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 334);
+            this.ClientSize = new System.Drawing.Size(500, 359);
+            this.Controls.Add(this.pushCheckBox);
             this.Controls.Add(this.remoteBranchCheckBox);
             this.Controls.Add(this.localBranchCheckBox);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -123,5 +135,6 @@
         public System.Windows.Forms.RichTextBox richTextBox;
         private System.Windows.Forms.CheckBox localBranchCheckBox;
         private System.Windows.Forms.CheckBox remoteBranchCheckBox;
+        private System.Windows.Forms.CheckBox pushCheckBox;
     }
 }

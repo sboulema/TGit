@@ -142,7 +142,7 @@ namespace SamirBoulema.TGit.Helpers
         }
 
         public static Process StartProcessGui(string application, string args, string title, string branchName = "", 
-            OutputBox outputBox = null, OptionPageGrid options = null)
+            OutputBox outputBox = null, OptionPageGrid options = null, string pushCommand = "")
         {
             var dialogResult = DialogResult.OK;
             if (!StartProcessGit("config user.name") || !StartProcessGit("config user.email"))
@@ -175,7 +175,7 @@ namespace SamirBoulema.TGit.Helpers
 
                     if (outputBox == null)
                     {
-                        _outputBox = new OutputBox(branchName, options);
+                        _outputBox = new OutputBox(branchName, options, pushCommand);
                         _outputBox.Show();
                     }
                     else

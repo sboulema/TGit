@@ -10,11 +10,14 @@ namespace SamirBoulema.TGit
     public sealed partial class OutputBox : Form
     {
         private readonly string _branchName;
+        private readonly string _pushCommand;
 
-        public OutputBox(string branchName, OptionPageGrid options)
+        public OutputBox(string branchName, OptionPageGrid options, string pushCommand)
         {
             InitializeComponent();
+
             _branchName = branchName;
+            _pushCommand = pushCommand;
 
             richTextBox.TextChanged += textBox_TextChanged;
 
@@ -22,6 +25,8 @@ namespace SamirBoulema.TGit
             {
                 localBranchCheckBox.Visible = false;
                 remoteBranchCheckBox.Visible = false;
+                pushCheckBox.Visible = false;
+                richTextBox.Height += 30;
             }
             else
             {
@@ -32,20 +37,23 @@ namespace SamirBoulema.TGit
             {
                 localBranchCheckBox.Checked = options.DeleteLocalBranch;
                 remoteBranchCheckBox.Checked = options.DeleteRemoteBranch;
+                pushCheckBox.Checked = options.PushChanges;
             }           
         }
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            if (localBranchCheckBox.Checked || remoteBranchCheckBox.Checked)
+            if (localBranchCheckBox.Checked || remoteBranchCheckBox.Checked || pushCheckBox.Checked)
             {
                 var process = ProcessHelper.StartProcessGui(
                      "cmd.exe",
                      $"/c cd \"{EnvHelper.SolutionDir}\" && " +
                          GitHelper.GetSshSetup() +
+                         "echo. && " +   
+                         (pushCheckBox.Checked ? _pushCommand : "echo.") + 
                          FormatCliCommand($"branch -d {_branchName}") +
                          (remoteBranchCheckBox.Checked ? FormatCliCommand($"push origin --delete {_branchName}", false) : "echo."),
-                     "Deleting branches...", string.Empty, this
+                     "Finishing...", string.Empty, this
                  );
                 process.WaitForExit();
                 okButton.Click += OkButton_Click_Close;

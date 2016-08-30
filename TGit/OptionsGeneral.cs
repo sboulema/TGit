@@ -36,5 +36,10 @@ namespace SamirBoulema.TGit
         [DisplayName(@"Delete remote branch")]
         [Description("When finishing a feature delete the remote branch by default")]
         public bool DeleteRemoteBranch { get; set; }
+
+        [Category("TGit")]
+        [DisplayName(@"Push changes")]
+        [Description("When finishing a feature push the changes to the remote by default")]
+        public bool PushChanges { get; set; }
     }
 }

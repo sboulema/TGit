@@ -72,7 +72,7 @@ namespace SamirBoulema.TGit.Commands
                  * 2. Checkout develop branch (create if it doesn't exist, reset if it does)
                  * 3. Push develop branch
                  */
-            ProcessHelper.StartProcessGui(
+            var process = ProcessHelper.StartProcessGui(
                 "cmd.exe",
                 $"/c cd \"{EnvHelper.SolutionDir}\" && " +
                 GitHelper.GetSshSetup() +
@@ -86,6 +86,8 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"checkout -b {flowDialog.FlowOptions.DevelopBranch}", false)),
                 "Initializing GitFlow"
                 );
+            process.WaitForExit();
+
             EnvHelper.GetFlowOptions();
             EnvHelper.GetBranchName();
         }
@@ -154,10 +156,9 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.GetSshSetup() +
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {featureBranch}") +
-                    FormatCliCommand($"push origin {EnvHelper.FlowOptions.DevelopBranch}", false),
+                    FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
-                featureBranch, null, _options
+                featureBranch, null, _options, FormatCliCommand($"push origin {EnvHelper.FlowOptions.DevelopBranch}")
             );
         }
 
@@ -185,10 +186,9 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.GetSshSetup() +
                     FormatCliCommand("checkout master") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {featureBranch}") +
-                    FormatCliCommand("push origin master", false),
+                    FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
-                featureBranch, null, _options);
+                featureBranch, null, _options, FormatCliCommand("push origin master"));
         }
 
         private void StartReleaseCommand(object sender, EventArgs e)
@@ -244,12 +244,12 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"tag {releaseName}") +
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {releaseBranch}") +
+                    FormatCliCommand($"merge --no-ff {releaseBranch}", false),
+                $"Finishing release {releaseName}",
+                releaseBranch, null, _options,
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.MasterBranch}") +
-                    FormatCliCommand($"push origin {releaseName}", false),
-                $"Finishing release {releaseName}",
-                releaseBranch, null, _options
+                    FormatCliCommand($"push origin {releaseName}")
             );
         }
 
@@ -306,12 +306,12 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"tag {hotfixName}") +
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
-                    FormatCliCommand($"merge --no-ff {hotfixBranch}") +
+                    FormatCliCommand($"merge --no-ff {hotfixBranch}", false),
+                $"Finishing hotfix {hotfixName}",
+                hotfixBranch, null, _options, 
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.MasterBranch}") +
-                    FormatCliCommand($"push origin {hotfixName}", false),
-                $"Finishing hotfix {hotfixName}",
-                hotfixBranch, null, _options
+                    FormatCliCommand($"push origin {hotfixName}")
             );
         }
     }
