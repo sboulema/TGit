@@ -395,7 +395,26 @@
     </Bitmaps>
   </Commands>
 
-  <Symbols>
+  <KeyBindings>
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="C" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="commit" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="F" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="fetch" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="L" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="showLog" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="M" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="merge" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="P" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="pull" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="U" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="push" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="R" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="revert" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="H" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="applyStash" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="A" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="createStash" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="S" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="switch" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="Y" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="sync" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="N" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="cleanup" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="E" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="resolve" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="W" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="showChanges" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="B" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="blameContext" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="D" mod1="CONTROL" mod2="CONTROL" editor="guidVSStd97" id="diffContext" />
+  </KeyBindings>
+
+    <Symbols>
     <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >
       <IDSymbol name="showChanges" value="1" />
       <IDSymbol name="pull" value="2" />
