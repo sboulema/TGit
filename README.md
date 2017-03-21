@@ -91,3 +91,8 @@ So what exactly are those [GitFlow](http://nvie.com/posts/a-successful-git-branc
 10. Push all changes to develop
 11. Push all changes to master
 12. Push the tag
+
+---
+
+![VS2017 Partner](http://i.imgur.com/wlgwRF1.png)
+
