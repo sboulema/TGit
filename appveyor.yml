@@ -1,6 +1,6 @@
-version: 4.1.{build}
+version: 4.2.{build}
 skip_tags: true
-configuration: 
+configuration: tgit
 - Release
 install:
 - ps: (new-object Net.WebClient).DownloadString("https://raw.github.com/madskristensen/ExtensionScripts/master/AppVeyor/vsix.ps1") | iex
