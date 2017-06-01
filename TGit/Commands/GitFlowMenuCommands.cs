@@ -68,6 +68,8 @@ namespace SamirBoulema.TGit.Commands
             var flowDialog = new FlowDialog();
             if (flowDialog.ShowDialog() != DialogResult.OK) return;
 
+            var versionTag = string.IsNullOrEmpty(flowDialog.FlowOptions.TagPrefix) ? "\"\"" : flowDialog.FlowOptions.TagPrefix;
+
             /* 1. Add GitFlow config options
                  * 2. Checkout develop branch (create if it doesn't exist, reset if it does)
                  * 3. Push develop branch
@@ -81,6 +83,7 @@ namespace SamirBoulema.TGit.Commands
                 FormatCliCommand($"config --add gitflow.prefix.feature {flowDialog.FlowOptions.FeaturePrefix}") +
                 FormatCliCommand($"config --add gitflow.prefix.release {flowDialog.FlowOptions.ReleasePrefix}") +
                 FormatCliCommand($"config --add gitflow.prefix.hotfix {flowDialog.FlowOptions.HotfixPrefix}") +
+                FormatCliCommand($"config --add gitflow.prefix.versiontag {versionTag}") +
                 (GitHelper.RemoteBranchExists(flowDialog.FlowOptions.DevelopBranch) ?
                     "echo." : 
                     FormatCliCommand($"checkout -b {flowDialog.FlowOptions.DevelopBranch}", false)),
@@ -241,7 +244,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {releaseBranch}") +
-                    FormatCliCommand($"tag {releaseName}") +
+                    FormatCliCommand($"tag {EnvHelper.FlowOptions.TagPrefix}{releaseName}") +
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {releaseBranch}", false),
@@ -303,7 +306,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.MasterBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}") +
-                    FormatCliCommand($"tag {hotfixName}") +
+                    FormatCliCommand($"tag {EnvHelper.FlowOptions.TagPrefix}{hotfixName}") +
                     FormatCliCommand($"checkout {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}", false),

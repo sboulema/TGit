@@ -41,6 +41,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.releaseTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.tagTextBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // developTextBox
@@ -84,7 +86,7 @@
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(148, 144);
+            this.okButton.Location = new System.Drawing.Point(148, 162);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 7;
@@ -95,7 +97,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(229, 144);
+            this.cancelButton.Location = new System.Drawing.Point(229, 162);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 8;
@@ -160,11 +162,31 @@
             this.label5.TabIndex = 13;
             this.label5.Text = "Release prefix:";
             // 
-            // Flow
+            // tagTextBox
+            // 
+            this.tagTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tagTextBox.Location = new System.Drawing.Point(104, 136);
+            this.tagTextBox.Name = "tagTextBox";
+            this.tagTextBox.Size = new System.Drawing.Size(200, 20);
+            this.tagTextBox.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 139);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(57, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Tag prefix:";
+            // 
+            // FlowDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 178);
+            this.ClientSize = new System.Drawing.Size(316, 194);
+            this.Controls.Add(this.tagTextBox);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.releaseTextBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.hotfixTextBox);
@@ -178,7 +200,7 @@
             this.Controls.Add(this.developTextBox);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Flow";
+            this.Name = "FlowDialog";
             this.Text = "Flow initialization";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -199,5 +221,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox releaseTextBox;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tagTextBox;
+        private System.Windows.Forms.Label label6;
     }
 }

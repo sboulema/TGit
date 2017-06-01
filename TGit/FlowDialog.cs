@@ -26,7 +26,8 @@ namespace SamirBoulema.TGit
                 MasterBranch = masterTextBox.Text,
                 FeaturePrefix = featureTextBox.Text,
                 HotfixPrefix = hotfixTextBox.Text,
-                ReleasePrefix = releaseTextBox.Text
+                ReleasePrefix = releaseTextBox.Text,
+                TagPrefix = tagTextBox.Text
             };
             Close();
         }

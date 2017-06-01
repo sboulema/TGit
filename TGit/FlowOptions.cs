@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Linq;
 
 namespace SamirBoulema.TGit
 {
@@ -11,6 +9,7 @@ namespace SamirBoulema.TGit
         public string FeaturePrefix;
         public string ReleasePrefix;
         public string HotfixPrefix;
+        public string TagPrefix;
 
         public FlowOptions()
         {
@@ -24,6 +23,7 @@ namespace SamirBoulema.TGit
             FeaturePrefix = string.Empty;
             ReleasePrefix = string.Empty;
             HotfixPrefix = string.Empty;
+            TagPrefix = string.Empty;
 
             foreach (var line in input.Split(';'))
             {
@@ -46,6 +46,10 @@ namespace SamirBoulema.TGit
                 else if (line.StartsWith("gitflow.prefix.hotfix"))
                 {
                     HotfixPrefix = line.Split(' ').Last();
+                }
+                else if (line.StartsWith("gitflow.prefix.versiontag"))
+                {
+                    TagPrefix = line.Split(' ').Last();
                 }
             }
         }
