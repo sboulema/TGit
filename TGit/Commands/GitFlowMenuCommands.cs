@@ -252,7 +252,7 @@ namespace SamirBoulema.TGit.Commands
                 releaseBranch, null, _options,
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.MasterBranch}") +
-                    FormatCliCommand($"push origin {releaseName}")
+                    FormatCliCommand($"push origin {EnvHelper.FlowOptions.TagPrefix}{releaseName}")
             );
         }
 
@@ -314,7 +314,7 @@ namespace SamirBoulema.TGit.Commands
                 hotfixBranch, null, _options, 
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.DevelopBranch}") +
                     FormatCliCommand($"push origin {EnvHelper.FlowOptions.MasterBranch}") +
-                    FormatCliCommand($"push origin {hotfixName}")
+                    FormatCliCommand($"push origin {EnvHelper.FlowOptions.TagPrefix}{hotfixName}")
             );
         }
     }
