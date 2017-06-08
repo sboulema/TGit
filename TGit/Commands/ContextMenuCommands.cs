@@ -91,7 +91,13 @@ namespace SamirBoulema.TGit.Commands
             var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:commit /path:\"{currentFilePath}\" /logmsg:\"{GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte)}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            var commitMessage = GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte);
+            var bugId = GitHelper.GetCommitMessage(_generalOptions.BugId, _dte);
+
+            ProcessHelper.StartTortoiseGitProc($"/command:commit /path:\"{currentFilePath}\" " +
+                $"{(string.IsNullOrEmpty(commitMessage) ? string.Empty : $"/logmsg:\"{commitMessage}\"")} " +
+                $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(EnvHelper.GitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)} " +
+                $"/closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void RevertContextCommand(object sender, EventArgs e)
         {

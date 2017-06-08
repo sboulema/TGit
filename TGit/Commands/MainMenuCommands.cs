@@ -48,7 +48,7 @@ namespace SamirBoulema.TGit.Commands
 
         private void PreCommand()
         {
-            EnvHelper.GetFlowOptions();
+            EnvHelper.GetGitConfig();
             EnvHelper.GetBranchName();
             EnvHelper.GetStash();
             FileHelper.SaveAllFiles(_dte);
@@ -72,8 +72,13 @@ namespace SamirBoulema.TGit.Commands
         private void CommitCommand(object sender, EventArgs e)
         {
             PreCommand();
+            var commitMessage = GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte);
+            var bugId = GitHelper.GetCommitMessage(_generalOptions.BugId, _dte);
             ProcessHelper.StartTortoiseGitProc(
-                $"/command:commit /path:\"{EnvHelper.SolutionDir}\" /logmsg:\"{GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte)}\" /closeonend:{_generalOptions.CloseOnEnd}");
+                $"/command:commit /path:\"{EnvHelper.SolutionDir}\" " +
+                $"{(string.IsNullOrEmpty(commitMessage) ? string.Empty : $"/logmsg:\"{commitMessage}\"")} " +
+                $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(EnvHelper.GitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)} " +
+                $"/closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void PushCommand(object sender, EventArgs e)
         {

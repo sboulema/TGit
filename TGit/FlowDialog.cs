@@ -5,7 +5,7 @@ namespace SamirBoulema.TGit
 {
     public partial class FlowDialog : Form
     {
-        public FlowOptions FlowOptions;
+        public GitConfig GitConfig;
 
         public FlowDialog()
         {
@@ -20,7 +20,7 @@ namespace SamirBoulema.TGit
         private void okButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
-            FlowOptions = new FlowOptions
+            GitConfig = new GitConfig
             {
                 DevelopBranch = developTextBox.Text,
                 MasterBranch = masterTextBox.Text,

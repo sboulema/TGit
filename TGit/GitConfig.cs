@@ -2,7 +2,7 @@
 
 namespace SamirBoulema.TGit
 {
-    public class FlowOptions
+    public class GitConfig
     {
         public string MasterBranch;
         public string DevelopBranch;
@@ -10,13 +10,14 @@ namespace SamirBoulema.TGit
         public string ReleasePrefix;
         public string HotfixPrefix;
         public string TagPrefix;
+        public string BugTraqMessage;
 
-        public FlowOptions()
+        public GitConfig()
         {
             
         }
 
-        public FlowOptions(string input)
+        public GitConfig(string input)
         {
             MasterBranch = string.Empty;
             DevelopBranch = string.Empty;
@@ -51,6 +52,10 @@ namespace SamirBoulema.TGit
                 {
                     TagPrefix = line.Split(' ').Last();
                 }
+                else if (line.StartsWith("bugtraq.message"))
+                {
+                    BugTraqMessage = line.Split(' ').Last();
+                }              
             }
         }
     }

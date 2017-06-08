@@ -82,7 +82,7 @@ namespace SamirBoulema.TGit
             EnvHelper.GetTortoiseGitProc();
             EnvHelper.GetGit();
             EnvHelper.GetSolutionDir(_dte);
-            EnvHelper.GetFlowOptions();
+            EnvHelper.GetGitConfig();
             EnvHelper.GetBranchName();
             EnvHelper.GetStash();
         }     

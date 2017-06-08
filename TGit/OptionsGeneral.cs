@@ -9,18 +9,10 @@ namespace SamirBoulema.TGit
     [CLSCompliant(false), ComVisible(true)]
     public class OptionPageGrid : DialogPage
     {
-        private string _commitMessage { get; set; }
         [Category("TGit")]
         [DisplayName(@"Default commit message")]
         [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
-        public string CommitMessage
-        {
-            get
-            {
-                return _commitMessage ?? string.Empty;
-            }
-            set { _commitMessage = value; }
-        }
+        public string CommitMessage { get; set; }
 
         [Category("TGit")]
         [DisplayName(@"Close dialog after operation")]
@@ -41,5 +33,10 @@ namespace SamirBoulema.TGit
         [DisplayName(@"Push changes")]
         [Description("When finishing a feature push the changes to the remote by default")]
         public bool PushChanges { get; set; }
+
+        [Category("TGit")]
+        [DisplayName(@"Default bug id")]
+        [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
+        public string BugId { get; set; }
     }
 }

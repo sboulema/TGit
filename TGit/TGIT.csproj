@@ -186,7 +186,7 @@
     <Compile Include="Credentials.Designer.cs">
       <DependentUpon>Credentials.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowOptions.cs" />
+    <Compile Include="GitConfig.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Helpers\CommandHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />

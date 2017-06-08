@@ -8,6 +8,8 @@ namespace SamirBoulema.TGit.Helpers
     {
         public static string GetCommitMessage(string commitMessageTemplate, DTE dte)
         {
+            if (string.IsNullOrEmpty(commitMessageTemplate)) return string.Empty;
+
             var commitMessage = commitMessageTemplate;
             commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false));
             commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentBranchName(true));
@@ -29,17 +31,17 @@ namespace SamirBoulema.TGit.Helpers
 
             if (branchName == null) return string.Empty;
 
-            if (branchName.StartsWith(EnvHelper.FlowOptions.FeaturePrefix) && trimPrefix)
+            if (branchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix) && trimPrefix)
             {
-                return branchName.Substring(EnvHelper.FlowOptions.FeaturePrefix.Length);
+                return branchName.Substring(EnvHelper.GitConfig.FeaturePrefix.Length);
             }
-            if (branchName.StartsWith(EnvHelper.FlowOptions.ReleasePrefix) && trimPrefix)
+            if (branchName.StartsWith(EnvHelper.GitConfig.ReleasePrefix) && trimPrefix)
             {
-                return branchName.Substring(EnvHelper.FlowOptions.ReleasePrefix.Length);
+                return branchName.Substring(EnvHelper.GitConfig.ReleasePrefix.Length);
             }
-            if (branchName.StartsWith(EnvHelper.FlowOptions.HotfixPrefix) && trimPrefix)
+            if (branchName.StartsWith(EnvHelper.GitConfig.HotfixPrefix) && trimPrefix)
             {
-                return branchName.Substring(EnvHelper.FlowOptions.HotfixPrefix.Length);
+                return branchName.Substring(EnvHelper.GitConfig.HotfixPrefix.Length);
             }
 
             return branchName;
@@ -54,9 +56,9 @@ namespace SamirBoulema.TGit.Helpers
             return $"set GIT_SSH={FileHelper.GetTortoiseGitPlink()} && ";
         }
 
-        public static FlowOptions GetFlowOptions()
+        public static GitConfig GetGitConfig()
         {
-            return new FlowOptions(ProcessHelper.StartProcessGitResult("config --get-regexp gitflow"));
+            return new GitConfig(ProcessHelper.StartProcessGitResult("config --get-regexp gitflow"));
         }
 
         public static bool RemoteBranchExists(string branch)

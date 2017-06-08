@@ -37,19 +37,19 @@ namespace SamirBoulema.TGit.Helpers
         public static void Feature_BeforeQueryStatus(object sender, EventArgs e)
         {        
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.FlowOptions.FeaturePrefix);
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
         }
 
         public static void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.FlowOptions.HotfixPrefix);
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.HotfixPrefix);
         }
 
         public static void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.FlowOptions.ReleasePrefix);
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.ReleasePrefix);
         }
 
         public static void Solution_BeforeQueryStatus(object sender, EventArgs e)
