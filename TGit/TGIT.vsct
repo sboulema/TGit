@@ -47,10 +47,18 @@
           <CommandName>GitHubFlow</CommandName>
         </Strings>
       </Menu>
+
+      <!--Toolbar Menu-->
+      <Menu guid="guidTGitCmdSet" id="Toolbar" type="Toolbar">
+        <Strings>
+          <ButtonText>TGit</ButtonText>
+          <CommandName>TGit</CommandName>
+        </Strings>
+      </Menu>
     </Menus>
     
     <Groups>
-
+      <!--Flow Group-->
       <Group guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" priority="0x0000">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenu"/>
       </Group>
@@ -59,6 +67,7 @@
         <Parent guid="guidTGitCmdSet" id="TGitGitHubFlowMenu"/>
       </Group>
       
+      <!--Main Group-->
       <Group guid="guidTGitCmdSet" id="firstMenuGroup" priority="0x0100">
         <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
       </Group>
@@ -74,10 +83,14 @@
       <Group guid="guidTGitCmdSet" id="fifthMenuGroup" priority="0x0500">
         <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
       </Group>
-      <Group guid="guidTGitCmdSet" id="sixthMenuGroup" priority="0x0500">
+      <Group guid="guidTGitCmdSet" id="sixthMenuGroup" priority="0x0600">
         <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
       </Group>
-    
+      <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0700">
+        <Parent guid="guidTGitCmdSet" id="TGitMenu"/>
+      </Group>
+      
+      <!--Context Group-->
       <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
       </Group>
@@ -101,6 +114,26 @@
       </Group>
       <Group guid="guidTGitCmdSet" id="fourthContextMenuGroup" priority="0x0901">
         <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
+      </Group>
+
+      <!--Toolbar Group-->
+      <Group guid="guidTGitCmdSet" id="ToolbarGroup" priority="0x0000">
+        <Parent guid="guidTGitCmdSet" id="Toolbar" />
+      </Group>
+      <Group guid="guidTGitCmdSet" id="secondMenuGroup" priority="0x0200">
+        <Parent guid="guidTGitCmdSet" id="Toolbar"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="thirdMenuGroup" priority="0x0300">
+        <Parent guid="guidTGitCmdSet" id="Toolbar"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="fourthMenuGroup" priority="0x0400">
+        <Parent guid="guidTGitCmdSet" id="Toolbar"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="fifthMenuGroup" priority="0x0500">
+        <Parent guid="guidTGitCmdSet" id="Toolbar"/>
+      </Group>
+      <Group guid="guidTGitCmdSet" id="sixthMenuGroup" priority="0x0600">
+        <Parent guid="guidTGitCmdSet" id="Toolbar"/>
       </Group>
     </Groups>
     
@@ -489,7 +522,12 @@
       <IDSymbol name="secondContextMenuGroup" value="0x1030" />
       <IDSymbol name="thirdContextMenuGroup" value="0x1031" />
       <IDSymbol name="fourthContextMenuGroup" value="0x1032" />
-      
+
+      <!--Toolbar Menu-->
+      <IDSymbol name="Toolbar" value="0x1000" />
+      <IDSymbol name="ToolbarGroup" value="0x1050" />
+
+      <!--Commands-->
       <IDSymbol name="showChanges" value="0x0103" />
       <IDSymbol name="pull" value="0x0104" />
       <IDSymbol name="fetch" value="0x0127" />
