@@ -6,9 +6,14 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class CommandHelper
     {
+        public static void AddCommand(OleMenuCommandService mcs, EventHandler handler, uint commandId, EventHandler eventHandler)
+        {
+            mcs.AddCommand(CreateCommand(handler, commandId, eventHandler));
+        }
+
         public static void AddCommand(OleMenuCommandService mcs, EventHandler handler, uint commandId)
         {
-            mcs.AddCommand(CreateCommand(handler, commandId));
+            mcs.AddCommand(CreateCommand(handler, commandId, Solution_BeforeQueryStatus));
         }
 
         public static void AddCommand(OleMenuCommandService mcs, MenuCommand command)
@@ -16,17 +21,22 @@ namespace SamirBoulema.TGit.Helpers
             mcs.AddCommand(command);
         }
 
-        public static OleMenuCommand CreateCommand(EventHandler handler, uint commandId)
+        public static OleMenuCommand CreateCommand(EventHandler handler, uint commandId, EventHandler eventHandler = null)
         {
             var menuCommandId = new CommandID(GuidList.GuidTgitCmdSet, (int)commandId);
             var menuItem = new OleMenuCommand(handler, menuCommandId);
-            menuItem.BeforeQueryStatus += Solution_BeforeQueryStatus;
+
+            if (eventHandler != null)
+            {
+                menuItem.BeforeQueryStatus += eventHandler;
+            }
+            
             return menuItem;
         }
 
         public static OleMenuCommand CreateCommand(uint commandId)
         {
-            return CreateCommand(null, commandId);
+            return CreateCommand(null, commandId, Solution_BeforeQueryStatus);
         }
 
         public static void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)

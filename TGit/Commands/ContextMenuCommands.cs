@@ -22,21 +22,24 @@ namespace SamirBoulema.TGit.Commands
 
         public void AddCommands()
         {
-            CommandHelper.AddCommand(_mcs, ShowLogContextCommand, PkgCmdIDList.ShowLogContext);
-            CommandHelper.AddCommand(_mcs, DiskBrowserContextCommand, PkgCmdIDList.DiskBrowserContext);
-            CommandHelper.AddCommand(_mcs, RepoBrowserContextCommand, PkgCmdIDList.RepoBrowserContext);
+            CommandHelper.AddCommand(_mcs, ShowLogContextCommand, PkgCmdIDList.ShowLogContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, DiskBrowserContextCommand, PkgCmdIDList.DiskBrowserContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, RepoBrowserContextCommand, PkgCmdIDList.RepoBrowserContext, ActiveDocument_BeforeQueryStatus);
 
-            CommandHelper.AddCommand(_mcs, BlameContextCommand, PkgCmdIDList.BlameContext);
+            CommandHelper.AddCommand(_mcs, BlameContextCommand, PkgCmdIDList.BlameContext, ActiveDocument_BeforeQueryStatus);
 
-            CommandHelper.AddCommand(_mcs, MergeContextCommand, PkgCmdIDList.MergeContext);
+            CommandHelper.AddCommand(_mcs, MergeContextCommand, PkgCmdIDList.MergeContext, ActiveDocument_BeforeQueryStatus);
 
-            CommandHelper.AddCommand(_mcs, PullContextCommand, PkgCmdIDList.PullContext);
-            CommandHelper.AddCommand(_mcs, FetchContextCommand, PkgCmdIDList.FetchContext);
-            CommandHelper.AddCommand(_mcs, CommitContextCommand, PkgCmdIDList.CommitContext);
-            CommandHelper.AddCommand(_mcs, RevertContextCommand, PkgCmdIDList.RevertContext);
-            CommandHelper.AddCommand(_mcs, DiffContextCommand, PkgCmdIDList.DiffContext);
-            CommandHelper.AddCommand(_mcs, PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext);
+            CommandHelper.AddCommand(_mcs, PullContextCommand, PkgCmdIDList.PullContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, FetchContextCommand, PkgCmdIDList.FetchContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, CommitContextCommand, PkgCmdIDList.CommitContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, RevertContextCommand, PkgCmdIDList.RevertContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, DiffContextCommand, PkgCmdIDList.DiffContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext, ActiveDocument_BeforeQueryStatus);
         }
+
+        private void ActiveDocument_BeforeQueryStatus(object sender, EventArgs e) 
+            => ((OleMenuCommand)sender).Enabled = _dte.ActiveDocument != null;
 
         private void ShowLogContextCommand(object sender, EventArgs e)
         {
