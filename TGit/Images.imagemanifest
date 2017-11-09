@@ -27,6 +27,7 @@
     <ID Name="Stash" Value="17" />
     <ID Name="Fetch" Value="18" />
     <ID Name="BrowseRef" Value="19" />
+    <ID Name="Tag" Value="20" />
   </Symbols>
   <Images>
     <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
@@ -85,6 +86,9 @@
     </Image>
     <Image Guid="$(CustomMoniker)" ID="$(BrowseRef)">
       <Source Uri="$(Resources)/BrowseRef.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Tag)">
+      <Source Uri="$(Resources)/Tag.xaml" />
     </Image>
   </Images>
   <ImageLists />

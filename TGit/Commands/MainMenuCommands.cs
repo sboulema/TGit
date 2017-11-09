@@ -41,6 +41,7 @@ namespace SamirBoulema.TGit.Commands
 
             CommandHelper.AddCommand(_mcs, RevertCommand, PkgCmdIDList.Revert);
             CommandHelper.AddCommand(_mcs, ResolveCommand, PkgCmdIDList.Resolve);
+            CommandHelper.AddCommand(_mcs, TagCommand, PkgCmdIDList.Tag);
             CommandHelper.AddCommand(_mcs, SyncCommand, PkgCmdIDList.Sync);
             CommandHelper.AddCommand(_mcs, CleanupCommand, PkgCmdIDList.Cleanup);
             CommandHelper.AddCommand(_mcs, BrowseRefCommand, PkgCmdIDList.BrowseRef);
@@ -154,6 +155,12 @@ namespace SamirBoulema.TGit.Commands
         {
             PreCommand();
             ProcessHelper.StartTortoiseGitProc($"/command:refbrowse /path:\"{EnvHelper.SolutionDir}\"");
+        }
+
+        private void TagCommand(object sender, EventArgs e)
+        {
+            PreCommand();
+            ProcessHelper.StartTortoiseGitProc($"/command:tag /path:\"{EnvHelper.SolutionDir}\"");
         }
     }
 }

@@ -32,6 +32,7 @@
       <IDSymbol name="Stash" value="17" />
       <IDSymbol name="Fetch" value="18" />
       <IDSymbol name="BrowseRef" value="19" />
+      <IDSymbol name="Tag" value="20" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
