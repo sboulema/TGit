@@ -193,13 +193,13 @@
       <Button guid="guidTGitCmdSet" id="startFeatureGitHub" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitHubFlowMenuGroup" />
         <Strings>
-          <ButtonText>Start New Feature</ButtonText>
+          <ButtonText>Start New GitHubFlow Feature</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="finishFeatureGitHub" priority="0x0101" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitHubFlowMenuGroup" />
         <Strings>
-          <ButtonText>Finish Feature</ButtonText>
+          <ButtonText>Finish GitHubFlow Feature</ButtonText>
         </Strings>
       </Button>
       
@@ -353,21 +353,21 @@
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
         <Icon guid="guidImages" id="showLog" />
         <Strings>
-          <ButtonText>Show Log</ButtonText>
+          <ButtonText>Show Log for file</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowserContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
         <Icon guid="guidImages" id="disk" />
         <Strings>
-          <ButtonText>Disk-Browser</ButtonText>
+          <ButtonText>Disk-Browser File</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="repoBrowserContext" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
         <Icon guid="guidImages" id="repo" />
         <Strings>
-          <ButtonText>Repo-Browser</ButtonText>
+          <ButtonText>Repo-Browser File</ButtonText>
         </Strings>
       </Button>
 
@@ -383,7 +383,7 @@
         <Parent guid="guidTGitCmdSet" id="thirdContextMenuGroup" />
         <Icon guid="guidImages" id="merge" />
         <Strings>
-          <ButtonText>Merge...</ButtonText>
+          <ButtonText>Merge File...</ButtonText>
         </Strings>
       </Button>
 
@@ -391,28 +391,28 @@
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="pull" />
         <Strings>
-          <ButtonText>Pull...</ButtonText>
+          <ButtonText>Pull File ...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="fetch" />
         <Strings>
-          <ButtonText>Fetch...</ButtonText>
+          <ButtonText>Fetch File...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="commitContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="commit" />
         <Strings>
-          <ButtonText>Commit...</ButtonText>
+          <ButtonText>Commit File...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="revertContext" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="revert" />
         <Strings>
-          <ButtonText>Revert...</ButtonText>
+          <ButtonText>Revert File...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="diffContext" priority="0x0400" type="Button">
