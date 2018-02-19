@@ -1,20 +1,28 @@
-﻿using System.ComponentModel.Design;
+﻿#define VS2013
+
+extern alias vsshell14;
+
+using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using SamirBoulema.TGit.Helpers;
 using SamirBoulema.TGit.Commands;
+using VsShell14 = vsshell14::Microsoft.VisualStudio.Shell;
 
 namespace SamirBoulema.TGit
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [ProvideMenuResource("Menus.ctmenu", 1, IconMappingFilename = "IconMappings.csv")]
+#if VS2013
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+#else
+    [VsShell14.ProvideMenuResource("Menus.ctmenu", 1, IconMappingFilename = "IconMappings.csv")]
+#endif
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
-    // ReSharper disable once InconsistentNaming
     public sealed class TGitPackage : Package
     {
         private DTE _dte;
