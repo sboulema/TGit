@@ -1,6 +1,4 @@
-﻿#define VS2013
-
-extern alias vsshell14;
+﻿extern alias vsshell14;
 
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
@@ -15,11 +13,7 @@ namespace SamirBoulema.TGit
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-#if VS2013
-    [ProvideMenuResource("Menus.ctmenu", 1)]
-#else
     [VsShell14.ProvideMenuResource("Menus.ctmenu", 1, IconMappingFilename = "IconMappings.csv")]
-#endif
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]

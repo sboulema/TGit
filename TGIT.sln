@@ -15,15 +15,12 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-		VS2013|Any CPU = VS2013|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{22376990-61FD-4AF5-856C-004CEA4E77EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22376990-61FD-4AF5-856C-004CEA4E77EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22376990-61FD-4AF5-856C-004CEA4E77EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22376990-61FD-4AF5-856C-004CEA4E77EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22376990-61FD-4AF5-856C-004CEA4E77EC}.VS2013|Any CPU.ActiveCfg = VS2013|Any CPU
-		{22376990-61FD-4AF5-856C-004CEA4E77EC}.VS2013|Any CPU.Build.0 = VS2013|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
