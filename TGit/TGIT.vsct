@@ -435,7 +435,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, tag"/>     
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag"/>     
     </Bitmaps>
   </Commands>
 

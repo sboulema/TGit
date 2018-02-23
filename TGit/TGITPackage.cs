@@ -13,7 +13,8 @@ namespace SamirBoulema.TGit
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [VsShell14.ProvideMenuResource("Menus.ctmenu", 1, IconMappingFilename = "IconMappings.csv")]
+    //[VsShell14.ProvideMenuResource("Menus.ctmenu", 1, IconMappingFilename = "IconMappings.csv")]
+    [VsShell14.ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.GuidTgitPkgString)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
