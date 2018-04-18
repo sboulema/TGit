@@ -317,6 +317,14 @@
         </Strings>
       </Button>
 
+      <Button guid="guidTGitCmdSet" id="abortMerge" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
+        <Icon guid="guidImages" id="abortMerge" />
+        <Strings>
+          <ButtonText>Abort merge...</ButtonText>
+        </Strings>
+      </Button>
+
       <Button guid="guidTGitCmdSet" id="tag" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
         <Icon guid="guidImages" id="tag" />
@@ -435,7 +443,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag"/>     
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge"/>     
     </Bitmaps>
   </Commands>
 
@@ -481,6 +489,7 @@
       <IDSymbol name="fetch" value="18" />
       <IDSymbol name="browseRef" value="19" />
       <IDSymbol name="tag" value="20" />
+      <IDSymbol name="abortMerge" value="21" />
     </GuidSymbol>
 
     <!--Special Context Menus-->
@@ -578,6 +587,7 @@
       <IDSymbol name="prefDiffContext" value="0x0126" />
 
       <IDSymbol name="tag" value="0x0141" />
+      <IDSymbol name="abortMerge" value="0x0142" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

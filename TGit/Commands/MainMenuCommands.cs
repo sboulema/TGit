@@ -45,6 +45,8 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, SyncCommand, PkgCmdIDList.Sync);
             CommandHelper.AddCommand(_mcs, CleanupCommand, PkgCmdIDList.Cleanup);
             CommandHelper.AddCommand(_mcs, BrowseRefCommand, PkgCmdIDList.BrowseRef);
+            CommandHelper.AddCommand(_mcs, AbortMergeCommand, PkgCmdIDList.AbortMerge);
+
         }
 
         private void PreCommand()
@@ -128,11 +130,19 @@ namespace SamirBoulema.TGit.Commands
             PreCommand();
             ProcessHelper.StartTortoiseGitProc($"/command:merge /path:\"{EnvHelper.SolutionDir}\"");
         }
+
+        private void AbortMergeCommand(object sender, EventArgs e)
+        {
+            PreCommand();
+            ProcessHelper.StartTortoiseGitProc($"/command:merge /abort /path:\"{EnvHelper.SolutionDir}\"");
+        }
+
         private void RevertCommand(object sender, EventArgs e)
         {
             PreCommand();
             ProcessHelper.StartTortoiseGitProc($"/command:revert /path:\"{EnvHelper.SolutionDir}\"");
         }
+
         private void CleanupCommand(object sender, EventArgs e)
         {
             PreCommand();

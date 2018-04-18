@@ -28,6 +28,7 @@
     <ID Name="Fetch" Value="18" />
     <ID Name="BrowseRef" Value="19" />
     <ID Name="Tag" Value="20" />
+    <ID Name="AbortMerge" Value="21" />
   </Symbols>
   <Images>
     <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
@@ -89,6 +90,9 @@
     </Image>
     <Image Guid="$(CustomMoniker)" ID="$(Tag)">
       <Source Uri="$(Resources)/Tag.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(AbortMerge)">
+      <Source Uri="$(Resources)/AbortMerge.xaml" />
     </Image>
   </Images>
   <ImageLists />

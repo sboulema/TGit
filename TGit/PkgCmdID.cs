@@ -57,5 +57,7 @@
         public const uint Init = 0x139;
         public const uint BrowseRef = 0x140;
         public const uint Tag = 0x141;
+
+        public const uint AbortMerge = 0x142;
     }
 }

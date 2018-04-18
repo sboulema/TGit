@@ -302,6 +302,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\Images\AbortMerge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Images\Cleanup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
