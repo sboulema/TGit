@@ -167,7 +167,8 @@ namespace SamirBoulema.TGit.Commands
 
         private string FormatCliCommand(string gitCommand, bool appendNextLine = true)
         {
-            return $"echo ^> {Path.GetFileNameWithoutExtension(EnvHelper.Git)} {gitCommand} && \"{EnvHelper.Git}\" {gitCommand}{(appendNextLine ? " && " : string.Empty)}";
+            var git = EnvHelper.GetGit();
+            return $"echo ^> {Path.GetFileNameWithoutExtension(git)} {gitCommand} && \"{git}\" {gitCommand}{(appendNextLine ? " && " : string.Empty)}";
         }
 
         private void FinishFeatureGitHubCommand(object sender, EventArgs e)

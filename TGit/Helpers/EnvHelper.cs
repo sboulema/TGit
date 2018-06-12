@@ -6,8 +6,8 @@ namespace SamirBoulema.TGit.Helpers
     {
         public static string BranchName;
         private static string _solutionDir;
-        public static string TortoiseGitProc;
-        public static string Git;
+        private static string _tortoiseGitProc;
+        private static string _git;
         public static DTE Dte;
 
         public static bool IsGitFlow(DTE dte = null)
@@ -42,9 +42,23 @@ namespace SamirBoulema.TGit.Helpers
             return ProcessHelper.StartProcessGit(dte, "stash list");
         }
 
-        public static void GetTortoiseGitProc() => TortoiseGitProc = FileHelper.GetTortoiseGitProc();
+        public static string GetTortoiseGitProc()
+        {
+            if (string.IsNullOrEmpty(_tortoiseGitProc))
+            {
+                _tortoiseGitProc = FileHelper.GetTortoiseGitProc();
+            }
+            return _tortoiseGitProc;
+        }
 
-        public static void GetGit() => Git = FileHelper.GetMSysGit();
+        public static string GetGit()
+        {
+            if (string.IsNullOrEmpty(_git))
+            {
+                _git = FileHelper.GetMSysGit();
+            }
+            return _git; 
+        }
 
         public static bool HasSolutionDir(DTE dte = null) => !string.IsNullOrEmpty(GetSolutionDir(dte));
 
@@ -52,8 +66,8 @@ namespace SamirBoulema.TGit.Helpers
         {
             BranchName = string.Empty;
             _solutionDir = string.Empty;
-            TortoiseGitProc = string.Empty;
-            Git = string.Empty;
+            _tortoiseGitProc = string.Empty;
+            _git = string.Empty;
         }
     }
 }

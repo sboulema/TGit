@@ -28,7 +28,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.Git}\" {commands}",
+                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -57,13 +57,14 @@ namespace SamirBoulema.TGit.Helpers
 
         public static void StartTortoiseGitProc(string args)
         {
+            var tortoiseGitProc = EnvHelper.GetTortoiseGitProc();
             try
             {
-                Process.Start(EnvHelper.TortoiseGitProc, args);
+                Process.Start(tortoiseGitProc, args);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, $"{EnvHelper.TortoiseGitProc} not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, $"{tortoiseGitProc} not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -83,7 +84,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.Git}\" {commands}",
+                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -112,7 +113,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{workingDir}\" && \"{EnvHelper.Git}\" {commands}",
+                    Arguments = $"/c cd /D \"{workingDir}\" && \"{EnvHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
