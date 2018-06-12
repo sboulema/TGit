@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
 
@@ -41,25 +42,28 @@ namespace SamirBoulema.TGit.Helpers
 
         public static void ApplyStash_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Enabled = EnvHelper.HasStash;
+            ((OleMenuCommand) sender).Enabled = EnvHelper.HasStash();
         }
 
         public static void Feature_BeforeQueryStatus(object sender, EventArgs e)
-        {        
-            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.FeaturePrefix);
+        {
+            var gitConfig = GitHelper.GetGitConfig();
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(gitConfig.FeaturePrefix);
         }
 
         public static void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.HotfixPrefix);
+            var gitConfig = GitHelper.GetGitConfig();
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(gitConfig.HotfixPrefix);
         }
 
         public static void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
-            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(EnvHelper.GitConfig.ReleasePrefix);
+            var gitConfig = GitHelper.GetGitConfig();
+            ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchName.StartsWith(gitConfig.ReleasePrefix);
         }
 
         public static void Solution_BeforeQueryStatus(object sender, EventArgs e)
@@ -74,12 +78,12 @@ namespace SamirBoulema.TGit.Helpers
 
         public static void GitFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow;
+            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
         }
 
         public static void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && !EnvHelper.IsGitFlow;
+            ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && !EnvHelper.IsGitFlow();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnvDTE;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,9 +17,9 @@ namespace SamirBoulema.TGit.Helpers
         /// <param name="commands">Git command to be executed</param>
         /// <param name="showAlert">Show an alert dialog when error output is non-empty</param>
         /// <returns>True if output is non-empty</returns>
-        public static bool StartProcessGit(string commands, bool showAlert = true)
+        public static bool StartProcessGit(DTE dte, string commands, bool showAlert = true)
         {
-            if (string.IsNullOrEmpty(EnvHelper.SolutionDir)) return false;
+            if (string.IsNullOrEmpty(EnvHelper.GetSolutionDir(dte))) return false;
 
             var output = string.Empty;
             var error = string.Empty;
@@ -27,7 +28,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{EnvHelper.SolutionDir}\" && \"{EnvHelper.Git}\" {commands}",
+                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.Git}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -71,9 +72,9 @@ namespace SamirBoulema.TGit.Helpers
         /// </summary>
         /// <param name="commands">Git command to be executed</param>
         /// <returns>Git output</returns>
-        public static string StartProcessGitResult(string commands)
+        public static string StartProcessGitResult(DTE dte, string commands)
         {
-            if (string.IsNullOrEmpty(EnvHelper.SolutionDir)) return string.Empty;
+            if (string.IsNullOrEmpty(EnvHelper.GetSolutionDir(dte))) return string.Empty;
 
             var output = string.Empty;
             var error = string.Empty;
@@ -82,7 +83,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{EnvHelper.SolutionDir}\" && \"{EnvHelper.Git}\" {commands}",
+                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.Git}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -141,13 +142,13 @@ namespace SamirBoulema.TGit.Helpers
             Process.Start(application, arguments);
         }
 
-        public static Process StartProcessGui(string application, string args, string title, string branchName = "", 
+        public static Process StartProcessGui(DTE dte, string application, string args, string title, string branchName = "", 
             OutputBox outputBox = null, OptionPageGrid options = null, string pushCommand = "")
         {
             var dialogResult = DialogResult.OK;
-            if (!StartProcessGit("config user.name") || !StartProcessGit("config user.email"))
+            if (!StartProcessGit(dte, "config user.name") || !StartProcessGit(dte, "config user.email"))
             {
-                dialogResult = new Credentials().ShowDialog();
+                dialogResult = new Credentials(dte).ShowDialog();
             }
 
             if (dialogResult == DialogResult.OK)
@@ -165,7 +166,7 @@ namespace SamirBoulema.TGit.Helpers
                             CreateNoWindow = true,
                             FileName = application,
                             Arguments = args,
-                            WorkingDirectory = EnvHelper.SolutionDir
+                            WorkingDirectory = EnvHelper.GetSolutionDir(dte)
                         },
                         EnableRaisingEvents = true
                     };
@@ -175,7 +176,7 @@ namespace SamirBoulema.TGit.Helpers
 
                     if (outputBox == null)
                     {
-                        _outputBox = new OutputBox(branchName, options, pushCommand);
+                        _outputBox = new OutputBox(branchName, options, pushCommand, dte);
                         _outputBox.Show();
                     }
                     else
@@ -194,7 +195,7 @@ namespace SamirBoulema.TGit.Helpers
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, $"{application} not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(e.Message, $"'{application}' not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 

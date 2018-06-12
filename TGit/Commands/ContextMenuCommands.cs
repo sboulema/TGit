@@ -102,10 +102,11 @@ namespace SamirBoulema.TGit.Commands
                 _dte.ActiveDocument.Save();
             var commitMessage = GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte);
             var bugId = GitHelper.GetCommitMessage(_generalOptions.BugId, _dte);
+            var gitConfig = GitHelper.GetGitConfig(_dte);
 
             ProcessHelper.StartTortoiseGitProc($"/command:commit /path:\"{currentFilePath}\" " +
                 $"{(string.IsNullOrEmpty(commitMessage) ? string.Empty : $"/logmsg:\"{commitMessage}\"")} " +
-                $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(EnvHelper.GitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)} " +
+                $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(gitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)} " +
                 $"/closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void RevertContextCommand(object sender, EventArgs e)

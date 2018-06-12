@@ -77,6 +77,8 @@ namespace SamirBoulema.TGit
         private void BackgroundThreadInitialization()
         {
             _dte = (DTE)GetService(typeof(DTE));
+            EnvHelper.Dte = _dte;
+
             _options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
 
             _events = _dte.Events.SolutionEvents;
@@ -95,7 +97,7 @@ namespace SamirBoulema.TGit
 
             new ContextMenuCommands(_mcs, _dte, _options).AddCommands();
 
-            new GitFlowMenuCommands(_mcs, _options).AddCommands();
+            new GitFlowMenuCommands(_mcs, _dte, _options).AddCommands();
 
             // Add all menus
             var tgitMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
@@ -131,12 +133,11 @@ namespace SamirBoulema.TGit
 
         public void SolutionEvents_Opened()
         {
+            EnvHelper.Dte = _dte;
             EnvHelper.GetTortoiseGitProc();
             EnvHelper.GetGit();
             EnvHelper.GetSolutionDir(_dte);
-            EnvHelper.GetGitConfig();
-            EnvHelper.GetBranchName();
-            EnvHelper.GetStash();
+            EnvHelper.HasStash(_dte);
         }     
     }
 }
