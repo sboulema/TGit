@@ -4,7 +4,6 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class EnvHelper
     {
-        public static string BranchName;
         private static string _solutionDir;
         private static string _tortoiseGitProc;
         private static string _git;
@@ -62,9 +61,17 @@ namespace SamirBoulema.TGit.Helpers
 
         public static bool HasSolutionDir(DTE dte = null) => !string.IsNullOrEmpty(GetSolutionDir(dte));
 
+        public static bool BranchNameStartsWith(string name, DTE dte = null)
+        {
+            if (dte == null)
+            {
+                dte = Dte;
+            }
+            return GitHelper.GetCurrentBranchName(false, dte).StartsWith(name);
+        }
+
         public static void Clear()
         {
-            BranchName = string.Empty;
             _solutionDir = string.Empty;
             _tortoiseGitProc = string.Empty;
             _git = string.Empty;
