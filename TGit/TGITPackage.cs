@@ -23,10 +23,10 @@ namespace SamirBoulema.TGit
     public sealed class TGitPackage : Package, IAsyncLoadablePackageInitialize
     {
         private DTE _dte;
-        private SolutionEvents _events;
         private bool isAsyncLoadSupported;
         private OleMenuCommandService _mcs;
         private OptionPageGrid _options;
+        private EnvHelper _envHelper;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -77,13 +77,10 @@ namespace SamirBoulema.TGit
         private void BackgroundThreadInitialization()
         {
             _dte = (DTE)GetService(typeof(DTE));
-            EnvHelper.Dte = _dte;
+            _envHelper = new EnvHelper(_dte);
+            CommandHelper.EnvHelper = _envHelper;
 
             _options = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-
-            _events = _dte.Events.SolutionEvents;
-            _events.Opened += SolutionEvents_Opened;
-            _events.AfterClosing += SolutionEvents_AfterClosing;
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             _mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -93,11 +90,11 @@ namespace SamirBoulema.TGit
         {
             if (null == _mcs) return;
 
-            new MainMenuCommands(_mcs, _dte, _options).AddCommands();
+            new MainMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
 
-            new ContextMenuCommands(_mcs, _dte, _options).AddCommands();
+            new ContextMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
 
-            new GitFlowMenuCommands(_mcs, _dte, _options).AddCommands();
+            new GitFlowMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
 
             // Add all menus
             var tgitMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
@@ -124,20 +121,6 @@ namespace SamirBoulema.TGit
             var tgitGitHubFlowMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
             tgitGitHubFlowMenu.BeforeQueryStatus += CommandHelper.GitHubFlow_BeforeQueryStatus;
             _mcs.AddCommand(tgitGitHubFlowMenu);
-        }
-
-        private static void SolutionEvents_AfterClosing()
-        {
-            EnvHelper.Clear();
-        }
-
-        public void SolutionEvents_Opened()
-        {
-            EnvHelper.Dte = _dte;
-            EnvHelper.GetTortoiseGitProc();
-            EnvHelper.GetGit();
-            EnvHelper.GetSolutionDir(_dte);
-            EnvHelper.HasStash(_dte);
-        }     
+        }   
     }
 }

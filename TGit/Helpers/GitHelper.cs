@@ -6,13 +6,13 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class GitHelper
     {
-        public static string GetCommitMessage(string commitMessageTemplate, DTE dte)
+        public static string GetCommitMessage(string commitMessageTemplate, DTE dte, EnvHelper envHelper)
         {
             if (string.IsNullOrEmpty(commitMessageTemplate)) return string.Empty;
 
             var commitMessage = commitMessageTemplate;
-            commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false, dte));
-            commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentBranchName(true, dte));
+            commitMessage = commitMessage.Replace("$(BranchName)", GetCurrentBranchName(false, envHelper));
+            commitMessage = commitMessage.Replace("$(FeatureName)", GetCurrentBranchName(true, envHelper));
             commitMessage = commitMessage.Replace("$(Configuration)", dte.Solution.SolutionBuild.ActiveConfiguration?.Name);
             commitMessage = commitMessage.Replace("$(DevEnvDir)", (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7\\", dte.Version, ""));
             commitMessage = commitMessage.Replace("$(SolutionDir)", Path.GetDirectoryName(dte.Solution.FullName));
@@ -25,13 +25,13 @@ namespace SamirBoulema.TGit.Helpers
             return commitMessage;
         }
 
-        public static string GetCurrentBranchName(bool trimPrefix, DTE dte)
+        public static string GetCurrentBranchName(bool trimPrefix, EnvHelper envHelper)
         {
-            var branchName = ProcessHelper.StartProcessGitResult(dte, "symbolic-ref -q --short HEAD");
+            var branchName = ProcessHelper.StartProcessGitResult(envHelper, "symbolic-ref -q --short HEAD");
 
             if (branchName == null) return string.Empty;
 
-            var gitConfig = GetGitConfig(dte);
+            var gitConfig = GetGitConfig(envHelper);
 
             if (branchName.StartsWith(gitConfig.FeaturePrefix) && trimPrefix)
             {
@@ -49,33 +49,23 @@ namespace SamirBoulema.TGit.Helpers
             return branchName;
         }
 
-        public static string GetSshSetup(DTE dte = null)
+        public static string GetSshSetup(EnvHelper envHelper)
         {
-            if (dte == null)
-            {
-                dte = EnvHelper.Dte;
-            }
-
-            var remoteOriginPuttyKeyfile = ProcessHelper.StartProcessGitResult(dte, "config --get remote.origin.puttykeyfile");
+            var remoteOriginPuttyKeyfile = ProcessHelper.StartProcessGitResult(envHelper, "config --get remote.origin.puttykeyfile");
             if (string.IsNullOrEmpty(remoteOriginPuttyKeyfile)) return string.Empty;
 
             ProcessHelper.Start("pageant", remoteOriginPuttyKeyfile);
             return $"set GIT_SSH={FileHelper.GetTortoiseGitPlink()} && ";
         }
 
-        public static GitConfig GetGitConfig(DTE dte = null)
+        public static GitConfig GetGitConfig(EnvHelper envHelper)
         {
-            if (dte == null)
-            {
-                dte = EnvHelper.Dte;
-            }
-
-            return new GitConfig(ProcessHelper.StartProcessGitResult(dte, "config --get-regexp gitflow"));
+            return new GitConfig(ProcessHelper.StartProcessGitResult(envHelper, "config --get-regexp gitflow"));
         }
 
-        public static bool RemoteBranchExists(DTE dte, string branch)
+        public static bool RemoteBranchExists(EnvHelper envHelper, string branch)
         {
-            return ProcessHelper.StartProcessGit(dte, $"show-ref refs/remotes/origin/{branch}");
+            return ProcessHelper.StartProcessGit(envHelper, $"show-ref refs/remotes/origin/{branch}");
         }
     }
 }

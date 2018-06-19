@@ -1,80 +1,126 @@
 ﻿using EnvDTE;
+using System;
+using System.Runtime.Caching;
 
 namespace SamirBoulema.TGit.Helpers
 {
-    public static class EnvHelper
+    /// <summary>
+    /// Provide cached access to a number of environment variables
+    /// </summary>
+    public class EnvHelper
     {
-        private static string _solutionDir;
-        private static string _tortoiseGitProc;
-        private static string _git;
-        public static DTE Dte;
+        private readonly DTE _dte;
+        private MemoryCache _cache;
 
-        public static bool IsGitFlow(DTE dte = null)
+        public EnvHelper(DTE dte)
         {
-            if (dte == null)
-            {
-                dte = Dte;
-            }
-            var gitConfig = GitHelper.GetGitConfig(dte);
+            _dte = dte;
+            _cache = new MemoryCache("TGIT");
+        }
+
+        public bool IsGitFlow()
+        {
+            var gitConfig = GetGitConfig();
             return !string.IsNullOrEmpty(gitConfig.MasterBranch);
         }
 
-        public static string GetSolutionDir(DTE dte = null)
+        public GitConfig GetGitConfig()
         {
-            if (dte == null)
+            if (_cache.Contains("GitConfig"))
             {
-                dte = Dte;
+                return (GitConfig)_cache.Get("GitConfig");
             }
-            if (string.IsNullOrEmpty(_solutionDir))
+
+            var gitConfig = GitHelper.GetGitConfig(this);
+            if (gitConfig != null)
             {
-                _solutionDir = FileHelper.GetSolutionDir(dte);
+                _cache.Set("GitConfig", gitConfig, DateTimeOffset.Now.AddMinutes(1));
             }
-            return _solutionDir;
+            return gitConfig;
         }
 
-        public static bool HasStash(DTE dte = null)
+        /// <summary>
+        /// Get the root of the solution path (where the .git folder resides)
+        /// </summary>
+        /// <remarks>Cached for 30s</remarks>
+        /// <returns></returns>
+        public string GetSolutionDir()
         {
-            if (dte == null)
+            if (_cache.Contains("SolutionDir"))
             {
-                dte = Dte;
+                return _cache.Get("SolutionDir").ToString();
             }
-            return ProcessHelper.StartProcessGit(dte, "stash list");
-        }
 
-        public static string GetTortoiseGitProc()
-        {
-            if (string.IsNullOrEmpty(_tortoiseGitProc))
+            var solutionDir = FileHelper.GetSolutionDir(_dte);
+            if (!string.IsNullOrEmpty(solutionDir))
             {
-                _tortoiseGitProc = FileHelper.GetTortoiseGitProc();
+                _cache.Set("SolutionDir", solutionDir, DateTimeOffset.Now.AddSeconds(30));
             }
-            return _tortoiseGitProc;
+            return solutionDir;
         }
 
-        public static string GetGit()
+        public bool HasStash()
         {
-            if (string.IsNullOrEmpty(_git))
+            return ProcessHelper.StartProcessGit(this, "stash list");
+        }
+
+        /// <summary>
+        /// Get the path to the TortoiseGit process
+        /// </summary>
+        /// <remarks>Cached for 1h</remarks>
+        /// <returns></returns>
+        public string GetTortoiseGitProc()
+        {
+            if (_cache.Contains("TortoiseGitProc"))
             {
-                _git = FileHelper.GetMSysGit();
+                return _cache.Get("TortoiseGitProc").ToString();
             }
-            return _git; 
-        }
 
-        public static bool HasSolutionDir(DTE dte = null) => !string.IsNullOrEmpty(GetSolutionDir(dte));
-
-        public static bool BranchNameStartsWith(string name, DTE dte = null)
-        {
-            if (dte == null)
+            var tortoiseGitProc = FileHelper.GetTortoiseGitProc();
+            if (!string.IsNullOrEmpty(tortoiseGitProc))
             {
-                dte = Dte;
+                _cache.Set("TortoiseGitProc", tortoiseGitProc, DateTimeOffset.Now.AddHours(1));
             }
-            return GitHelper.GetCurrentBranchName(false, dte).StartsWith(name);
+            return tortoiseGitProc;
         }
 
-        public static void Clear()
+        /// <summary>
+        /// Get the path to the Git process
+        /// </summary>
+        /// <remarks>Cached for 1h</remarks>
+        /// <returns></returns>
+        public string GetGit()
         {
-            _solutionDir = string.Empty;
-            _tortoiseGitProc = string.Empty;
-            _git = string.Empty;
+            if (_cache.Contains("Git"))
+            {
+                return _cache.Get("Git").ToString();
+            }
+
+            var git = FileHelper.GetMSysGit();
+            if (!string.IsNullOrEmpty(git))
+            {
+                _cache.Set("Git", git, DateTimeOffset.Now.AddHours(1));
+            }
+            return git; 
         }
+
+        public bool HasSolutionDir() => !string.IsNullOrEmpty(GetSolutionDir());
+
+        private string GetBranchName()
+        {
+            if (_cache.Contains("BranchName"))
+            {
+                return _cache.Get("BranchName").ToString();
+            }
+
+            var branchName = GitHelper.GetCurrentBranchName(false, this);
+            if (!string.IsNullOrEmpty(branchName))
+            {
+                _cache.Set("BranchName", branchName, DateTimeOffset.Now.AddSeconds(15));
+            }
+            return branchName;
+        }
+
+        public bool BranchNameStartsWith(string name) => GetBranchName().StartsWith(name);
     }
 }

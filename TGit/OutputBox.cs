@@ -12,14 +12,16 @@ namespace SamirBoulema.TGit
         private readonly string _branchName;
         private readonly string _pushCommand;
         private readonly DTE _dte;
+        private readonly EnvHelper _envHelper;
 
-        public OutputBox(string branchName, OptionPageGrid options, string pushCommand, DTE dte)
+        public OutputBox(string branchName, OptionPageGrid options, string pushCommand, DTE dte, EnvHelper envHelper)
         {
             InitializeComponent();
 
             _branchName = branchName;
             _pushCommand = pushCommand;
             _dte = dte;
+            _envHelper = envHelper;
 
             richTextBox.TextChanged += textBox_TextChanged;
 
@@ -32,7 +34,7 @@ namespace SamirBoulema.TGit
             }
             else
             {
-                remoteBranchCheckBox.Enabled = GitHelper.RemoteBranchExists(_dte, branchName);
+                remoteBranchCheckBox.Enabled = GitHelper.RemoteBranchExists(_envHelper, branchName);
             }
 
             if (options != null)
@@ -47,10 +49,10 @@ namespace SamirBoulema.TGit
         {
             if (localBranchCheckBox.Checked || remoteBranchCheckBox.Checked || pushCheckBox.Checked)
             {
-                var process = ProcessHelper.StartProcessGui(_dte,
+                var process = ProcessHelper.StartProcessGui(_dte, _envHelper,
                      "cmd.exe",
-                     $"/c cd \"{EnvHelper.GetSolutionDir(_dte)}\" && " +
-                         GitHelper.GetSshSetup(_dte) +
+                     $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                         GitHelper.GetSshSetup(_envHelper) +
                          "echo. && " +   
                          (pushCheckBox.Checked ? _pushCommand : "echo.") + 
                          FormatCliCommand($"branch -d {_branchName}") +
@@ -83,15 +85,15 @@ namespace SamirBoulema.TGit
         private void ResolveButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            if (string.IsNullOrEmpty(EnvHelper.GetSolutionDir(_dte))) return;
-            ProcessHelper.StartTortoiseGitProc($"/command:resolve /path:\"{EnvHelper.GetSolutionDir(_dte)}\"");
+            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:resolve /path:\"{_envHelper.GetSolutionDir()}\"");
         }
 
         private void StashButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            if (string.IsNullOrEmpty(EnvHelper.GetSolutionDir(_dte))) return;
-            ProcessHelper.StartTortoiseGitProc($"/command:repostatus /path:\"{EnvHelper.GetSolutionDir(_dte)}\"");
+            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repostatus /path:\"{_envHelper.GetSolutionDir()}\"");
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)
