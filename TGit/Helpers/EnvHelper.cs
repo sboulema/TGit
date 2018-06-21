@@ -18,12 +18,22 @@ namespace SamirBoulema.TGit.Helpers
             _cache = new MemoryCache("TGIT");
         }
 
+        /// <summary>
+        /// Check if GitFlow is initialized
+        /// </summary>
+        /// <remarks>Getting the actual flow config is cached for 1m</remarks>
+        /// <returns></returns>
         public bool IsGitFlow()
         {
             var gitConfig = GetGitConfig();
             return !string.IsNullOrEmpty(gitConfig.MasterBranch);
         }
 
+        /// <summary>
+        /// Get the Git config
+        /// </summary>
+        /// <remarks>Cached for 1m</remarks>
+        /// <returns></returns>
         public GitConfig GetGitConfig()
         {
             if (_cache.Contains("GitConfig"))
@@ -59,9 +69,21 @@ namespace SamirBoulema.TGit.Helpers
             return solutionDir;
         }
 
+        /// <summary>
+        /// Do we have any stashes available
+        /// </summary>
+        /// <remarks>Cached for 1m</remarks>
+        /// <returns></returns>
         public bool HasStash()
         {
-            return ProcessHelper.StartProcessGit(this, "stash list");
+            if (_cache.Contains("HasStash"))
+            {
+                return bool.Parse(_cache.Get("HasStash").ToString());
+            }
+
+            var hasStash = ProcessHelper.StartProcessGit(this, "stash list");
+            _cache.Set("HasStash", hasStash, DateTimeOffset.Now.AddMinutes(1));
+            return hasStash;
         }
 
         /// <summary>
@@ -104,8 +126,18 @@ namespace SamirBoulema.TGit.Helpers
             return git; 
         }
 
+        /// <summary>
+        /// Check if we have a path to a solution directory
+        /// </summary>
+        /// <remarks>Actual solution dir path is cached for 30s</remarks>
+        /// <returns></returns>
         public bool HasSolutionDir() => !string.IsNullOrEmpty(GetSolutionDir());
 
+        /// <summary>
+        /// Get the Git branch name eg. 'feature/tgit'
+        /// </summary>
+        /// <remarks>Cached for 15s</remarks>
+        /// <returns></returns>
         private string GetBranchName()
         {
             if (_cache.Contains("BranchName"))
@@ -121,6 +153,12 @@ namespace SamirBoulema.TGit.Helpers
             return branchName;
         }
 
+        /// <summary>
+        /// Check if a branch name starts with a given value
+        /// </summary>
+        /// <remarks>Actual branch name is cached for 15s</remarks>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool BranchNameStartsWith(string name) => GetBranchName().StartsWith(name);
     }
 }
