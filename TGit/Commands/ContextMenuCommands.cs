@@ -12,12 +12,15 @@ namespace SamirBoulema.TGit.Commands
         private readonly DTE _dte;
         private readonly OptionPageGrid _generalOptions;
         private readonly OleMenuCommandService _mcs;
+        private readonly EnvHelper _envHelper;
 
-        public ContextMenuCommands(OleMenuCommandService mcs, DTE dte, OptionPageGrid generalOptions)
+        public ContextMenuCommands(OleMenuCommandService mcs, DTE dte, 
+            OptionPageGrid generalOptions, EnvHelper envHelper)
         {
             _dte = dte;
             _mcs = mcs;
             _generalOptions = generalOptions;
+            _envHelper = envHelper;
         }
 
         public void AddCommands()
@@ -47,7 +50,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:log /path:\"{currentFilePath}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:log /path:\"{currentFilePath}\" /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void DiskBrowserContextCommand(object sender, EventArgs e)
         {
@@ -59,7 +62,7 @@ namespace SamirBoulema.TGit.Commands
         {
             var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
-            ProcessHelper.StartTortoiseGitProc($"/command:repobrowser /path:\"{currentFilePath}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repobrowser /path:\"{currentFilePath}\"");
         }
         private void BlameContextCommand(object sender, EventArgs e)
         {
@@ -68,7 +71,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:blame /path:\"{currentFilePath}\" /line:{currentLineIndex}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:blame /path:\"{currentFilePath}\" /line:{currentLineIndex}");
         }
         private void MergeContextCommand(object sender, EventArgs e)
         {
@@ -76,7 +79,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:merge /path:\"{currentFilePath}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:merge /path:\"{currentFilePath}\"");
         }
         private void PullContextCommand(object sender, EventArgs e)
         {
@@ -84,7 +87,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:pull /path:\"{currentFilePath}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:pull /path:\"{currentFilePath}\"");
         }
         private void FetchContextCommand(object sender, EventArgs e)
         {
@@ -92,7 +95,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:fetch /path:\"{currentFilePath}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:fetch /path:\"{currentFilePath}\"");
         }
         private void CommitContextCommand(object sender, EventArgs e)
         {
@@ -100,11 +103,11 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            var commitMessage = GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte);
-            var bugId = GitHelper.GetCommitMessage(_generalOptions.BugId, _dte);
-            var gitConfig = GitHelper.GetGitConfig(_dte);
+            var commitMessage = GitHelper.GetCommitMessage(_generalOptions.CommitMessage, _dte, _envHelper);
+            var bugId = GitHelper.GetCommitMessage(_generalOptions.BugId, _dte, _envHelper);
+            var gitConfig = GitHelper.GetGitConfig(_envHelper);
 
-            ProcessHelper.StartTortoiseGitProc($"/command:commit /path:\"{currentFilePath}\" " +
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:commit /path:\"{currentFilePath}\" " +
                 $"{(string.IsNullOrEmpty(commitMessage) ? string.Empty : $"/logmsg:\"{commitMessage}\"")} " +
                 $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(gitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)} " +
                 $"/closeonend:{_generalOptions.CloseOnEnd}");
@@ -115,7 +118,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:revert /path:\"{currentFilePath}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:revert /path:\"{currentFilePath}\"");
         }
         private void DiffContextCommand(object sender, EventArgs e)
         {
@@ -123,7 +126,7 @@ namespace SamirBoulema.TGit.Commands
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
-            ProcessHelper.StartTortoiseGitProc($"/command:diff /path:\"{currentFilePath}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:diff /path:\"{currentFilePath}\"");
         }
 
         private void PrefDiffContextCommand(object sender, EventArgs e)
@@ -133,14 +136,16 @@ namespace SamirBoulema.TGit.Commands
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
 
-            var revisions = ProcessHelper.GitResult(Path.GetDirectoryName(currentFilePath), $"log -2 --pretty=format:%h {FileHelper.GetExactFileName(currentFilePath)}");
+            var revisions = ProcessHelper.GitResult(_envHelper, 
+                Path.GetDirectoryName(currentFilePath), $"log -2 --pretty=format:%h {FileHelper.GetExactFileName(currentFilePath)}");
             if (!revisions.Contains(","))
             {
                 MessageBox.Show("Could not determine the last committed revision!", "TGit", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                ProcessHelper.StartTortoiseGitProc($"/command:diff /path:\"{FileHelper.GetExactPathName(currentFilePath)}\" /startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}");
+                ProcessHelper.StartTortoiseGitProc(_envHelper, 
+                    $"/command:diff /path:\"{FileHelper.GetExactPathName(currentFilePath)}\" /startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}");
             }
         }
     }

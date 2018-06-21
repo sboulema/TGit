@@ -6,6 +6,8 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class CommandHelper
     {
+        public static EnvHelper EnvHelper;
+
         public static void AddCommand(OleMenuCommandService mcs, EventHandler handler, uint commandId, EventHandler eventHandler)
         {
             mcs.AddCommand(CreateCommand(handler, commandId, eventHandler));
@@ -46,21 +48,21 @@ namespace SamirBoulema.TGit.Helpers
 
         public static void Feature_BeforeQueryStatus(object sender, EventArgs e)
         {
-            var gitConfig = GitHelper.GetGitConfig();
+            var gitConfig = EnvHelper.GetGitConfig();
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
             ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchNameStartsWith(gitConfig.FeaturePrefix);
         }
 
         public static void Hotfix_BeforeQueryStatus(object sender, EventArgs e)
         {
-            var gitConfig = GitHelper.GetGitConfig();
+            var gitConfig = EnvHelper.GetGitConfig();
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
             ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchNameStartsWith(gitConfig.HotfixPrefix);
         }
 
         public static void Release_BeforeQueryStatus(object sender, EventArgs e)
         {
-            var gitConfig = GitHelper.GetGitConfig();
+            var gitConfig = EnvHelper.GetGitConfig();
             ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitFlow();
             ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir() && EnvHelper.BranchNameStartsWith(gitConfig.ReleasePrefix);
         }

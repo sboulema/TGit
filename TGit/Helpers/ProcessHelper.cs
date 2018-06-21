@@ -17,9 +17,9 @@ namespace SamirBoulema.TGit.Helpers
         /// <param name="commands">Git command to be executed</param>
         /// <param name="showAlert">Show an alert dialog when error output is non-empty</param>
         /// <returns>True if output is non-empty</returns>
-        public static bool StartProcessGit(DTE dte, string commands, bool showAlert = true)
+        public static bool StartProcessGit(EnvHelper envHelper, string commands, bool showAlert = true)
         {
-            if (string.IsNullOrEmpty(EnvHelper.GetSolutionDir(dte))) return false;
+            if (string.IsNullOrEmpty(envHelper.GetSolutionDir())) return false;
 
             var output = string.Empty;
             var error = string.Empty;
@@ -28,7 +28,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.GetGit()}\" {commands}",
+                    Arguments = $"/c cd /D \"{envHelper.GetSolutionDir()}\" && \"{envHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -55,9 +55,9 @@ namespace SamirBoulema.TGit.Helpers
             return false;
         }
 
-        public static void StartTortoiseGitProc(string args)
+        public static void StartTortoiseGitProc(EnvHelper envHelper, string args)
         {
-            var tortoiseGitProc = EnvHelper.GetTortoiseGitProc();
+            var tortoiseGitProc = envHelper.GetTortoiseGitProc();
             try
             {
                 Process.Start(tortoiseGitProc, args);
@@ -73,9 +73,9 @@ namespace SamirBoulema.TGit.Helpers
         /// </summary>
         /// <param name="commands">Git command to be executed</param>
         /// <returns>Git output</returns>
-        public static string StartProcessGitResult(DTE dte, string commands)
+        public static string StartProcessGitResult(EnvHelper envHelper, string commands)
         {
-            if (string.IsNullOrEmpty(EnvHelper.GetSolutionDir(dte))) return string.Empty;
+            if (string.IsNullOrEmpty(envHelper.GetSolutionDir())) return string.Empty;
 
             var output = string.Empty;
             var error = string.Empty;
@@ -84,7 +84,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{EnvHelper.GetSolutionDir(dte)}\" && \"{EnvHelper.GetGit()}\" {commands}",
+                    Arguments = $"/c cd /D \"{envHelper.GetSolutionDir()}\" && \"{envHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -104,7 +104,7 @@ namespace SamirBoulema.TGit.Helpers
             return string.IsNullOrEmpty(output) ? error : output.TrimEnd(';');
         }
 
-        public static string GitResult(string workingDir, string commands)
+        public static string GitResult(EnvHelper envHelper, string workingDir, string commands)
         {
             var output = string.Empty;
             var error = string.Empty;
@@ -113,7 +113,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{workingDir}\" && \"{EnvHelper.GetGit()}\" {commands}",
+                    Arguments = $"/c cd /D \"{workingDir}\" && \"{envHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -143,13 +143,13 @@ namespace SamirBoulema.TGit.Helpers
             Process.Start(application, arguments);
         }
 
-        public static Process StartProcessGui(DTE dte, string application, string args, string title, string branchName = "", 
+        public static Process StartProcessGui(DTE dte, EnvHelper envHelper, string application, string args, string title, string branchName = "", 
             OutputBox outputBox = null, OptionPageGrid options = null, string pushCommand = "")
         {
             var dialogResult = DialogResult.OK;
-            if (!StartProcessGit(dte, "config user.name") || !StartProcessGit(dte, "config user.email"))
+            if (!StartProcessGit(envHelper, "config user.name") || !StartProcessGit(envHelper, "config user.email"))
             {
-                dialogResult = new Credentials(dte).ShowDialog();
+                dialogResult = new Credentials(envHelper).ShowDialog();
             }
 
             if (dialogResult == DialogResult.OK)
@@ -167,7 +167,7 @@ namespace SamirBoulema.TGit.Helpers
                             CreateNoWindow = true,
                             FileName = application,
                             Arguments = args,
-                            WorkingDirectory = EnvHelper.GetSolutionDir(dte)
+                            WorkingDirectory = envHelper.GetSolutionDir()
                         },
                         EnableRaisingEvents = true
                     };
@@ -177,7 +177,7 @@ namespace SamirBoulema.TGit.Helpers
 
                     if (outputBox == null)
                     {
-                        _outputBox = new OutputBox(branchName, options, pushCommand, dte);
+                        _outputBox = new OutputBox(branchName, options, pushCommand, dte, envHelper);
                         _outputBox.Show();
                     }
                     else
