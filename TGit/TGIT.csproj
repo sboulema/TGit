@@ -190,6 +190,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GitSVNMenuCommands.cs" />
     <Compile Include="Commands\GitFlowMenuCommands.cs" />
     <Compile Include="Commands\MainMenuCommands.cs" />
     <Compile Include="Commands\ContextMenuCommands.cs" />
@@ -318,6 +319,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Images\Stash.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Images\Rebase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

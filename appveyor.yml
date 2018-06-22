@@ -1,4 +1,4 @@
-version: 4.8.{build}
+version: 4.9.{build}
 skip_tags: true
 
 image: Visual Studio 2017

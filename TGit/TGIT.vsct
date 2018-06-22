@@ -48,6 +48,17 @@
         </Strings>
       </Menu>
 
+      <!--Git SVN Menu-->
+      <Menu guid="guidTGitCmdSet" id="TGitSVNMenu" priority="0x0300" type="Menu">
+        <Parent guid="guidTGitCmdSet" id="firstMenuGroup"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>SVN</ButtonText>
+          <CommandName>SVN</CommandName>
+        </Strings>
+      </Menu>
+
       <!--Toolbar Menu-->
       <Menu guid="guidTGitCmdSet" id="Toolbar" type="Toolbar">
         <Strings>
@@ -58,6 +69,11 @@
     </Menus>
     
     <Groups>
+      <!--SVN-->
+      <Group guid="guidTGitCmdSet" id="TGitSVNMenuGroup" priority="0x0000">
+        <Parent guid="guidTGitCmdSet" id="TGitSVNMenu"/>
+      </Group>
+      
       <!--Flow Group-->
       <Group guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" priority="0x0000">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenu"/>
@@ -138,6 +154,32 @@
     </Groups>
     
     <Buttons>
+      <!--SVN Buttons-->
+      <Button guid="guidTGitCmdSet" id="svnDCommit" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="TGitSVNMenuGroup" />
+        <Icon guid="guidImages" id="commit" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Commit...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="svnFetch" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="TGitSVNMenuGroup" />
+        <Icon guid="guidImages" id="fetch" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Fetch...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="svnRebase" priority="0x0100" type="Button">
+        <Parent guid="guidTGitCmdSet" id="TGitSVNMenuGroup" />
+        <Icon guid="guidImages" id="rebase" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Rebase...</ButtonText>
+        </Strings>
+      </Button>
+
       <!--GitFlow Buttons-->
       <Button guid="guidTGitCmdSet" id="startFeature" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
@@ -490,6 +532,7 @@
       <IDSymbol name="browseRef" value="19" />
       <IDSymbol name="tag" value="20" />
       <IDSymbol name="abortMerge" value="21" />
+      <IDSymbol name="rebase" value="22" />
     </GuidSymbol>
 
     <!--Special Context Menus-->
@@ -513,6 +556,14 @@
       <IDSymbol name="fourthMenuGroup" value="0x1024" />
       <IDSymbol name="fifthMenuGroup" value="0x1025" />
       <IDSymbol name="sixthMenuGroup" value="0x1026" />
+
+      <!--SVN Menu-->
+      <IDSymbol name="TGitSVNMenu" value="0x4000"/>
+      <IDSymbol name="TGitSVNMenuGroup" value="0x4001"/>
+
+      <IDSymbol name="svnDCommit" value="0x0143"/>
+      <IDSymbol name="svnRebase" value="0x0144"/>
+      <IDSymbol name="svnFetch" value="0x0145"/>
 
       <!--GitFlow Menu-->
       <IDSymbol name="TGitGitFlowMenu" value="0x2000"/>

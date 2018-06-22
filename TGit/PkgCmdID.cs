@@ -51,6 +51,7 @@
         public const uint TGitContextMenu = 0x1027;
         public const uint TGitGitFlowMenu = 0x2000;
         public const uint TGitGitHubFlowMenu = 0x3000;
+        public const uint TGitSvnMenu = 0x4000;
 
         public const uint Resolve = 0x137;
         public const uint Sync = 0x138;
@@ -59,5 +60,9 @@
         public const uint Tag = 0x141;
 
         public const uint AbortMerge = 0x142;
+
+        public const uint SvnDCommit = 0x143;
+        public const uint SvnFetch = 0x144;
+        public const uint SvnRebase = 0x145;
     }
 }

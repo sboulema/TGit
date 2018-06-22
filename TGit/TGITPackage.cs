@@ -90,11 +90,11 @@ namespace SamirBoulema.TGit
         {
             if (null == _mcs) return;
 
+            // Add all commands
             new MainMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
-
             new ContextMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
-
             new GitFlowMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
+            new GitSVNMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
 
             // Add all menus
             var tgitMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
@@ -121,6 +121,10 @@ namespace SamirBoulema.TGit
             var tgitGitHubFlowMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
             tgitGitHubFlowMenu.BeforeQueryStatus += CommandHelper.GitHubFlow_BeforeQueryStatus;
             _mcs.AddCommand(tgitGitHubFlowMenu);
+
+            var tgitGitSvnMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitSvnMenu);
+            tgitGitSvnMenu.BeforeQueryStatus += CommandHelper.GitSvn_BeforeQueryStatus;
+            _mcs.AddCommand(tgitGitSvnMenu);
         }   
     }
 }

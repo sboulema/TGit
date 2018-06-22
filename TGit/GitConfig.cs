@@ -11,6 +11,7 @@ namespace SamirBoulema.TGit
         public string HotfixPrefix;
         public string TagPrefix;
         public string BugTraqMessage;
+        public string SvnUrl;
 
         public GitConfig()
         {
@@ -25,6 +26,7 @@ namespace SamirBoulema.TGit
             ReleasePrefix = string.Empty;
             HotfixPrefix = string.Empty;
             TagPrefix = string.Empty;
+            SvnUrl = string.Empty;
 
             foreach (var line in input.Split(';'))
             {
@@ -55,7 +57,11 @@ namespace SamirBoulema.TGit
                 else if (line.StartsWith("bugtraq.message"))
                 {
                     BugTraqMessage = line.Split(' ').Last();
-                }              
+                }
+                else if (line.StartsWith("svn-remote.svn.url"))
+                {
+                    SvnUrl = line.Split('=').Last();
+                }
             }
         }
     }

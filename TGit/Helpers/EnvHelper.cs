@@ -21,12 +21,23 @@ namespace SamirBoulema.TGit.Helpers
         /// <summary>
         /// Check if GitFlow is initialized
         /// </summary>
-        /// <remarks>Getting the actual flow config is cached for 1m</remarks>
+        /// <remarks>Getting the actual git config is cached for 1m</remarks>
         /// <returns></returns>
         public bool IsGitFlow()
         {
             var gitConfig = GetGitConfig();
             return !string.IsNullOrEmpty(gitConfig.MasterBranch);
+        }
+
+        /// <summary>
+        /// Check if Git SVN is used for this repo
+        /// </summary>
+        /// <remarks>Getting the actual git config is cached for 1m</remarks>
+        /// <returns></returns>
+        public bool IsGitSvn()
+        {
+            var gitConfig = GetGitConfig();
+            return !string.IsNullOrEmpty(gitConfig.SvnUrl);
         }
 
         /// <summary>

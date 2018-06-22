@@ -60,7 +60,7 @@ namespace SamirBoulema.TGit.Helpers
 
         public static GitConfig GetGitConfig(EnvHelper envHelper)
         {
-            return new GitConfig(ProcessHelper.StartProcessGitResult(envHelper, "config --get-regexp gitflow"));
+            return new GitConfig(ProcessHelper.StartProcessGitResult(envHelper, "config --get-regexp \"gitflow|bugtraq|svn-remote\""));
         }
 
         public static bool RemoteBranchExists(EnvHelper envHelper, string branch)

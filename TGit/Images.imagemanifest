@@ -29,6 +29,7 @@
     <ID Name="BrowseRef" Value="19" />
     <ID Name="Tag" Value="20" />
     <ID Name="AbortMerge" Value="21" />
+    <ID Name="Rebase" Value="22" />
   </Symbols>
   <Images>
     <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
@@ -93,6 +94,9 @@
     </Image>
     <Image Guid="$(CustomMoniker)" ID="$(AbortMerge)">
       <Source Uri="$(Resources)/AbortMerge.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Rebase)">
+      <Source Uri="$(Resources)/Rebase.xaml" />
     </Image>
   </Images>
   <ImageLists />
