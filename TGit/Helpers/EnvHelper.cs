@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using SamirBoulema.TGit.Models;
 using System;
 using System.Runtime.Caching;
 
@@ -47,15 +48,15 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public GitConfig GetGitConfig()
         {
-            if (_cache.Contains("GitConfig"))
+            if (_cache.Contains(CacheKeyEnum.GitConfig.ToString()))
             {
-                return (GitConfig)_cache.Get("GitConfig");
+                return (GitConfig)_cache.Get(CacheKeyEnum.GitConfig.ToString());
             }
 
             var gitConfig = GitHelper.GetGitConfig(this);
             if (gitConfig != null)
             {
-                _cache.Set("GitConfig", gitConfig, DateTimeOffset.Now.AddMinutes(1));
+                _cache.Set(CacheKeyEnum.GitConfig.ToString(), gitConfig, DateTimeOffset.Now.AddMinutes(1));
             }
             return gitConfig;
         }
@@ -67,15 +68,15 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public string GetSolutionDir()
         {
-            if (_cache.Contains("SolutionDir"))
+            if (_cache.Contains(CacheKeyEnum.SolutionDir.ToString()))
             {
-                return _cache.Get("SolutionDir").ToString();
+                return _cache.Get(CacheKeyEnum.SolutionDir.ToString()).ToString();
             }
 
             var solutionDir = FileHelper.GetSolutionDir(_dte);
             if (!string.IsNullOrEmpty(solutionDir))
             {
-                _cache.Set("SolutionDir", solutionDir, DateTimeOffset.Now.AddSeconds(30));
+                _cache.Set(CacheKeyEnum.SolutionDir.ToString(), solutionDir, DateTimeOffset.Now.AddSeconds(30));
             }
             return solutionDir;
         }
@@ -87,13 +88,13 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public bool HasStash()
         {
-            if (_cache.Contains("HasStash"))
+            if (_cache.Contains(CacheKeyEnum.HasStash.ToString()))
             {
-                return bool.Parse(_cache.Get("HasStash").ToString());
+                return bool.Parse(_cache.Get(CacheKeyEnum.HasStash.ToString()).ToString());
             }
 
             var hasStash = ProcessHelper.StartProcessGit(this, "stash list");
-            _cache.Set("HasStash", hasStash, DateTimeOffset.Now.AddMinutes(1));
+            _cache.Set(CacheKeyEnum.HasStash.ToString(), hasStash, DateTimeOffset.Now.AddMinutes(1));
             return hasStash;
         }
 
@@ -104,15 +105,15 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public string GetTortoiseGitProc()
         {
-            if (_cache.Contains("TortoiseGitProc"))
+            if (_cache.Contains(CacheKeyEnum.TortoiseGitProc.ToString()))
             {
-                return _cache.Get("TortoiseGitProc").ToString();
+                return _cache.Get(CacheKeyEnum.TortoiseGitProc.ToString()).ToString();
             }
 
             var tortoiseGitProc = FileHelper.GetTortoiseGitProc();
             if (!string.IsNullOrEmpty(tortoiseGitProc))
             {
-                _cache.Set("TortoiseGitProc", tortoiseGitProc, DateTimeOffset.Now.AddHours(1));
+                _cache.Set(CacheKeyEnum.TortoiseGitProc.ToString(), tortoiseGitProc, DateTimeOffset.Now.AddHours(1));
             }
             return tortoiseGitProc;
         }
@@ -124,15 +125,15 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public string GetGit()
         {
-            if (_cache.Contains("Git"))
+            if (_cache.Contains(CacheKeyEnum.Git.ToString()))
             {
-                return _cache.Get("Git").ToString();
+                return _cache.Get(CacheKeyEnum.Git.ToString()).ToString();
             }
 
             var git = FileHelper.GetMSysGit();
             if (!string.IsNullOrEmpty(git))
             {
-                _cache.Set("Git", git, DateTimeOffset.Now.AddHours(1));
+                _cache.Set(CacheKeyEnum.Git.ToString(), git, DateTimeOffset.Now.AddHours(1));
             }
             return git; 
         }
@@ -151,15 +152,15 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         private string GetBranchName()
         {
-            if (_cache.Contains("BranchName"))
+            if (_cache.Contains(CacheKeyEnum.BranchName.ToString()))
             {
-                return _cache.Get("BranchName").ToString();
+                return _cache.Get(CacheKeyEnum.BranchName.ToString()).ToString();
             }
 
             var branchName = GitHelper.GetCurrentBranchName(false, this);
             if (!string.IsNullOrEmpty(branchName))
             {
-                _cache.Set("BranchName", branchName, DateTimeOffset.Now.AddSeconds(15));
+                _cache.Set(CacheKeyEnum.BranchName.ToString(), branchName, DateTimeOffset.Now.AddSeconds(15));
             }
             return branchName;
         }
@@ -171,5 +172,11 @@ namespace SamirBoulema.TGit.Helpers
         /// <param name="name"></param>
         /// <returns></returns>
         public bool BranchNameStartsWith(string name) => GetBranchName().StartsWith(name);
+
+        /// <summary>
+        /// Clear key from the cache
+        /// </summary>
+        /// <param name="key"></param>
+        public void ClearCache(CacheKeyEnum key) => _cache.Remove(key.ToString());
     }
 }

@@ -216,6 +216,7 @@
     <Compile Include="Helpers\GitHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\EnvHelper.cs" />
+    <Compile Include="Models\CacheKeyEnum.cs" />
     <Compile Include="OptionsGeneral.cs">
       <SubType>Component</SubType>
     </Compile>

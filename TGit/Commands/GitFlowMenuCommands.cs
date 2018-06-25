@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
+using SamirBoulema.TGit.Models;
 
 namespace SamirBoulema.TGit.Commands
 {
@@ -96,6 +97,8 @@ namespace SamirBoulema.TGit.Commands
                 "Initializing GitFlow"
                 );
             process.WaitForExit();
+
+            _envHelper.ClearCache(CacheKeyEnum.GitConfig);
         }
 
         private void StartFeatureCommand(object sender, EventArgs e)
