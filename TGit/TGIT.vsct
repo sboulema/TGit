@@ -160,7 +160,7 @@
         <Icon guid="guidImages" id="commit" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>Commit...</ButtonText>
+          <ButtonText>SVN Commit...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="svnFetch" priority="0x0100" type="Button">
@@ -168,7 +168,7 @@
         <Icon guid="guidImages" id="fetch" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>Fetch...</ButtonText>
+          <ButtonText>SVN Fetch...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="svnRebase" priority="0x0100" type="Button">
@@ -176,7 +176,7 @@
         <Icon guid="guidImages" id="rebase" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>Rebase...</ButtonText>
+          <ButtonText>SVN Rebase...</ButtonText>
         </Strings>
       </Button>
 
