@@ -11,8 +11,8 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
         <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>TGIT</ButtonText>
-          <CommandName>TGIT</CommandName>
+          <ButtonText>TGit</ButtonText>
+          <CommandName>TGit</CommandName>
         </Strings>
       </Menu>
       
@@ -21,8 +21,8 @@
         <Parent guid="guidTGitCmdSet" id="contextMenuGroup" />
         <CommandFlag>TextChanges</CommandFlag>
         <Strings>
-          <ButtonText>TGIT</ButtonText>
-          <CommandName>TGIT</CommandName>
+          <ButtonText>TGit</ButtonText>
+          <CommandName>TGit</CommandName>
         </Strings>
       </Menu>
 
