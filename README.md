@@ -39,25 +39,22 @@ You can change what happens when using the finish feature command:
 
 ## Keyboard shortcuts
 
-* `(G)it (C)ommit` - Ctrl+G, Ctrl+C
-* `(G)it (F)etch` - Ctrl+G, Ctrl+F
-* `(G)it (L)og` - Ctrl+G, Ctrl+L
-* `(G)it (M)erge` - Ctrl+G, Ctrl+M
-* `(G)it (P)ull` - Ctrl+G, Ctrl+P
-* `(G)it P(u)sh` - Ctrl+G, Ctrl+U
-* `(G)it (R)evert` - Ctrl+G, Ctrl+R
-* `(G)it Stas(h)-Apply` - Ctrl+G, Ctrl+H
-* `(G)it Stash-Cre(a)te` - Ctrl+G, Ctrl+A
-* `(G)it (S)witch` - Ctrl+G, Ctrl+S
-* `(G)it S(y)nc` - Ctrl+S, Ctrl+Y
-* `(G)it Clea(n)up` - Ctrl+G, Ctrl+N
-* `(G)it R(e)solve` - Ctrl+G, Ctrl+E
-* `(G)it Sho(w) Changes` - Ctrl+G, Ctrl+W
-* `(G)it File (B)lame` - Ctrl+G, Ctrl+B
-* `(G)it File (D)iff` - Ctrl+G, Ctrl+D
-
-To make these shortcuts work you will have to redefine the Ctrl+G (Go To Line) shortcut to be e.g. Ctrl+G, Ctrl+G. 
-To do this go to Tools -> Options -> Keyboard and change the shortcut for Edit.GoTo
+* `(G)it (C)ommit` - Ctrl+Shift+Alt+G, C
+* `(G)it (F)etch` - Ctrl+Shift+Alt+G, F
+* `(G)it (L)og` - Ctrl+Shift+Alt+G, L
+* `(G)it (M)erge` - Ctrl+Shift+Alt+G, M
+* `(G)it (P)ull` - Ctrl+Shift+Alt+G, P
+* `(G)it P(u)sh` - Ctrl+Shift+Alt+G, U
+* `(G)it (R)evert` - Ctrl+Shift+Alt+G, R
+* `(G)it Stas(h)-Apply` - Ctrl+Shift+Alt+G, H
+* `(G)it Stash-Cre(a)te` - Ctrl+Shift+Alt+G, A
+* `(G)it (S)witch` - Ctrl+Shift+Alt+G, S
+* `(G)it S(y)nc` - Ctrl+Shift+Alt+S, Y
+* `(G)it Clea(n)up` - Ctrl+Shift+Alt+G, N
+* `(G)it R(e)solve` - Ctrl+Shift+Alt+G, E
+* `(G)it Sho(w) Changes` - Ctrl+Shift+Alt+G, W
+* `(G)it File (B)lame` - Ctrl+Shift+Alt+G, B
+* `(G)it File (D)iff` - Ctrl+Shift+Alt+G, D
 
 ## Gitflow
 So what exactly are those [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/) menu items doing?
