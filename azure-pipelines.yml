@@ -27,7 +27,7 @@ steps:
     FileVersionNumber: '$(version)'
     InformationalVersion: '$(version)'
 
-- task: SamirBoulema.Vsix-Tools.Vsix-Tools-Update-Version.Vsix-Tools-Update-Version@1
+- task: VsixToolsUpdateVersion@1
   displayName: 'Update Vsix Version'
   inputs:
     FileName: $(Build.SourcesDirectory)\$(system.teamProject)\source.extension.vsixmanifest
