@@ -66,10 +66,10 @@ steps:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: '$(system.teamProject)'
 
-- task: SamirBoulema.Vsix-Tools.Vsix-Tools-Upload-Vsix.Vsix-Tools-Upload-Vsix@2
+- task: VsixToolsUploadVsix@1
   displayName: 'Upload Vsix to Open Gallery'
 
-- task: SamirBoulema.Vsix-Tools.Vsix-Tools-Upload-Vsix.Vsix-Tools-Upload-Vsix@2
+- task: VsixToolsUploadVsix@1
   displayName: 'Upload Vsix to Myget'
   inputs:
     UploadTo: MyGetVsix
