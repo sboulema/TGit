@@ -1,9 +1,9 @@
 # TGit
 Control TortoiseGit from within Visual Studio
 
-[![Build status](https://ci.appveyor.com/api/projects/status/9qp6jfgql4irdy30?svg=true)](https://ci.appveyor.com/project/sboulema/tgit) 
+[![Build Status](https://dev.azure.com/sboulema/TGit/_apis/build/status/sboulema.TGit)](https://dev.azure.com/sboulema/TGit/_build/latest?definitionId=1)
 [![VS Marketplace](http://vsmarketplacebadge.apphb.com/version-short/SamirBoulema.TGit.svg)](https://visualstudiogallery.msdn.microsoft.com/132a30d8-f318-4a53-8386-2c9fe52d77a1)
-[![Beerpay](https://beerpay.io/sboulema/TGit/badge.svg?style=flat)](https://beerpay.io/sboulema/TGit)
+[![Beerpay](https://img.shields.io/beerpay/sboulema/TGit.svg?style=flat)](https://beerpay.io/sboulema/TGit)
 
 ## Getting started
 1. Install the [TGit extension](https://visualstudiogallery.msdn.microsoft.com/132a30d8-f318-4a53-8386-2c9fe52d77a1)

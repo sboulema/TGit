@@ -8,10 +8,11 @@ pool:
 
 variables:
   patch: $[counter('versioncounter', 41)]
-  version: 4.9.$(patch)
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+
+name: 4.9.$(patch)
 
 steps:
 - task: NuGetToolInstaller@0
@@ -23,15 +24,15 @@ steps:
 - task: bleddynrichards.Assembly-Info-Task.Assembly-Info-Task.Assembly-Info-Task@1
   displayName: 'Update Assembly Version'
   inputs:
-    VersionNumber: '$(version)'
-    FileVersionNumber: '$(version)'
-    InformationalVersion: '$(version)'
+    VersionNumber: '$(Build.BuildNumber)'
+    FileVersionNumber: '$(Build.BuildNumber)'
+    InformationalVersion: '$(Build.BuildNumber)'
 
 - task: VsixToolsUpdateVersion@1
   displayName: 'Update Vsix Version'
   inputs:
     FileName: $(Build.SourcesDirectory)\$(system.teamProject)\source.extension.vsixmanifest
-    VersionNumber: '$(version)'
+    VersionNumber: '$(Build.BuildNumber)'
 
 - task: VSBuild@1
   displayName: 'Build Vsix'
@@ -48,8 +49,8 @@ steps:
 
 - task: CopyFiles@2
   displayName: 'Copy Artifacts to Staging'
-  inputs:
-    contents: '**\*.vsix' 
+  inputs: 
+    contents: '**\?(*.vsix|publish-manifest.json|readme.md)'
     targetFolder: '$(Build.ArtifactStagingDirectory)'
     flattenFolders: true
 
@@ -57,7 +58,7 @@ steps:
   displayName: 'Rename Build Artifacts'
   inputs:
     targetType: 'inline'
-    script: 'Get-ChildItem ./*.vsix -Recurse | Rename-Item -NewName {$_.basename + "_" + $env:VERSION + $_.extension }'
+    script: 'Get-ChildItem ./*.vsix -Recurse | Rename-Item -NewName {$_.basename + "_" + $env:BUILD_BUILDNUMBER + $_.extension }'
     workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
@@ -68,9 +69,3 @@ steps:
 
 - task: VsixToolsUploadVsix@1
   displayName: 'Upload Vsix to Open Gallery'
-
-- task: VsixToolsUploadVsix@1
-  displayName: 'Upload Vsix to Myget'
-  inputs:
-    UploadTo: MyGetVsix
-    ConnectedServiceName: MyGetVsix
