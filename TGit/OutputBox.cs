@@ -49,6 +49,8 @@ namespace SamirBoulema.TGit
         {
             if (localBranchCheckBox.Checked || remoteBranchCheckBox.Checked || pushCheckBox.Checked)
             {
+                okButton.Enabled = false;
+
                 var process = ProcessHelper.StartProcessGui(_dte, _envHelper,
                      "cmd.exe",
                      $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
@@ -57,16 +59,15 @@ namespace SamirBoulema.TGit
                          (pushCheckBox.Checked ? _pushCommand : "echo.") + 
                          FormatCliCommand($"branch -d {_branchName}") +
                          (remoteBranchCheckBox.Checked ? FormatCliCommand($"push origin --delete {_branchName}", false) : "echo."),
-                     "Finishing...", string.Empty, this
-                 );
-                process.WaitForExit();
+                     string.Empty, string.Empty, this
+                );
+
+                okButton.Click -= okButton_Click;
                 okButton.Click += OkButton_Click_Close;
             }
             else
             {
-                Close();
-                richTextBox.Clear();
-                okButton.Enabled = false;
+                OkButton_Click_Close(null, null);
             }         
         }
 

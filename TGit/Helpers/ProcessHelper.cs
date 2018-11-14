@@ -189,7 +189,11 @@ namespace SamirBoulema.TGit.Helpers
                     process.BeginOutputReadLine();
                     process.BeginErrorReadLine();
 
-                    _outputBox.Text = title;
+                    if (!string.IsNullOrEmpty(title))
+                    {
+                        _outputBox.Text = title;
+                    }
+                    
                     _outputBox.Show();
 
                     return process;
