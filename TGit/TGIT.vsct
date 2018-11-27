@@ -343,6 +343,14 @@
         </Strings>
       </Button>
 
+      <Button guid="guidTGitCmdSet" id="rebase" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
+        <Icon guid="guidImages" id="rebase" />
+        <Strings>
+          <ButtonText>Rebase...</ButtonText>
+        </Strings>
+      </Button>
+
       <Button guid="guidTGitCmdSet" id="revert" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
         <Icon guid="guidImages" id="revert" />
@@ -507,6 +515,7 @@
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="B" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="blameContext" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="D" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="diffContext" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="T" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="tag" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="G" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="rebase" />
   </KeyBindings>
 
     <Symbols>
@@ -639,6 +648,8 @@
 
       <IDSymbol name="tag" value="0x0141" />
       <IDSymbol name="abortMerge" value="0x0142" />
+
+      <IDSymbol name="rebase" value="0x0146" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

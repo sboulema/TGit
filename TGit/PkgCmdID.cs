@@ -64,5 +64,7 @@
         public const uint SvnDCommit = 0x143;
         public const uint SvnFetch = 0x144;
         public const uint SvnRebase = 0x145;
+
+        public const uint Rebase = 0x146;
     }
 }

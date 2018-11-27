@@ -55,6 +55,7 @@ You can change what happens when using the finish feature command:
 * `(G)it Sho(w) Changes` - Ctrl+Shift+Alt+G, W
 * `(G)it File (B)lame` - Ctrl+Shift+Alt+G, B
 * `(G)it File (D)iff` - Ctrl+Shift+Alt+G, D
+* `(G)it Rebase` - Ctrl+Shift+Alt+G, G
 
 ## Gitflow
 So what exactly are those [GitFlow](http://nvie.com/posts/a-successful-git-branching-model/) menu items doing?
