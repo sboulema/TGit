@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using SamirBoulema.TGit.Models;
 using System;
+using System.IO;
 using System.Runtime.Caching;
 
 namespace SamirBoulema.TGit.Helpers
@@ -62,26 +63,6 @@ namespace SamirBoulema.TGit.Helpers
         }
 
         /// <summary>
-        /// Get the root of the solution path (where the .git folder resides)
-        /// </summary>
-        /// <remarks>Cached for 30s</remarks>
-        /// <returns></returns>
-        public string GetSolutionDir()
-        {
-            if (_cache.Contains(CacheKeyEnum.SolutionDir.ToString()))
-            {
-                return _cache.Get(CacheKeyEnum.SolutionDir.ToString()).ToString();
-            }
-
-            var solutionDir = FileHelper.GetSolutionDir(_dte);
-            if (!string.IsNullOrEmpty(solutionDir))
-            {
-                _cache.Set(CacheKeyEnum.SolutionDir.ToString(), solutionDir, DateTimeOffset.Now.AddSeconds(30));
-            }
-            return solutionDir;
-        }
-
-        /// <summary>
         /// Do we have any stashes available
         /// </summary>
         /// <remarks>Cached for 1m</remarks>
@@ -139,13 +120,6 @@ namespace SamirBoulema.TGit.Helpers
         }
 
         /// <summary>
-        /// Check if we have a path to a solution directory
-        /// </summary>
-        /// <remarks>Actual solution dir path is cached for 30s</remarks>
-        /// <returns></returns>
-        public bool HasSolutionDir() => !string.IsNullOrEmpty(GetSolutionDir());
-
-        /// <summary>
         /// Get the Git branch name eg. 'feature/tgit'
         /// </summary>
         /// <remarks>Cached for 15s</remarks>
@@ -178,5 +152,29 @@ namespace SamirBoulema.TGit.Helpers
         /// </summary>
         /// <param name="key"></param>
         public void ClearCache(CacheKeyEnum key) => _cache.Remove(key.ToString());
+
+        public string GetGitRoot(string workingDir = null)
+        {
+            if (string.IsNullOrEmpty(workingDir))
+            {
+                workingDir = _dte.Solution.FullName;
+            }
+
+            if (File.Exists(workingDir))
+            {
+                workingDir = Path.GetDirectoryName(workingDir);
+            }
+
+            var gitRoot = GitHelper.GetGitRoot(this, workingDir);
+
+            if (!Directory.Exists(gitRoot))
+            {
+                return string.Empty;
+            }
+
+            return gitRoot;
+        }
+
+        public bool HasGitRoot() => !string.IsNullOrEmpty(GetGitRoot());
     }
 }

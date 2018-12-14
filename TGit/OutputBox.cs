@@ -53,7 +53,7 @@ namespace SamirBoulema.TGit
 
                 var process = ProcessHelper.StartProcessGui(_dte, _envHelper,
                      "cmd.exe",
-                     $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                     $"/c cd \"{_envHelper.GetGitRoot()}\" && " +
                          GitHelper.GetSshSetup(_envHelper) +
                          "echo. && " +   
                          (pushCheckBox.Checked ? _pushCommand : "echo.") + 
@@ -86,15 +86,17 @@ namespace SamirBoulema.TGit
         private void ResolveButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:resolve /path:\"{_envHelper.GetSolutionDir()}\"");
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:resolve /path:\"{rootDir}\"");
         }
 
         private void StashButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repostatus /path:\"{_envHelper.GetSolutionDir()}\"");
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repostatus /path:\"{rootDir}\"");
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)

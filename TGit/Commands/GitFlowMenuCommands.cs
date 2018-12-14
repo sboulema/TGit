@@ -70,7 +70,8 @@ namespace SamirBoulema.TGit.Commands
 
         private void InitCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
 
             var flowDialog = new FlowDialog();
             if (flowDialog.ShowDialog() != DialogResult.OK) return;
@@ -83,7 +84,7 @@ namespace SamirBoulema.TGit.Commands
                  */
             var process = ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                 GitHelper.GetSshSetup(_envHelper) +
                 FormatCliCommand($"config --add gitflow.branch.master {flowDialog.GitConfig.MasterBranch}") +
                 FormatCliCommand($"config --add gitflow.branch.develop {flowDialog.GitConfig.DevelopBranch}") +
@@ -103,7 +104,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartFeatureCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
             if (string.IsNullOrEmpty(featureName)) return;
 
@@ -115,7 +118,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
@@ -126,7 +129,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartFeatureGitHubCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var featureName = Interaction.InputBox("Feature Name:", "Start New Feature");
             if (string.IsNullOrEmpty(featureName)) return;
 
@@ -136,7 +141,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand("checkout master") +
                     FormatCliCommand("pull") +
@@ -147,7 +152,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishFeatureCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var featureBranch = GitHelper.GetCurrentBranchName(false, _envHelper);
             var featureName = GitHelper.GetCurrentBranchName(true, _envHelper);
             var gitConfig = GitHelper.GetGitConfig(_envHelper);
@@ -161,7 +168,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {gitConfig.DevelopBranch}") +
                     FormatCliCommand("pull") +
@@ -179,7 +186,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishFeatureGitHubCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var featureBranch = GitHelper.GetCurrentBranchName(false, _envHelper);
             var featureName = GitHelper.GetCurrentBranchName(true, _envHelper);
 
@@ -192,7 +201,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand("checkout master") +
                     FormatCliCommand("pull") +
@@ -203,7 +212,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartReleaseCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var releaseVersion = Interaction.InputBox("Release Version:", "Start New Release");
             if (string.IsNullOrEmpty(releaseVersion)) return;
 
@@ -215,7 +226,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
                     FormatCliCommand("pull") +
@@ -226,7 +237,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishReleaseCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var releaseBranch = GitHelper.GetCurrentBranchName(false, _envHelper);
             var releaseName = GitHelper.GetCurrentBranchName(true, _envHelper);
             var gitConfig = GitHelper.GetGitConfig(_envHelper);
@@ -246,7 +259,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {gitConfig.MasterBranch}") +
                     FormatCliCommand("pull") +
@@ -265,7 +278,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void StartHotfixCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var hotfixVersion = Interaction.InputBox("Hotfix Version:", "Start New Hotfix");
             if (string.IsNullOrEmpty(hotfixVersion)) return;
 
@@ -277,7 +292,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {flowOptions.MasterBranch}") +
                     FormatCliCommand("pull") +
@@ -288,7 +303,9 @@ namespace SamirBoulema.TGit.Commands
 
         private void FinishHotfixCommand(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
+            var rootDir = _envHelper.GetGitRoot();
+            if (string.IsNullOrEmpty(rootDir)) return;
+
             var hotfixBranch = GitHelper.GetCurrentBranchName(false, _envHelper);
             var hotfixName = GitHelper.GetCurrentBranchName(true, _envHelper);
             var gitConfig = GitHelper.GetGitConfig(_envHelper);
@@ -308,7 +325,7 @@ namespace SamirBoulema.TGit.Commands
              */
             ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
-                $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
+                $"/c cd \"{rootDir}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {gitConfig.MasterBranch}") +
                     FormatCliCommand("pull") +

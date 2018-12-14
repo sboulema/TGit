@@ -60,17 +60,17 @@ namespace SamirBoulema.TGit.Commands
         private void ShowChangesCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repostatus /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repostatus /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void PullCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:pull /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:pull /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void FetchCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:fetch /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:fetch /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void CommitCommand(object sender, EventArgs e)
         {
@@ -79,7 +79,7 @@ namespace SamirBoulema.TGit.Commands
             var bugId = GitHelper.GetCommitMessage(_generalOptions.BugId, _dte, _envHelper);
             var gitConfig = GitHelper.GetGitConfig(_envHelper);
             ProcessHelper.StartTortoiseGitProc(_envHelper,
-                $"/command:commit /path:\"{_envHelper.GetSolutionDir()}\" " +
+                $"/command:commit " +
                 $"{(string.IsNullOrEmpty(commitMessage) ? string.Empty : $"/logmsg:\"{commitMessage}\"")} " +
                 $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(gitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)} " +
                 $"/closeonend:{_generalOptions.CloseOnEnd}");
@@ -87,97 +87,97 @@ namespace SamirBoulema.TGit.Commands
         private void PushCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:push /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:push /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void ShowLogCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:log /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_generalOptions.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:log /closeonend:{_generalOptions.CloseOnEnd}");
         }
         private void DiskBrowserCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.Start(_envHelper.GetSolutionDir());
+            ProcessHelper.Start(_envHelper.GetGitRoot());
         }
         private void RepoBrowserCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repobrowser /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repobrowser");
         }
         private void CreateStashCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:stashsave /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:stashsave");
         }
         private void ApplyStashCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:reflog /ref:refs/stash /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:reflog /ref:refs/stash");
         }
         private void BranchCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:branch /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:branch");
         }
 
         private void SwitchCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:switch /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:switch");
         }
 
         private void MergeCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:merge /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:merge");
         }
 
         private void RebaseCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:rebase /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:rebase");
         }
 
         private void AbortMergeCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:merge /abort /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:merge /abort");
         }
 
         private void RevertCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:revert /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:revert");
         }
 
         private void CleanupCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:cleanup /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:cleanup");
         }
 
         private void ResolveCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:resolve /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:resolve");
         }
 
         private void SyncCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:sync /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:sync");
         }
 
         private void BrowseRefCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:refbrowse /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:refbrowse");
         }
 
         private void TagCommand(object sender, EventArgs e)
         {
             PreCommand();
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:tag /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:tag");
         }
     }
 }

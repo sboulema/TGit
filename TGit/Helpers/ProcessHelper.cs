@@ -19,7 +19,9 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns>True if output is non-empty</returns>
         public static bool StartProcessGit(EnvHelper envHelper, string commands, bool showAlert = true)
         {
-            if (string.IsNullOrEmpty(envHelper.GetSolutionDir())) return false;
+            var gitRoot = envHelper.GetGitRoot();
+
+            if (string.IsNullOrEmpty(gitRoot)) return false;
 
             var output = string.Empty;
             var error = string.Empty;
@@ -28,7 +30,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{envHelper.GetSolutionDir()}\" && \"{envHelper.GetGit()}\" {commands}",
+                    Arguments = $"/c cd /D \"{gitRoot}\" && \"{envHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -55,12 +57,31 @@ namespace SamirBoulema.TGit.Helpers
             return false;
         }
 
-        public static void StartTortoiseGitProc(EnvHelper envHelper, string args)
+        /// <summary>
+        /// Execute a TortoiseGit command
+        /// </summary>
+        /// <param name="envHelper"></param>
+        /// <param name="args">TortoiseGit commandline arguments</param>
+        /// <param name="path">TortoiseGit path argument</param>
+        public static void StartTortoiseGitProc(EnvHelper envHelper, string args, string path = null)
         {
             var tortoiseGitProc = envHelper.GetTortoiseGitProc();
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = envHelper.GetGitRoot();
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                MessageBox.Show("Not a git repository (or any of the parent directories)", "TGit Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
-                Process.Start(tortoiseGitProc, args);
+                Process.Start(tortoiseGitProc, $"{args} /path:\"{path}\"");
             }
             catch (Exception e)
             {
@@ -75,7 +96,9 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns>Git output</returns>
         public static string StartProcessGitResult(EnvHelper envHelper, string commands)
         {
-            if (string.IsNullOrEmpty(envHelper.GetSolutionDir())) return string.Empty;
+            var gitRoot = envHelper.GetGitRoot();
+
+            if (string.IsNullOrEmpty(gitRoot)) return string.Empty;
 
             var output = string.Empty;
             var error = string.Empty;
@@ -84,7 +107,7 @@ namespace SamirBoulema.TGit.Helpers
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c cd /D \"{envHelper.GetSolutionDir()}\" && \"{envHelper.GetGit()}\" {commands}",
+                    Arguments = $"/c cd /D \"{gitRoot}\" && \"{envHelper.GetGit()}\" {commands}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -167,7 +190,7 @@ namespace SamirBoulema.TGit.Helpers
                             CreateNoWindow = true,
                             FileName = application,
                             Arguments = args,
-                            WorkingDirectory = envHelper.GetSolutionDir()
+                            WorkingDirectory = envHelper.GetGitRoot()
                         },
                         EnableRaisingEvents = true
                     };

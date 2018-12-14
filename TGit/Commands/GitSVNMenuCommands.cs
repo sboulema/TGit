@@ -31,19 +31,19 @@ namespace SamirBoulema.TGit.Commands
         private void SvnDCommitCommand(object sender, EventArgs e)
         {
             FileHelper.SaveAllFiles(_dte);
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:svndcommit /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_options.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:svndcommit /path:\"{_envHelper.GetGitRoot()}\" /closeonend:{_options.CloseOnEnd}");
         }
 
         private void SvnFetchCommand(object sender, EventArgs e)
         {
             FileHelper.SaveAllFiles(_dte);
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:svnrebase /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_options.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:svnrebase /path:\"{_envHelper.GetGitRoot()}\" /closeonend:{_options.CloseOnEnd}");
         }
 
         private void SvnRebaseCommand(object sender, EventArgs e)
         {
             FileHelper.SaveAllFiles(_dte);
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:svnfetch /path:\"{_envHelper.GetSolutionDir()}\" /closeonend:{_options.CloseOnEnd}");
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:svnfetch /path:\"{_envHelper.GetGitRoot()}\" /closeonend:{_options.CloseOnEnd}");
         }
     }
 }

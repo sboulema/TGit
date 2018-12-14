@@ -30,38 +30,6 @@ namespace SamirBoulema.TGit.Helpers
             dte.ExecuteCommand("File.SaveAll");
         }
 
-        public static string GetSolutionDir(DTE dte)
-        {
-            string fileName = dte.Solution.FullName;
-            if (!string.IsNullOrEmpty(fileName))
-            {
-                var path = Path.GetDirectoryName(fileName);
-                return FindGitdir(path);
-            }
-            return string.Empty;
-        }
-
-        private static string FindGitdir(string path)
-        {
-            try
-            {
-                var di = new DirectoryInfo(path);
-                if (di.GetDirectories().Any(d => d.Name.Equals(".git")))
-                {
-                    return di.FullName;
-                }
-                if (di.Parent != null)
-                {
-                    return FindGitdir(di.Parent.FullName);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return string.Empty;
-        }
-
         /// <summary>
         /// Get case sensitive path.
         /// http://stackoverflow.com/questions/325931/getting-actual-file-name-with-proper-casing-on-windows-with-net

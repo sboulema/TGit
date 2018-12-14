@@ -67,5 +67,10 @@ namespace SamirBoulema.TGit.Helpers
         {
             return ProcessHelper.StartProcessGit(envHelper, $"show-ref refs/remotes/origin/{branch}");
         }
+
+        public static string GetGitRoot(EnvHelper envHelper, string workingDir)
+        {
+            return ProcessHelper.GitResult(envHelper, workingDir, $"rev-parse --show-toplevel");
+        }
     }
 }
