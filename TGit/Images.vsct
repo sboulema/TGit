@@ -33,6 +33,8 @@
       <IDSymbol name="Fetch" value="18" />
       <IDSymbol name="BrowseRef" value="19" />
       <IDSymbol name="Tag" value="20" />
+      <IDSymbol name="AbortMerge" value="21" />
+      <IDSymbol name="Rebase" value="22" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
