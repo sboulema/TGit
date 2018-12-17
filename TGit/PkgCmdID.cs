@@ -67,5 +67,7 @@
         public const uint SvnRebase = 0x145;
 
         public const uint Rebase = 0x146;
+        public const uint RevGraphContext = 0x147;
+        public const uint RevGraph = 0x148;
     }
 }

@@ -31,6 +31,7 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, ShowLogCommand, PkgCmdIDList.ShowLog);
             CommandHelper.AddCommand(_mcs, DiskBrowserCommand, PkgCmdIDList.DiskBrowser);
             CommandHelper.AddCommand(_mcs, RepoBrowserCommand, PkgCmdIDList.RepoBrowser);
+            CommandHelper.AddCommand(_mcs, RevGraphCommand, PkgCmdIDList.RevGraph);
 
             CommandHelper.AddCommand(_mcs, CreateStashCommand, PkgCmdIDList.CreateStash);
             CommandHelper.AddCommand(_mcs, ApplyStashCommand, PkgCmdIDList.ApplyStash, CommandHelper.ApplyStash_BeforeQueryStatus);
@@ -101,6 +102,11 @@ namespace SamirBoulema.TGit.Commands
         {
             PreCommand();
             ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repobrowser");
+        }
+        private void RevGraphCommand(object sender, EventArgs e)
+        {
+            PreCommand();
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:revisiongraph");
         }
         private void CreateStashCommand(object sender, EventArgs e)
         {

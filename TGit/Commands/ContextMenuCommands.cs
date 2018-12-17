@@ -28,6 +28,7 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, ShowLogContextCommand, PkgCmdIDList.ShowLogContext, ActiveDocument_BeforeQueryStatus);
             CommandHelper.AddCommand(_mcs, DiskBrowserContextCommand, PkgCmdIDList.DiskBrowserContext, ActiveDocument_BeforeQueryStatus);
             CommandHelper.AddCommand(_mcs, RepoBrowserContextCommand, PkgCmdIDList.RepoBrowserContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, RevGraphContextCommand, PkgCmdIDList.RevGraphContext, ActiveDocument_BeforeQueryStatus);
 
             CommandHelper.AddCommand(_mcs, BlameContextCommand, PkgCmdIDList.BlameContext, ActiveDocument_BeforeQueryStatus);
 
@@ -63,6 +64,12 @@ namespace SamirBoulema.TGit.Commands
             var currentFilePath = _dte.ActiveDocument.FullName;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repobrowser", currentFilePath);
+        }
+        private void RevGraphContextCommand(object sender, EventArgs e)
+        {
+            var currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(currentFilePath)) return;
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:revisiongraph /path:\"{currentFilePath}\"");
         }
         private void BlameContextCommand(object sender, EventArgs e)
         {
