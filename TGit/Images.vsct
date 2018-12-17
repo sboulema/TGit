@@ -35,6 +35,7 @@
       <IDSymbol name="Tag" value="20" />
       <IDSymbol name="AbortMerge" value="21" />
       <IDSymbol name="Rebase" value="22" />
+      <IDSymbol name="RevGraph" value="23" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

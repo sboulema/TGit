@@ -245,6 +245,7 @@
         </Strings>
       </Button>
       
+      <!--Main Menu Buttons-->
       <Button guid="guidTGitCmdSet" id="showChanges" priority="0x0103" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
         <Icon guid="guidImages" id="showChanges" />
@@ -300,6 +301,13 @@
         <Icon guid="guidImages" id="repo" />
         <Strings>
           <ButtonText>Repo-Browser</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="revGraph" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
+        <Icon guid="guidImages" id="revgraph" />
+        <Strings>
+          <ButtonText>Revision Graph</ButtonText>
         </Strings>
       </Button>
 
@@ -428,6 +436,13 @@
           <ButtonText>Repo-Browser File</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidTGitCmdSet" id="revGraphContext" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
+        <Icon guid="guidImages" id="revgraph" />
+        <Strings>
+          <ButtonText>Revision Graph File</ButtonText>
+        </Strings>
+      </Button>
 
       <Button guid="guidTGitCmdSet" id="blameContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondContextMenuGroup" />
@@ -493,7 +508,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase"/>     
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase, revgraph"/>     
     </Bitmaps>
   </Commands>
 
@@ -542,6 +557,7 @@
       <IDSymbol name="tag" value="20" />
       <IDSymbol name="abortMerge" value="21" />
       <IDSymbol name="rebase" value="22" />
+      <IDSymbol name="revgraph" value="23" />
     </GuidSymbol>
 
     <!--Special Context Menus-->
@@ -616,6 +632,7 @@
       <IDSymbol name="showLog" value="0x0107" />
       <IDSymbol name="diskBrowser" value="0x0108" />
       <IDSymbol name="repoBrowser" value="0x0109" />
+      <IDSymbol name="revGraph" value="0x0148" />
 
       <IDSymbol name="createStash" value="0x0110" />
       <IDSymbol name="applyStash" value="0x0111" />
@@ -634,6 +651,7 @@
       <IDSymbol name="showLogContext" value="0x0117" />
       <IDSymbol name="diskBrowserContext" value="0x0118" />
       <IDSymbol name="repoBrowserContext" value="0x0119" />
+      <IDSymbol name="revGraphContext" value="0x0147" />
 
       <IDSymbol name="blameContext" value="0x0120" />
 
