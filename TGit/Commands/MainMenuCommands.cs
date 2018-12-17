@@ -33,9 +33,7 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, RepoBrowserCommand, PkgCmdIDList.RepoBrowser);
 
             CommandHelper.AddCommand(_mcs, CreateStashCommand, PkgCmdIDList.CreateStash);
-            var applyStash = CommandHelper.CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash);
-            applyStash.BeforeQueryStatus += CommandHelper.ApplyStash_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, applyStash);
+            CommandHelper.AddCommand(_mcs, ApplyStashCommand, PkgCmdIDList.ApplyStash, CommandHelper.ApplyStash_BeforeQueryStatus);
 
             CommandHelper.AddCommand(_mcs, BranchCommand, PkgCmdIDList.Branch);
             CommandHelper.AddCommand(_mcs, SwitchCommand, PkgCmdIDList.Switch);

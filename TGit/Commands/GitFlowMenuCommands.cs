@@ -29,43 +29,24 @@ namespace SamirBoulema.TGit.Commands
         {
             //GitFlow Commands
             //Start/Finish Feature
-            var startFeature = CommandHelper.CreateCommand(StartFeatureCommand, PkgCmdIDList.StartFeature);
-            startFeature.BeforeQueryStatus += CommandHelper.GitFlow_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, startFeature);
-
-            var finishFeature = CommandHelper.CreateCommand(FinishFeatureCommand, PkgCmdIDList.FinishFeature);
-            finishFeature.BeforeQueryStatus += CommandHelper.Feature_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, finishFeature);
+            CommandHelper.AddCommand(_mcs, StartFeatureCommand, PkgCmdIDList.StartFeature, CommandHelper.GitFlow_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, FinishFeatureCommand, PkgCmdIDList.FinishFeature, CommandHelper.Feature_BeforeQueryStatus);
 
             //Start/Finish Release
-            var startRelease = CommandHelper.CreateCommand(StartReleaseCommand, PkgCmdIDList.StartRelease);
-            startRelease.BeforeQueryStatus += CommandHelper.GitFlow_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, startRelease);
-
-            var finishRelease = CommandHelper.CreateCommand(FinishReleaseCommand, PkgCmdIDList.FinishRelease);
-            finishRelease.BeforeQueryStatus += CommandHelper.Release_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, finishRelease);
+            CommandHelper.AddCommand(_mcs, StartReleaseCommand, PkgCmdIDList.StartRelease, CommandHelper.GitFlow_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, FinishReleaseCommand, PkgCmdIDList.FinishRelease, CommandHelper.Release_BeforeQueryStatus);
 
             //Start/Finish Hotfix
-            var startHotfix = CommandHelper.CreateCommand(StartHotfixCommand, PkgCmdIDList.StartHotfix);
-            startHotfix.BeforeQueryStatus += CommandHelper.GitFlow_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, startHotfix);
-
-            var finishHotfix = CommandHelper.CreateCommand(FinishHotfixCommand, PkgCmdIDList.FinishHotfix);
-            finishHotfix.BeforeQueryStatus += CommandHelper.Hotfix_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, finishHotfix);
+            CommandHelper.AddCommand(_mcs, StartHotfixCommand, PkgCmdIDList.StartHotfix, CommandHelper.GitFlow_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, FinishHotfixCommand, PkgCmdIDList.FinishHotfix, CommandHelper.Hotfix_BeforeQueryStatus);
 
             //Init
-            var init = CommandHelper.CreateCommand(InitCommand, PkgCmdIDList.Init);
-            init.BeforeQueryStatus += CommandHelper.GitHubFlow_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, init);
+            CommandHelper.AddCommand(_mcs, InitCommand, PkgCmdIDList.Init, CommandHelper.GitHubFlow_BeforeQueryStatus);
 
             //GitHubFlow Commands
             //Start/Finish Feature
             CommandHelper.AddCommand(_mcs, StartFeatureGitHubCommand, PkgCmdIDList.StartFeatureGitHub);
-            var finishFeatureGitHub = CommandHelper.CreateCommand(FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub);
-            finishFeatureGitHub.BeforeQueryStatus += CommandHelper.Feature_BeforeQueryStatus;
-            CommandHelper.AddCommand(_mcs, finishFeatureGitHub);
+            CommandHelper.AddCommand(_mcs, FinishFeatureGitHubCommand, PkgCmdIDList.FinishFeatureGitHub, CommandHelper.Feature_BeforeQueryStatus);
         }
 
         private void InitCommand(object sender, EventArgs e)

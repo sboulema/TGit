@@ -248,7 +248,6 @@
       <!--Main Buttons-->
       <Button guid="guidTGitCmdSet" id="showChanges" priority="0x0103" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="showChanges" />
         <Strings>
           <ButtonText>Show Changes</ButtonText>
@@ -256,7 +255,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="pull" priority="0x0104" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="pull" />
         <Strings>
           <ButtonText>Pull...</ButtonText>
@@ -264,7 +262,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="fetch" priority="0x0105" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="fetch" />
         <Strings>
           <ButtonText>Fetch...</ButtonText>
@@ -272,7 +269,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="commit" priority="0x0106" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="commit" />
         <Strings>
           <ButtonText>Commit...</ButtonText>
@@ -280,7 +276,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="push" priority="0x0107" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="push" />
         <Strings>
           <ButtonText>Push...</ButtonText>
@@ -289,7 +284,6 @@
     
       <Button guid="guidTGitCmdSet" id="showLog" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="showLog" />
         <Strings>
           <ButtonText>Show Log</ButtonText>
@@ -297,7 +291,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowser" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="disk" />
         <Strings>
           <ButtonText>Disk-Browser</ButtonText>
@@ -305,7 +298,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="repoBrowser" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="repo" />
         <Strings>
           <ButtonText>Repo-Browser</ButtonText>
@@ -314,7 +306,6 @@
 
       <Button guid="guidTGitCmdSet" id="createStash" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="stash" />
         <Strings>
           <ButtonText>Create Stash...</ButtonText>
@@ -323,7 +314,6 @@
 
       <Button guid="guidTGitCmdSet" id="applyStash" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="stash" />
         <Strings>
           <ButtonText>Apply Stash...</ButtonText>
@@ -332,7 +322,6 @@
 
       <Button guid="guidTGitCmdSet" id="branch" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="branch" />
         <Strings>
           <ButtonText>Branch...</ButtonText>
@@ -341,7 +330,6 @@
 
       <Button guid="guidTGitCmdSet" id="switch" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="switch" />
         <Strings>
           <ButtonText>Switch...</ButtonText>
@@ -350,7 +338,6 @@
 
       <Button guid="guidTGitCmdSet" id="merge" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="merge" />
         <Strings>
           <ButtonText>Merge...</ButtonText>
@@ -359,7 +346,6 @@
 
       <Button guid="guidTGitCmdSet" id="rebase" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="rebase" />
         <Strings>
           <ButtonText>Rebase...</ButtonText>
@@ -368,7 +354,6 @@
 
       <Button guid="guidTGitCmdSet" id="revert" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="revert" />
         <Strings>
           <ButtonText>Revert...</ButtonText>
@@ -377,7 +362,6 @@
 
       <Button guid="guidTGitCmdSet" id="resolve" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="resolve" />
         <Strings>
           <ButtonText>Resolve...</ButtonText>
@@ -386,7 +370,6 @@
 
       <Button guid="guidTGitCmdSet" id="abortMerge" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="abortMerge" />
         <Strings>
           <ButtonText>Abort merge...</ButtonText>
@@ -395,7 +378,6 @@
 
       <Button guid="guidTGitCmdSet" id="tag" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="tag" />
         <Strings>
           <ButtonText>Tag...</ButtonText>
@@ -404,7 +386,6 @@
 
       <Button guid="guidTGitCmdSet" id="sync" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="sync" />
         <Strings>
           <ButtonText>Sync</ButtonText>
@@ -413,7 +394,6 @@
 
       <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="cleanup" />
         <Strings>
           <ButtonText>Cleanup working copy...</ButtonText>
@@ -422,7 +402,6 @@
 
       <Button guid="guidTGitCmdSet" id="browseRef" priority="0x0500" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="browseRef" />
         <Strings>
           <ButtonText>Browse references...</ButtonText>
@@ -431,7 +410,6 @@
 
       <Button guid="guidTGitCmdSet" id="showLogContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="showLog" />
         <Strings>
           <ButtonText>Show Log for file</ButtonText>
@@ -439,7 +417,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="diskBrowserContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="disk" />
         <Strings>
           <ButtonText>Disk-Browser File</ButtonText>
@@ -447,7 +424,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="repoBrowserContext" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="repo" />
         <Strings>
           <ButtonText>Repo-Browser File</ButtonText>
@@ -456,7 +432,6 @@
 
       <Button guid="guidTGitCmdSet" id="blameContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="blame" />
         <Strings>
           <ButtonText>Blame...</ButtonText>
@@ -465,7 +440,6 @@
 
       <Button guid="guidTGitCmdSet" id="mergeContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="merge" />
         <Strings>
           <ButtonText>Merge File...</ButtonText>
@@ -474,7 +448,6 @@
 
       <Button guid="guidTGitCmdSet" id="pullContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="pull" />
         <Strings>
           <ButtonText>Pull File ...</ButtonText>
@@ -482,7 +455,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="fetch" />
         <Strings>
           <ButtonText>Fetch File...</ButtonText>
@@ -490,7 +462,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="commitContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="commit" />
         <Strings>
           <ButtonText>Commit File...</ButtonText>
@@ -498,7 +469,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="revertContext" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="revert" />
         <Strings>
           <ButtonText>Revert File...</ButtonText>
@@ -506,7 +476,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="diffContext" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="differences" />
         <Strings>
           <ButtonText>Show Differences</ButtonText>
@@ -514,7 +483,6 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="prefDiffContext" priority="0x0500" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <CommandFlag>DontCache</CommandFlag>
         <Icon guid="guidImages" id="differences" />
         <Strings>
           <ButtonText>Diff with previous version</ButtonText>

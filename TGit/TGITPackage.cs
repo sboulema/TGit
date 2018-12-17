@@ -97,34 +97,24 @@ namespace SamirBoulema.TGit
             new GitSVNMenuCommands(_mcs, _dte, _options, _envHelper).AddCommands();
 
             // Add all menus
-            var tgitMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitMenu);
-            var tgitContextMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitContextMenu);
+            CommandHelper.AddCommand(_mcs, null, PkgCmdIDList.TGitMenu, null, MenuText(_dte.Version));
+            CommandHelper.AddCommand(_mcs, null, PkgCmdIDList.TGitContextMenu, null, MenuText(_dte.Version));
+            CommandHelper.AddCommand(_mcs, null, PkgCmdIDList.Toolbar);
+            CommandHelper.AddCommand(_mcs, null, PkgCmdIDList.TGitGitFlowMenu, CommandHelper.SolutionVisibility_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, null, PkgCmdIDList.TGitGitHubFlowMenu, CommandHelper.GitHubFlow_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, null, PkgCmdIDList.TGitSvnMenu, CommandHelper.GitSvn_BeforeQueryStatus);
+        }
+
+        private string MenuText(string version)
+        {
             switch (_dte.Version)
             {
                 case "11.0":
                 case "12.0":
-                    tgitMenu.Text = "TGIT";
-                    tgitContextMenu.Text = "TGIT";
-                    break;
+                    return "TGIT";
                 default:
-                    tgitMenu.Text = "TGit";
-                    tgitContextMenu.Text = "TGit";
-                    break;
+                    return "TGit";
             }
-            _mcs.AddCommand(tgitMenu);
-            _mcs.AddCommand(tgitContextMenu);
-
-            var tgitGitFlowMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitGitFlowMenu);
-            tgitGitFlowMenu.BeforeQueryStatus += CommandHelper.SolutionVisibility_BeforeQueryStatus;
-            _mcs.AddCommand(tgitGitFlowMenu);
-
-            var tgitGitHubFlowMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitGitHubFlowMenu);
-            tgitGitHubFlowMenu.BeforeQueryStatus += CommandHelper.GitHubFlow_BeforeQueryStatus;
-            _mcs.AddCommand(tgitGitHubFlowMenu);
-
-            var tgitGitSvnMenu = CommandHelper.CreateCommand(PkgCmdIDList.TGitSvnMenu);
-            tgitGitSvnMenu.BeforeQueryStatus += CommandHelper.GitSvn_BeforeQueryStatus;
-            _mcs.AddCommand(tgitGitSvnMenu);
-        }   
+        }
     }
 }
