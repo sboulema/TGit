@@ -234,7 +234,7 @@ namespace SamirBoulema.TGit.Helpers
             var process = sender as Process;
             if (process == null) return;        
 
-            var exitCodeText = process.ExitCode == 0 ? "Succes" : "Error";
+            var exitCodeText = process.ExitCode == 0 ? "Success" : "Error";
             var summaryText = $"{Environment.NewLine}{exitCodeText} ({(int)(process.ExitTime - process.StartTime).TotalMilliseconds} ms @ {process.ExitTime})";
 
             _outputBox.BeginInvoke((Action) (() => _outputBox.richTextBox.AppendText(
