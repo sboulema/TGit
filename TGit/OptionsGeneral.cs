@@ -35,6 +35,11 @@ namespace SamirBoulema.TGit
         public bool PushChanges { get; set; }
 
         [Category("TGit")]
+        [DisplayName(@"Pull changes")]
+        [Description("When starting/finishing a feature pull the changes from the remote by default")]
+        public bool PullChanges { get; set; } = true;
+
+        [Category("TGit")]
         [DisplayName(@"Default bug id")]
         [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
         public string BugId { get; set; }

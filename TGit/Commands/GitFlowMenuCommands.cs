@@ -78,9 +78,9 @@ namespace SamirBoulema.TGit.Commands
             var versionTag = string.IsNullOrEmpty(flowDialog.GitConfig.TagPrefix) ? "\"\"" : flowDialog.GitConfig.TagPrefix;
 
             /* 1. Add GitFlow config options
-                 * 2. Checkout develop branch (create if it doesn't exist, reset if it does)
-                 * 3. Push develop branch
-                 */
+             * 2. Checkout develop branch (create if it doesn't exist, reset if it does)
+             * 3. Push develop branch
+             */
             var process = ProcessHelper.StartProcessGui(_dte, _envHelper,
                 "cmd.exe",
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
@@ -118,7 +118,7 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"checkout -b {flowOptions.FeaturePrefix}{featureName} {flowOptions.DevelopBranch}", false),
                 $"Starting feature {featureName}"
             );
@@ -139,7 +139,7 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand("checkout master") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"checkout -b {featureName} master", false),
                 $"Starting feature {featureName}"
             );
@@ -164,7 +164,7 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {gitConfig.DevelopBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
                 featureBranch, null, _options, FormatCliCommand($"push origin {gitConfig.DevelopBranch}")
@@ -195,7 +195,7 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand("checkout master") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
                 featureBranch, null, _options, FormatCliCommand("push origin master"));
@@ -218,7 +218,7 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {flowOptions.DevelopBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"checkout -b {flowOptions.ReleasePrefix}{releaseVersion} {flowOptions.DevelopBranch}", false),
                 $"Starting release {releaseVersion}"
             );
@@ -249,11 +249,11 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {gitConfig.MasterBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {releaseBranch}") +
                     FormatCliCommand($"tag {gitConfig.TagPrefix}{releaseName}") +
                     FormatCliCommand($"checkout {gitConfig.DevelopBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {releaseBranch}", false),
                 $"Finishing release {releaseName}",
                 releaseBranch, null, _options,
@@ -280,7 +280,7 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {flowOptions.MasterBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"checkout -b {flowOptions.HotfixPrefix}{hotfixVersion} {flowOptions.MasterBranch}", false),
                 $"Starting hotfix {hotfixVersion}"
             );
@@ -311,11 +311,11 @@ namespace SamirBoulema.TGit.Commands
                 $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
                     GitHelper.GetSshSetup(_envHelper) +
                     FormatCliCommand($"checkout {gitConfig.MasterBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}") +
                     FormatCliCommand($"tag {gitConfig.TagPrefix}{hotfixName}") +
                     FormatCliCommand($"checkout {gitConfig.DevelopBranch}") +
-                    FormatCliCommand("pull") +
+                    (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}", false),
                 $"Finishing hotfix {hotfixName}",
                 hotfixBranch, null, _options, 
