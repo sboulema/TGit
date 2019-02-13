@@ -299,6 +299,12 @@ namespace SamirBoulema.TGit.Commands
             var hotfixName = GitHelper.GetCurrentBranchName(true, _envHelper);
             var gitConfig = GitHelper.GetGitConfig(_envHelper);
 
+            var tagMessage = string.Empty;
+            if (_options.UseAnnotatedTag)
+            {
+                tagMessage = Interaction.InputBox("Tag message:", "Finish release");
+            }
+
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
              * 3. Merge the hotfix branch to master
@@ -319,7 +325,7 @@ namespace SamirBoulema.TGit.Commands
                     FormatCliCommand($"checkout {gitConfig.MasterBranch}") +
                     (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}") +
-                    FormatCliCommand($"tag {gitConfig.TagPrefix}{hotfixName}") +
+                    (_options.UseAnnotatedTag ? FormatCliCommand($"tag -a {gitConfig.TagPrefix}{hotfixName} -m \"{tagMessage}\"") : FormatCliCommand($"tag {gitConfig.TagPrefix}{hotfixName}")) +
                     FormatCliCommand($"checkout {gitConfig.DevelopBranch}") +
                     (_options.PullChanges ? FormatCliCommand("pull") : string.Empty) +
                     FormatCliCommand($"merge --no-ff {hotfixBranch}", false),

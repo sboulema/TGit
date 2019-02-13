@@ -41,7 +41,7 @@ namespace SamirBoulema.TGit
 
         [Category("TGit")]
         [DisplayName(@"Use annotated tag")]
-        [Description("When finishing a release use a annotated tag")]
+        [Description("When finishing a release use an annotated tag")]
         public bool UseAnnotatedTag { get; set; }
 
         [Category("TGit")]
