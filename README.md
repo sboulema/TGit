@@ -36,6 +36,8 @@ You can change what happens when using the finish feature command:
 - Delete local branch (True/False)
 - Delete remote branch (True/False)
 - Push changes (True/False)
+- Pull changes (True/False)
+- Use annotated tags (True/False)
 
 ## Keyboard shortcuts
 

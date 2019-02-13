@@ -40,6 +40,11 @@ namespace SamirBoulema.TGit
         public bool PullChanges { get; set; } = true;
 
         [Category("TGit")]
+        [DisplayName(@"Use annotated tag")]
+        [Description("When finishing a release use a annotated tag")]
+        public bool UseAnnotatedTag { get; set; }
+
+        [Category("TGit")]
         [DisplayName(@"Default bug id")]
         [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
         public string BugId { get; set; }
