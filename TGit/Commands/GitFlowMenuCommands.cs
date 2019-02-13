@@ -302,7 +302,7 @@ namespace SamirBoulema.TGit.Commands
             var tagMessage = string.Empty;
             if (_options.UseAnnotatedTag)
             {
-                tagMessage = Interaction.InputBox("Tag message:", "Finish release");
+                tagMessage = Interaction.InputBox("Tag message:", "Finish hotfix");
             }
 
             /* 1. Switch to the master branch
