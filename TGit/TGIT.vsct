@@ -225,7 +225,8 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="init" priority="0x0139" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitGitFlowMenuGroup" />
-        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Icon guid="guidImages" id="config" />
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Init</ButtonText>
         </Strings>
@@ -508,7 +509,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase, revgraph"/>     
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase, revgraph, config"/>     
     </Bitmaps>
   </Commands>
 
@@ -558,6 +559,7 @@
       <IDSymbol name="abortMerge" value="21" />
       <IDSymbol name="rebase" value="22" />
       <IDSymbol name="revgraph" value="23" />
+      <IDSymbol name="config" value="24" />
     </GuidSymbol>
 
     <!--Special Context Menus-->

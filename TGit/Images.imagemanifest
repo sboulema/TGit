@@ -31,6 +31,7 @@
     <ID Name="AbortMerge" Value="21" />
     <ID Name="Rebase" Value="22" />
     <ID Name="RevGraph" Value="23" />
+    <ID Name="Config" Value="24" />
   </Symbols>
   <Images>
     <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
@@ -101,6 +102,9 @@
     </Image>
     <Image Guid="$(CustomMoniker)" ID="$(RevGraph)">
       <Source Uri="$(Resources)/RevGraph.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Config)">
+      <Source Uri="$(Resources)/Config.xaml" />
     </Image>
   </Images>
   <ImageLists />

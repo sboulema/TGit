@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SamirBoulema.TGit.Helpers;
+using System;
 using System.Windows.Forms;
 
 namespace SamirBoulema.TGit
@@ -7,9 +8,18 @@ namespace SamirBoulema.TGit
     {
         public GitConfig GitConfig;
 
-        public FlowDialog()
+        public FlowDialog(EnvHelper envHelper)
         {
             InitializeComponent();
+
+            var gitConfig = GitHelper.GetGitConfig(envHelper);
+
+            developTextBox.Text = string.IsNullOrEmpty(gitConfig.DevelopBranch) ? "develop" : gitConfig.DevelopBranch;
+            masterTextBox.Text = string.IsNullOrEmpty(gitConfig.MasterBranch) ? "master" : gitConfig.MasterBranch;
+            featureTextBox.Text = string.IsNullOrEmpty(gitConfig.FeaturePrefix) ? "feature/" : gitConfig.FeaturePrefix;
+            hotfixTextBox.Text = string.IsNullOrEmpty(gitConfig.HotfixPrefix) ? "hotfix/" : gitConfig.HotfixPrefix;
+            releaseTextBox.Text = string.IsNullOrEmpty(gitConfig.ReleasePrefix) ? "release/" : gitConfig.ReleasePrefix;
+            tagTextBox.Text = gitConfig.TagPrefix;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

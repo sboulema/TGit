@@ -50,7 +50,6 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, CleanupCommand, PkgCmdIDList.Cleanup);
             CommandHelper.AddCommand(_mcs, BrowseRefCommand, PkgCmdIDList.BrowseRef);
             CommandHelper.AddCommand(_mcs, AbortMergeCommand, PkgCmdIDList.AbortMerge);
-
         }
 
         private void PreCommand()

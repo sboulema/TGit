@@ -87,6 +87,12 @@ namespace SamirBoulema.TGit.Helpers
             ((OleMenuCommand) sender).Visible = EnvHelper.HasSolutionDir() && !EnvHelper.IsGitFlow();
         }
 
+        public static void Init_BeforeQueryStatus(object sender, EventArgs e)
+        {
+            ((OleMenuCommand)sender).Enabled = EnvHelper.HasSolutionDir();
+            ((OleMenuCommand)sender).Text = EnvHelper.IsGitFlow() ? "Config" : "Init";
+        }
+
         public static void GitSvn_BeforeQueryStatus(object sender, EventArgs e) 
             => ((OleMenuCommand)sender).Visible = EnvHelper.HasSolutionDir() && EnvHelper.IsGitSvn();
     }

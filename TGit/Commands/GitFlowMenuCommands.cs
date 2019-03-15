@@ -57,7 +57,7 @@ namespace SamirBoulema.TGit.Commands
 
             //Init
             var init = CommandHelper.CreateCommand(InitCommand, PkgCmdIDList.Init);
-            init.BeforeQueryStatus += CommandHelper.GitHubFlow_BeforeQueryStatus;
+            init.BeforeQueryStatus += CommandHelper.Init_BeforeQueryStatus;
             CommandHelper.AddCommand(_mcs, init);
 
             //GitHubFlow Commands
@@ -72,7 +72,7 @@ namespace SamirBoulema.TGit.Commands
         {
             if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
 
-            var flowDialog = new FlowDialog();
+            var flowDialog = new FlowDialog(_envHelper);
             if (flowDialog.ShowDialog() != DialogResult.OK) return;
 
             var versionTag = string.IsNullOrEmpty(flowDialog.GitConfig.TagPrefix) ? "\"\"" : flowDialog.GitConfig.TagPrefix;
