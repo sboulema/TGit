@@ -328,6 +328,14 @@
         </Strings>
       </Button>
 
+      <Button guid="guidTGitCmdSet" id="stashPop" priority="0x0200" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthMenuGroup" />
+        <Icon guid="guidImages" id="stash" />
+        <Strings>
+          <ButtonText>Stash Pop...</ButtonText>
+        </Strings>
+      </Button>
+
       <Button guid="guidTGitCmdSet" id="branch" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
         <Icon guid="guidImages" id="branch" />
@@ -638,6 +646,7 @@
 
       <IDSymbol name="createStash" value="0x0110" />
       <IDSymbol name="applyStash" value="0x0111" />
+      <IDSymbol name="stashPop" value="0x0149" />
 
       <IDSymbol name="branch" value="0x0112" />
       <IDSymbol name="switch" value="0x0113" />

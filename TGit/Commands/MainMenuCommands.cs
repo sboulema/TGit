@@ -37,6 +37,9 @@ namespace SamirBoulema.TGit.Commands
             var applyStash = CommandHelper.CreateCommand(ApplyStashCommand, PkgCmdIDList.ApplyStash);
             applyStash.BeforeQueryStatus += CommandHelper.ApplyStash_BeforeQueryStatus;
             CommandHelper.AddCommand(_mcs, applyStash);
+            var stashPop = CommandHelper.CreateCommand(StashPopCommand, PkgCmdIDList.StashPop);
+            stashPop.BeforeQueryStatus += CommandHelper.ApplyStash_BeforeQueryStatus;
+            CommandHelper.AddCommand(_mcs, stashPop);
 
             CommandHelper.AddCommand(_mcs, BranchCommand, PkgCmdIDList.Branch);
             CommandHelper.AddCommand(_mcs, SwitchCommand, PkgCmdIDList.Switch);
@@ -118,6 +121,11 @@ namespace SamirBoulema.TGit.Commands
         {
             PreCommand();
             ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:reflog /ref:refs/stash /path:\"{_envHelper.GetSolutionDir()}\"");
+        }
+        private void StashPopCommand(object sender, EventArgs e)
+        {
+            PreCommand();
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:stashpop /path:\"{_envHelper.GetSolutionDir()}\"");
         }
         private void BranchCommand(object sender, EventArgs e)
         {

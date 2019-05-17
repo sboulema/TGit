@@ -24,6 +24,7 @@
 
         public const uint CreateStash = 0x110;
         public const uint ApplyStash = 0x111;
+        public const uint StashPop = 0x149;
 
         public const uint Branch = 0x112;
         public const uint Switch = 0x113;
