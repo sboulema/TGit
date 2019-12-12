@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SamirBoulema.TGit.Helpers
@@ -11,7 +12,7 @@ namespace SamirBoulema.TGit.Helpers
     {
         public static string GetTortoiseGitProc()
         {
-            return (string) Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe");
+            return (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe");
         }
 
         public static string GetTortoiseGitPlink()
@@ -30,17 +31,39 @@ namespace SamirBoulema.TGit.Helpers
             dte.ExecuteCommand("File.SaveAll");
         }
 
+        /// <summary>
+        /// Check if we have an open solution or a folder and try to find the base repository/solution dir
+        /// </summary>
+        /// <param name="dte"></param>
+        /// <returns>Path to the base repository/solution dir</returns>
         public static string GetSolutionDir(DTE dte)
         {
-            string fileName = dte.Solution.FullName;
-            if (!string.IsNullOrEmpty(fileName))
+            var fullName = dte.Solution.FullName;
+
+            if (string.IsNullOrEmpty(fullName))
             {
-                var path = Path.GetDirectoryName(fileName);
+                return string.Empty;
+            }
+
+            if (File.Exists(fullName))
+            {
+                var path = Path.GetDirectoryName(fullName);
                 return FindGitdir(path);
             }
+
+            if (Directory.Exists(fullName))
+            {
+                return FindGitdir(fullName);
+            }
+
             return string.Empty;
         }
 
+        /// <summary>
+        /// Start at the solution dir and traverse up to find a .git folder or file
+        /// </summary>
+        /// <param name="path">Path to start traversing from.</param>
+        /// <returns>Path to the .git folder or file.</returns>
         private static string FindGitdir(string path)
         {
             try
@@ -50,6 +73,18 @@ namespace SamirBoulema.TGit.Helpers
                 {
                     return di.FullName;
                 }
+
+                var gitFilePath = Path.Combine(path, ".git");
+                if (File.Exists(gitFilePath))
+                {
+                    var text = File.ReadAllText(gitFilePath);
+                    var match = Regex.Match(text, "gitdir:(.*)");
+                    if (match.Success)
+                    {
+                        return match.Groups[1].Value.Trim();
+                    }
+                }
+
                 if (di.Parent != null)
                 {
                     return FindGitdir(di.Parent.FullName);

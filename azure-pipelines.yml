@@ -18,7 +18,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-name: 4.14.$(patch)
+name: 4.15.$(patch)
 
 steps:
 - task: NuGetToolInstaller@0
