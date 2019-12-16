@@ -34,7 +34,7 @@ steps:
     FileVersionNumber: '$(Build.BuildNumber)'
     InformationalVersion: '$(Build.BuildNumber)'
 
-- task: VsixToolsUpdateVersion@1
+- task: VsixToolsUpdateVersion@2
   displayName: 'Update Vsix Version'
   inputs:
     FileName: $(Build.SourcesDirectory)\$(system.teamProject)\source.extension.vsixmanifest
@@ -73,5 +73,5 @@ steps:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: '$(system.teamProject)'
 
-- task: VsixToolsUploadVsix@1
+- task: VsixToolsUploadVsix@2
   displayName: 'Upload Vsix to Open Gallery'
