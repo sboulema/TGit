@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Process = System.Diagnostics.Process;
 
@@ -60,7 +61,7 @@ namespace SamirBoulema.TGit.Helpers
             var tortoiseGitProc = envHelper.GetTortoiseGitProc();
             try
             {
-                Process.Start(tortoiseGitProc, args);
+                var task = Task.Run(() => Process.Start(tortoiseGitProc, args));
             }
             catch (Exception e)
             {

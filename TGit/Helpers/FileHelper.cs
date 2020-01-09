@@ -81,7 +81,17 @@ namespace SamirBoulema.TGit.Helpers
                     var match = Regex.Match(text, "gitdir:(.*)");
                     if (match.Success)
                     {
-                        return match.Groups[1].Value.Trim();
+                        var gitDirPath = match.Groups[1].Value.Trim();
+
+                        if (Directory.Exists(gitDirPath))
+                        {
+                            return gitDirPath;
+                        }
+
+                        if (File.Exists(gitDirPath))
+                        {
+                            return File.ReadAllText(gitDirPath);
+                        }
                     }
                 }
 

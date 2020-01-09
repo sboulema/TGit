@@ -74,7 +74,7 @@ namespace SamirBoulema.TGit.Commands
         private void BlameContextCommand(object sender, EventArgs e)
         {
             var currentFilePath = _dte.ActiveDocument.FullName;
-            int currentLineIndex = ((TextDocument)_dte.ActiveDocument.Object(string.Empty)).Selection.CurrentLine;
+            var currentLineIndex = ((TextDocument)_dte.ActiveDocument.Object(string.Empty)).Selection.CurrentLine;
             if (string.IsNullOrEmpty(currentFilePath)) return;
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
