@@ -39,6 +39,8 @@ namespace SamirBoulema.TGit.Commands
             CommandHelper.AddCommand(_mcs, CommitContextCommand, PkgCmdIDList.CommitContext, ActiveDocument_BeforeQueryStatus);
             CommandHelper.AddCommand(_mcs, RevertContextCommand, PkgCmdIDList.RevertContext, ActiveDocument_BeforeQueryStatus);
             CommandHelper.AddCommand(_mcs, AddContextCommand, PkgCmdIDList.AddContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, DeleteContextCommand, PkgCmdIDList.DeleteContext, ActiveDocument_BeforeQueryStatus);
+            CommandHelper.AddCommand(_mcs, DeleteKeepContextCommand, PkgCmdIDList.DeleteKeepContext, ActiveDocument_BeforeQueryStatus);
             CommandHelper.AddCommand(_mcs, DiffContextCommand, PkgCmdIDList.DiffContext, ActiveDocument_BeforeQueryStatus);
             CommandHelper.AddCommand(_mcs, PrefDiffContextCommand, PkgCmdIDList.PrefDiffContext, ActiveDocument_BeforeQueryStatus);
         }
@@ -104,6 +106,22 @@ namespace SamirBoulema.TGit.Commands
             if (!_dte.ActiveDocument.Saved)
                 _dte.ActiveDocument.Save();
             ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:add /path:\"{currentFilePath}\"");
+        }
+        private void DeleteContextCommand(object sender, EventArgs e)
+        {
+            var currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(currentFilePath)) return;
+            if (!_dte.ActiveDocument.Saved)
+                _dte.ActiveDocument.Save();
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:remove /path:\"{currentFilePath}\"");
+        }
+        private void DeleteKeepContextCommand(object sender, EventArgs e)
+        {
+            var currentFilePath = _dte.ActiveDocument.FullName;
+            if (string.IsNullOrEmpty(currentFilePath)) return;
+            if (!_dte.ActiveDocument.Saved)
+                _dte.ActiveDocument.Save();
+            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:remove /keep /path:\"{currentFilePath}\"");
         }
         private void FetchContextCommand(object sender, EventArgs e)
         {

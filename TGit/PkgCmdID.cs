@@ -71,5 +71,7 @@
         public const uint RevGraph = 0x148;
 
         public const uint AddContext = 0x150;
+        public const uint DeleteContext = 0x151;
+        public const uint DeleteKeepContext = 0x152;
     }
 }

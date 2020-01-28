@@ -504,6 +504,20 @@
           <ButtonText>Add File...</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidTGitCmdSet" id="deleteContext" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="cleanup" />
+        <Strings>
+          <ButtonText>Delete File...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="deleteKeepContext" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="cleanup" />
+        <Strings>
+          <ButtonText>Delete File (keep local)...</ButtonText>
+        </Strings>
+      </Button>
       <Button guid="guidTGitCmdSet" id="diffContext" priority="0x0500" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="differences" />
@@ -689,6 +703,8 @@
       <IDSymbol name="rebase" value="0x0146" />
 
       <IDSymbol name="addContext" value="0x0150" />
+      <IDSymbol name="deleteContext" value="0x0151" />
+      <IDSymbol name="deleteKeepContext" value="0x0152" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
