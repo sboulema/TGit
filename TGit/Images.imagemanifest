@@ -32,6 +32,7 @@
     <ID Name="Rebase" Value="22" />
     <ID Name="RevGraph" Value="23" />
     <ID Name="Config" Value="24" />
+    <ID Name="Add" Value="25" />
   </Symbols>
   <Images>
     <Image Guid="$(CustomMoniker)" ID="$(ShowChanges)">
@@ -105,6 +106,9 @@
     </Image>
     <Image Guid="$(CustomMoniker)" ID="$(Config)">
       <Source Uri="$(Resources)/Config.xaml" />
+    </Image>
+    <Image Guid="$(CustomMoniker)" ID="$(Add)">
+      <Source Uri="$(Resources)/Add.xaml" />
     </Image>
   </Images>
   <ImageLists />

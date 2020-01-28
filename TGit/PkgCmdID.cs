@@ -69,5 +69,7 @@
         public const uint Rebase = 0x146;
         public const uint RevGraphContext = 0x147;
         public const uint RevGraph = 0x148;
+
+        public const uint AddContext = 0x150;
     }
 }

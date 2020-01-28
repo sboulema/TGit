@@ -497,14 +497,21 @@
           <ButtonText>Revert File...</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidTGitCmdSet" id="diffContext" priority="0x0400" type="Button">
+      <Button guid="guidTGitCmdSet" id="addContext" priority="0x0400" type="Button">
+        <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
+        <Icon guid="guidImages" id="add" />
+        <Strings>
+          <ButtonText>Add File...</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTGitCmdSet" id="diffContext" priority="0x0500" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="differences" />
         <Strings>
           <ButtonText>Show Differences</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidTGitCmdSet" id="prefDiffContext" priority="0x0500" type="Button">
+      <Button guid="guidTGitCmdSet" id="prefDiffContext" priority="0x0600" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
         <Icon guid="guidImages" id="differences" />
         <Strings>
@@ -517,7 +524,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase, revgraph, config"/>     
+              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase, revgraph, config, add"/>     
     </Bitmaps>
   </Commands>
 
@@ -568,6 +575,7 @@
       <IDSymbol name="rebase" value="22" />
       <IDSymbol name="revgraph" value="23" />
       <IDSymbol name="config" value="24" />
+      <IDSymbol name="add" value="25" />
     </GuidSymbol>
 
     <!--Special Context Menus-->
@@ -679,6 +687,8 @@
       <IDSymbol name="abortMerge" value="0x0142" />
 
       <IDSymbol name="rebase" value="0x0146" />
+
+      <IDSymbol name="addContext" value="0x0150" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
