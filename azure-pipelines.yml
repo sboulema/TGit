@@ -1,10 +1,5 @@
-# .NET Desktop
-# Build and run tests for .NET Desktop or Windows classic desktop solutions.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/vsts/pipelines/apps/windows/dot-net
-
 pool:
-  vmImage: 'VS2017-Win2016'
+  vmImage: 'windows-latest'
 
 trigger:
   branches:
@@ -12,22 +7,18 @@ trigger:
     - master
     - release/*
 
-variables:
-  patch: $[counter('versioncounter', 41)]
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
-name: 4.16.$(patch)
+name: 5.0.$(Build.BuildId)
 
 steps:
-- task: NuGetToolInstaller@0
-
 - task: NuGetCommand@2
+  displayName: 'NuGet restore'
   inputs:
-    restoreSolution: '$(solution)'
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'config'
+    nugetConfigPath: 'nuget.config'
 
-- task: bleddynrichards.Assembly-Info-Task.Assembly-Info-Task.Assembly-Info-Task@1
+- task: bleddynrichards.Assembly-Info-Task.Assembly-Info-Task.Assembly-Info-NetFramework@2
   displayName: 'Update Assembly Version'
   inputs:
     VersionNumber: '$(Build.BuildNumber)'
@@ -43,15 +34,9 @@ steps:
 - task: VSBuild@1
   displayName: 'Build Vsix'
   inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  displayName: 'Run Tests'
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    solution: '**/*.sln'
+    platform: 'Any CPU'
+    configuration: 'Release'
 
 - task: CopyFiles@2
   displayName: 'Copy Artifacts to Staging'

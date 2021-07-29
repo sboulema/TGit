@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="2eb0e74d-a27d-4c41-bca4-7e9e9befaa18" Version="4.9" Language="en-US" Publisher="Samir L. Boulema" />
+        <Identity Id="2eb0e74d-a27d-4c41-bca4-7e9e9befaa18" Version="5.0" Language="en-US" Publisher="Samir L. Boulema" />
         <DisplayName>TGit</DisplayName>
         <Description xml:space="preserve">Control TortoiseGit from within Visual Studio</Description>
         <MoreInfo>https://github.com/sboulema/TGit</MoreInfo>
@@ -13,14 +13,11 @@
         <Tags>Git, Source control, Tortoise, repository</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
-        <InstallationTarget Version="[12.0,17.0)" Id="Microsoft.VisualStudio.Pro" />
-        <InstallationTarget Version="[12.0,17.0)" Id="Microsoft.VisualStudio.Community" />
-        <InstallationTarget Version="[12.0,17.0)" Id="Microsoft.VisualStudio.Enterprise" />
-        <InstallationTarget Version="[12.0,17.0)" Id="Microsoft.VisualStudio.IntegratedShell" />
+        <InstallationTarget Version="[15.0,17.0)" Id="Microsoft.VisualStudio.Community" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
     </Installation>
-    <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    </Dependencies>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     </Assets>

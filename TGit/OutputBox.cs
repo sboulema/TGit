@@ -1,27 +1,26 @@
-﻿using EnvDTE;
+﻿using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SamirBoulema.TGit
 {
     public sealed partial class OutputBox : Form
     {
+        private readonly AsyncPackage _package;
         private readonly string _branchName;
         private readonly string _pushCommand;
-        private readonly DTE _dte;
-        private readonly EnvHelper _envHelper;
 
-        public OutputBox(string branchName, OptionPageGrid options, string pushCommand, DTE dte, EnvHelper envHelper)
+        public OutputBox(AsyncPackage package, string branchName, OptionPageGrid options, string pushCommand)
         {
             InitializeComponent();
 
+            _package = package;
             _branchName = branchName;
             _pushCommand = pushCommand;
-            _dte = dte;
-            _envHelper = envHelper;
 
             richTextBox.TextChanged += textBox_TextChanged;
 
@@ -34,7 +33,7 @@ namespace SamirBoulema.TGit
             }
             else
             {
-                remoteBranchCheckBox.Enabled = GitHelper.RemoteBranchExists(_envHelper, branchName);
+                remoteBranchCheckBox.Enabled = GitHelper.RemoteBranchExists(branchName).Result;
             }
 
             if (options != null)
@@ -51,14 +50,14 @@ namespace SamirBoulema.TGit
             {
                 okButton.Enabled = false;
 
-                var process = ProcessHelper.StartProcessGui(_dte, _envHelper,
+                var process = ProcessHelper.StartProcessGui(
                      "cmd.exe",
-                     $"/c cd \"{_envHelper.GetSolutionDir()}\" && " +
-                         GitHelper.GetSshSetup(_envHelper) +
+                     $"/c cd \"{FileHelper.GetSolutionDir().Result}\" && " +
+                         GitHelper.GetSshSetup().Result +
                          "echo. && " +   
                          (pushCheckBox.Checked ? _pushCommand : "echo.") + 
-                         FormatCliCommand($"branch -d {_branchName}") +
-                         (remoteBranchCheckBox.Checked ? FormatCliCommand($"push origin --delete {_branchName}", false) : "echo."),
+                         GitHelper.FormatCliCommand($"branch -d {_branchName}") +
+                         (remoteBranchCheckBox.Checked ? GitHelper.FormatCliCommand($"push origin --delete {_branchName}", false) : "echo."),
                      string.Empty, string.Empty, this
                 );
 
@@ -78,23 +77,16 @@ namespace SamirBoulema.TGit
             okButton.Enabled = false;
         }
 
-        private static string FormatCliCommand(string gitCommand, bool appendNextLine = true)
-        {
-            return $"echo ^> {Path.GetFileNameWithoutExtension(FileHelper.GetMSysGit())} {gitCommand} && \"{FileHelper.GetMSysGit()}\" {gitCommand}{(appendNextLine ? " && " : string.Empty)}";
-        }
-
         private void ResolveButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:resolve /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.RunTortoiseGitCommand(_package, "resolve").FireAndForget();
         }
 
         private void StashButton_Click(object sender, EventArgs e)
         {
             okButton_Click(null, null);
-            if (string.IsNullOrEmpty(_envHelper.GetSolutionDir())) return;
-            ProcessHelper.StartTortoiseGitProc(_envHelper, $"/command:repostatus /path:\"{_envHelper.GetSolutionDir()}\"");
+            ProcessHelper.RunTortoiseGitCommand(_package, "repostatus").FireAndForget();
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)

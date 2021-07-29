@@ -3,26 +3,23 @@
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
   <Include href="Images.vsct"/>
+  <Include href="VSGlobals.vsct"/>
 
   <Commands package="guidTGitPkg">
     <Menus>
       <!--Main Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitMenu" priority="0x0300" type="Menu">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
-        <CommandFlag>TextChanges</CommandFlag>
+	    <Parent guid="VSMainMenu" id="MainMenuToolbar.ToolsGroup" />
         <Strings>
           <ButtonText>TGit</ButtonText>
-          <CommandName>TGit</CommandName>
         </Strings>
       </Menu>
       
       <!--Context Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0500" type="Menu">
         <Parent guid="guidTGitCmdSet" id="contextMenuGroup" />
-        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>TGit</ButtonText>
-          <CommandName>TGit</CommandName>
         </Strings>
       </Menu>
 
@@ -33,7 +30,6 @@
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>GitFlow</ButtonText>
-          <CommandName>GitFlow</CommandName>
         </Strings>
       </Menu>
 
@@ -44,7 +40,6 @@
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>GitHubFlow</ButtonText>
-          <CommandName>GitHubFlow</CommandName>
         </Strings>
       </Menu>
 
@@ -55,7 +50,6 @@
         <CommandFlag>DefaultInvisible</CommandFlag>
         <Strings>
           <ButtonText>SVN</ButtonText>
-          <CommandName>SVN</CommandName>
         </Strings>
       </Menu>
 
@@ -63,7 +57,6 @@
       <Menu guid="guidTGitCmdSet" id="Toolbar" type="Toolbar">
         <Strings>
           <ButtonText>TGit</ButtonText>
-          <CommandName>TGit</CommandName>
         </Strings>
       </Menu>
     </Menus>

@@ -8,11 +8,11 @@ namespace SamirBoulema.TGit
     {
         public GitConfig GitConfig;
 
-        public FlowDialog(EnvHelper envHelper)
+        public FlowDialog()
         {
             InitializeComponent();
 
-            var gitConfig = GitHelper.GetGitConfig(envHelper);
+            var gitConfig = GitHelper.GetGitConfig().Result;
 
             developTextBox.Text = string.IsNullOrEmpty(gitConfig.DevelopBranch) ? "develop" : gitConfig.DevelopBranch;
             masterTextBox.Text = string.IsNullOrEmpty(gitConfig.MasterBranch) ? "master" : gitConfig.MasterBranch;

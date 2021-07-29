@@ -1,10 +1,11 @@
-﻿using EnvDTE;
+﻿using Community.VisualStudio.Toolkit;
 using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using System.Threading.Tasks;
+using File = System.IO.File;
 
 namespace SamirBoulema.TGit.Helpers
 {
@@ -26,45 +27,49 @@ namespace SamirBoulema.TGit.Helpers
             return Path.Combine(regPath, "git.exe");
         }
 
-        public static void SaveAllFiles(DTE dte)
-        {
-            dte.ExecuteCommand("File.SaveAll");
-        }
-
         /// <summary>
         /// Check if we have an open solution or a folder and try to find the base repository/solution dir
         /// </summary>
         /// <param name="dte"></param>
         /// <returns>Path to the base repository/solution dir</returns>
-        public static string GetSolutionDir(DTE dte)
+        public static async Task<string> GetSolutionDir()
         {
-            var fullName = dte.Solution.FullName;
+            var solution = await VS.Solutions.GetCurrentSolutionAsync();
 
-            if (string.IsNullOrEmpty(fullName))
+            var filePath = solution?.FullPath;
+
+            if (string.IsNullOrEmpty(filePath))
             {
                 return string.Empty;
             }
 
-            if (File.Exists(fullName))
+            if (File.Exists(filePath))
             {
-                var path = Path.GetDirectoryName(fullName);
-                return FindGitdir(path);
+                var path = Path.GetDirectoryName(filePath);
+                return await FindGitdir(path);
             }
 
-            if (Directory.Exists(fullName))
+            if (Directory.Exists(filePath))
             {
-                return FindGitdir(fullName);
+                return await FindGitdir(filePath);
             }
 
             return string.Empty;
         }
 
         /// <summary>
+        /// Check if we have a path to a solution directory
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<bool> HasSolutionDir()
+            => !string.IsNullOrEmpty(await GetSolutionDir().ConfigureAwait(false));
+
+        /// <summary>
         /// Start at the solution dir and traverse up to find a .git folder or file
         /// </summary>
         /// <param name="path">Path to start traversing from.</param>
         /// <returns>Path to the .git folder or file.</returns>
-        private static string FindGitdir(string path)
+        private static async Task<string> FindGitdir(string path)
         {
             try
             {
@@ -97,12 +102,12 @@ namespace SamirBoulema.TGit.Helpers
 
                 if (di.Parent != null)
                 {
-                    return FindGitdir(di.Parent.FullName);
+                    return await FindGitdir(di.Parent.FullName);
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "TGIT error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                await VS.MessageBox.ShowErrorAsync("TGIT error", e.Message);
             }
             return string.Empty;
         }
@@ -139,6 +144,18 @@ namespace SamirBoulema.TGit.Helpers
                     di.Parent.GetFileSystemInfos(di.Name)[0].Name);
             }
             return di.Name.ToUpper();
+        }
+
+        public static async Task<string> GetActiveDocumentFilePath()
+        {
+            var documentView = await VS.Documents.GetActiveDocumentViewAsync();
+            return documentView?.FilePath;
+        }
+
+        public static async Task<int?> GetActiveDocumentCurrentLine()
+        {
+            var documentView = await VS.Documents.GetActiveDocumentViewAsync();
+            return documentView?.TextView?.Selection.ActivePoint.Position.GetContainingLine().LineNumber;
         }
     }
 }

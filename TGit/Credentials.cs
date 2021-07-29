@@ -1,19 +1,17 @@
-﻿using SamirBoulema.TGit.Helpers;
+﻿using Microsoft.VisualStudio.Shell;
+using SamirBoulema.TGit.Helpers;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SamirBoulema.TGit
 {
     public partial class Credentials : Form
     {
-        private readonly EnvHelper _envHelper;
-
-        public Credentials(EnvHelper envHelper)
+        public Credentials()
         {
             InitializeComponent();
             emailTextBox.KeyDown += EmailTextBox_KeyDown;
-
-            _envHelper = envHelper;
         }
 
         private void EmailTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -31,8 +29,8 @@ namespace SamirBoulema.TGit
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            ProcessHelper.StartProcessGit(_envHelper, $"config user.name \"{nameTextBox.Text}\"");
-            ProcessHelper.StartProcessGit(_envHelper, $"config user.email \"{emailTextBox.Text}\"");
+            ProcessHelper.StartProcessGit($"config user.name \"{nameTextBox.Text}\"").FireAndForget();
+            ProcessHelper.StartProcessGit($"config user.email \"{emailTextBox.Text}\"").FireAndForget();
             DialogResult = DialogResult.OK;
             Close();
         }
