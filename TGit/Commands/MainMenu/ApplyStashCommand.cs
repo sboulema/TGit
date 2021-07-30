@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
 using System;
-using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
@@ -12,8 +11,6 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await KnownCommands.File_SaveAll.ExecuteAsync();
-
             await ProcessHelper.RunTortoiseGitCommand("reflog", "/ref:refs/stash");
         }
 

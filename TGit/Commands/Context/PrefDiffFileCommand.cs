@@ -1,7 +1,6 @@
 ﻿using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
-using System.ComponentModel.Design;
 using System.IO;
 using Task = System.Threading.Tasks.Task;
 
@@ -12,8 +11,6 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await KnownCommands.File_SaveAll.ExecuteAsync();
-
             var filePath = await FileHelper.GetActiveDocumentFilePath();
             var exactFilePath = FileHelper.GetExactFileName(filePath);
 
