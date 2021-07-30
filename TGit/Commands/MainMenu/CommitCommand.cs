@@ -11,9 +11,9 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await KnownCommands.File_SaveSelectedItems.ExecuteAsync();
+            await KnownCommands.File_SaveAll.ExecuteAsync();
 
-            var options = (OptionPageGrid)Package.GetDialogPage(typeof(OptionPageGrid));
+            var options = await General.GetLiveInstanceAsync();
             var commitMessage = await GitHelper.GetCommitMessage(options.CommitMessage);
             var bugId = await GitHelper.GetCommitMessage(options.BugId);
             var gitConfig = await GitHelper.GetGitConfig();
@@ -21,7 +21,7 @@ namespace SamirBoulema.TGit.Commands
             var args = $"{(string.IsNullOrEmpty(commitMessage) ? string.Empty : $"/logmsg:\"{commitMessage}\"")} " +
                 $"{(!string.IsNullOrEmpty(bugId) && !string.IsNullOrEmpty(gitConfig.BugTraqMessage) ? $"/bugid:\"{bugId}\"" : string.Empty)}";
 
-            await ProcessHelper.RunTortoiseGitCommand(Package, "commit", args);
+            await ProcessHelper.RunTortoiseGitCommand("commit", args);
         }
     }
 }

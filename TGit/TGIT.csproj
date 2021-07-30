@@ -74,6 +74,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -149,14 +150,12 @@
     <Compile Include="Credentials.Designer.cs">
       <DependentUpon>Credentials.cs</DependentUpon>
     </Compile>
-    <Compile Include="GitConfig.cs" />
+    <Compile Include="Models\GitConfig.cs" />
     <Compile Include="Helpers\CommandHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\GitHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
-    <Compile Include="OptionsGeneral.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Options\General.cs" />
     <Compile Include="OutputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,7 +167,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RichTextBoxExtension.cs" />
+    <Compile Include="Extensions\RichTextBoxExtension.cs" />
     <Compile Include="TGit.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

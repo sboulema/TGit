@@ -12,9 +12,9 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await KnownCommands.File_SaveSelectedItems.ExecuteAsync();
+            await KnownCommands.File_SaveAll.ExecuteAsync();
 
-            await ProcessHelper.RunTortoiseGitCommand(Package, "reflog", "/ref:refs/stash");
+            await ProcessHelper.RunTortoiseGitCommand("reflog", "/ref:refs/stash");
         }
 
         protected override async void BeforeQueryStatus(EventArgs e)

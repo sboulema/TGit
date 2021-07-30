@@ -1,5 +1,6 @@
 ﻿using Community.VisualStudio.Toolkit;
 using Microsoft.Win32;
+using SamirBoulema.TGit.Models;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -7,6 +8,9 @@ namespace SamirBoulema.TGit.Helpers
 {
     public static class GitHelper
     {
+        private static GitConfig _gitConfig;
+        private static string _solutionFullPath;
+
         public static async Task<string> GetCommitMessage(string commitMessageTemplate)
         {
             if (string.IsNullOrEmpty(commitMessageTemplate))
@@ -72,9 +76,28 @@ namespace SamirBoulema.TGit.Helpers
             return $"set GIT_SSH={FileHelper.GetTortoiseGitPlink()} && ";
         }
 
+        /// <summary>
+        /// Get GIT config.
+        /// </summary>
+        /// <remarks>
+        /// - Cache received config based on the currently opened solution file path.
+        /// - If the solution file path is different from last time we got the git config,
+        ///   it means we have a new solution and should also get new git config.
+        /// </remarks>
+        /// <returns>Strong typed GIT config about gitflow, svn and bugtraq.</returns>
         public static async Task<GitConfig> GetGitConfig()
         {
-            return new GitConfig(await ProcessHelper.StartProcessGitResult("config --get-regexp \"gitflow|bugtraq|svn-remote\""));
+            var solution = await VS.Solutions.GetCurrentSolutionAsync();
+
+            if (_gitConfig == null ||
+                string.IsNullOrEmpty(_solutionFullPath) ||
+                !_solutionFullPath.Equals(solution?.FullPath))
+            {
+                _gitConfig = new GitConfig(await ProcessHelper.StartProcessGitResult("config --get-regexp \"gitflow|bugtraq|svn-remote\""));
+                _solutionFullPath = solution?.FullPath;
+            }
+
+            return _gitConfig;
         }
 
         public static async Task<bool> RemoteBranchExists(string branch)
@@ -94,7 +117,7 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public static async Task<bool> IsGitFlow()
         {
-            var gitConfig = await GetGitConfig().ConfigureAwait(false);
+            var gitConfig = await GetGitConfig();
             return !string.IsNullOrEmpty(gitConfig.MasterBranch);
         }
 
@@ -104,7 +127,7 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns></returns>
         public static async Task<bool> IsGitSvn()
         {
-            var gitConfig = await GetGitConfig().ConfigureAwait(false);
+            var gitConfig = await GetGitConfig();
             return !string.IsNullOrEmpty(gitConfig.SvnUrl);
         }
 
@@ -113,6 +136,6 @@ namespace SamirBoulema.TGit.Helpers
         /// </summary>
         /// <returns></returns>
         public static async Task<bool> HasStash()
-            => await ProcessHelper.StartProcessGit("stash list").ConfigureAwait(false);
+            => await ProcessHelper.StartProcessGit("stash list");
     }
 }

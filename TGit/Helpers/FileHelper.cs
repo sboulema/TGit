@@ -62,7 +62,7 @@ namespace SamirBoulema.TGit.Helpers
         /// </summary>
         /// <returns></returns>
         public static async Task<bool> HasSolutionDir()
-            => !string.IsNullOrEmpty(await GetSolutionDir().ConfigureAwait(false));
+            => !string.IsNullOrEmpty(await GetSolutionDir());
 
         /// <summary>
         /// Start at the solution dir and traverse up to find a .git folder or file

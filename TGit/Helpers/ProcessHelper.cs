@@ -1,9 +1,9 @@
 ﻿using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio.Shell;
+using SamirBoulema.TGit.Extensions;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO.Packaging;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Process = System.Diagnostics.Process;
@@ -174,7 +174,7 @@ namespace SamirBoulema.TGit.Helpers
         }
 
         public static async Task<Process> StartProcessGui(string application, string args, string title, string branchName = "", 
-            OutputBox outputBox = null, OptionPageGrid options = null, string pushCommand = "", AsyncPackage package = null)
+            OutputBox outputBox = null, string pushCommand = "")
         {
             var dialogResult = DialogResult.OK;
 
@@ -215,7 +215,7 @@ namespace SamirBoulema.TGit.Helpers
 
                 if (outputBox == null)
                 {
-                    _outputBox = new OutputBox(package, branchName, options, pushCommand);
+                    _outputBox = new OutputBox(branchName, pushCommand);
                     _outputBox.Show();
                 }
                 else
@@ -292,7 +292,7 @@ namespace SamirBoulema.TGit.Helpers
             _outputBox.BeginInvoke((Action) (() => _outputBox.okButton.Enabled = true));
         }
 
-        public static async Task RunTortoiseGitCommand(AsyncPackage package, string command, string args = "")
+        public static async Task RunTortoiseGitCommand(string command, string args = "")
         {
             var solutionDir = await FileHelper.GetSolutionDir();
 
@@ -301,12 +301,12 @@ namespace SamirBoulema.TGit.Helpers
                 return;
             }
 
-            var options = (OptionPageGrid)package.GetDialogPage(typeof(OptionPageGrid));
+            var options = await General.GetLiveInstanceAsync();
 
             await StartTortoiseGitProc($"/command:{command} /path:\"{solutionDir}\" {args} /closeonend:{options.CloseOnEnd}");
         }
 
-        public static async Task RunTortoiseGitFileCommand(AsyncPackage package, string command, string args = "", string filePath = "")
+        public static async Task RunTortoiseGitFileCommand(string command, string args = "", string filePath = "")
         {
             if (string.IsNullOrEmpty(filePath))
             {
@@ -318,12 +318,9 @@ namespace SamirBoulema.TGit.Helpers
                 return;
             }
 
-            var options = (OptionPageGrid)package.GetDialogPage(typeof(OptionPageGrid));
+            var options = await General.GetLiveInstanceAsync();
 
             await StartTortoiseGitProc($"/command:{command} /path:\"{filePath}\" {args} /closeonend:{options.CloseOnEnd}");
         }
-
-        public static OptionPageGrid GetOptions(AsyncPackage package)
-            => (OptionPageGrid)package.GetDialogPage(typeof(OptionPageGrid));
     }
 }

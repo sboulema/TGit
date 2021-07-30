@@ -1,17 +1,17 @@
 ﻿using System.Linq;
 
-namespace SamirBoulema.TGit
+namespace SamirBoulema.TGit.Models
 {
     public class GitConfig
     {
-        public string MasterBranch;
-        public string DevelopBranch;
-        public string FeaturePrefix;
-        public string ReleasePrefix;
-        public string HotfixPrefix;
-        public string TagPrefix;
-        public string BugTraqMessage;
-        public string SvnUrl;
+        public string MasterBranch = string.Empty;
+        public string DevelopBranch = string.Empty;
+        public string FeaturePrefix = string.Empty;
+        public string ReleasePrefix = string.Empty;
+        public string HotfixPrefix = string.Empty;
+        public string TagPrefix = string.Empty;
+        public string BugTraqMessage = string.Empty;
+        public string SvnUrl = string.Empty;
 
         public GitConfig()
         {
@@ -20,14 +20,6 @@ namespace SamirBoulema.TGit
 
         public GitConfig(string input)
         {
-            MasterBranch = string.Empty;
-            DevelopBranch = string.Empty;
-            FeaturePrefix = string.Empty;
-            ReleasePrefix = string.Empty;
-            HotfixPrefix = string.Empty;
-            TagPrefix = string.Empty;
-            SvnUrl = string.Empty;
-
             foreach (var line in input.Split(';'))
             {
                 if (line.StartsWith("gitflow.branch.master"))

@@ -14,7 +14,7 @@ namespace SamirBoulema.TGit.Commands
             var hotfixBranch = await GitHelper.GetCurrentBranchName(false);
             var hotfixName = await GitHelper.GetCurrentBranchName(true);
             var gitConfig = await GitHelper.GetGitConfig();
-            var options = ProcessHelper.GetOptions(Package);
+            var options = await General.GetLiveInstanceAsync();
 
             var tagMessage = string.Empty;
 
@@ -48,11 +48,10 @@ namespace SamirBoulema.TGit.Commands
                     (options.PullChanges ? GitHelper.FormatCliCommand("pull") : string.Empty) +
                     GitHelper.FormatCliCommand($"merge --no-ff {hotfixBranch}", false),
                 $"Finishing hotfix {hotfixName}",
-                hotfixBranch, null, options,
+                hotfixBranch, null,
                     GitHelper.FormatCliCommand($"push origin {gitConfig.DevelopBranch}") +
                     GitHelper.FormatCliCommand($"push origin {gitConfig.MasterBranch}") +
-                    GitHelper.FormatCliCommand($"push origin {gitConfig.TagPrefix}{hotfixName}"),
-                    Package
+                    GitHelper.FormatCliCommand($"push origin {gitConfig.TagPrefix}{hotfixName}")
             );
         }
 

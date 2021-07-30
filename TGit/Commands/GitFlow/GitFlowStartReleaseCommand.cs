@@ -19,7 +19,7 @@ namespace SamirBoulema.TGit.Commands
             }
 
             var flowOptions = await GitHelper.GetGitConfig();
-            var options = ProcessHelper.GetOptions(Package);
+            var options = await General.GetLiveInstanceAsync();
 
             /* 1. Switch to the develop branch
              * 2. Pull latest changes on develop

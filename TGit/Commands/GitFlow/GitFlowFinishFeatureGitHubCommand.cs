@@ -12,7 +12,7 @@ namespace SamirBoulema.TGit.Commands
         {
             var featureBranch = await GitHelper.GetCurrentBranchName(false);
             var featureName = await GitHelper.GetCurrentBranchName(true);
-            var options = ProcessHelper.GetOptions(Package);
+            var options = await General.GetLiveInstanceAsync();
 
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
@@ -29,7 +29,7 @@ namespace SamirBoulema.TGit.Commands
                     (options.PullChanges ? GitHelper.FormatCliCommand("pull") : string.Empty) +
                     GitHelper.FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
-                featureBranch, null, options, GitHelper.FormatCliCommand("push origin master"));
+                featureBranch, null, GitHelper.FormatCliCommand("push origin master"));
         }
 
         protected override async void BeforeQueryStatus(System.EventArgs e)

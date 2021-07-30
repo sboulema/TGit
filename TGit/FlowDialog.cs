@@ -1,4 +1,5 @@
 ﻿using SamirBoulema.TGit.Helpers;
+using SamirBoulema.TGit.Models;
 using System;
 using System.Windows.Forms;
 
@@ -12,7 +13,12 @@ namespace SamirBoulema.TGit
         {
             InitializeComponent();
 
-            var gitConfig = GitHelper.GetGitConfig().Result;
+            Load += FlowDialog_Load;
+        }
+
+        private async void FlowDialog_Load(object sender, EventArgs e)
+        {
+            var gitConfig = await GitHelper.GetGitConfig();
 
             developTextBox.Text = string.IsNullOrEmpty(gitConfig.DevelopBranch) ? "develop" : gitConfig.DevelopBranch;
             masterTextBox.Text = string.IsNullOrEmpty(gitConfig.MasterBranch) ? "master" : gitConfig.MasterBranch;
@@ -22,12 +28,12 @@ namespace SamirBoulema.TGit
             tagTextBox.Text = gitConfig.TagPrefix;
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
+        private void CancelButton_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OkButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
             GitConfig = new GitConfig

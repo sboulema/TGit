@@ -14,7 +14,7 @@ namespace SamirBoulema.TGit.Commands
             var releaseBranch = await GitHelper.GetCurrentBranchName(false);
             var releaseName = await GitHelper.GetCurrentBranchName(true);
             var gitConfig = await GitHelper.GetGitConfig();
-            var options = ProcessHelper.GetOptions(Package);
+            var options = await General.GetLiveInstanceAsync();
 
             var tagMessage = string.Empty;
 
@@ -48,11 +48,10 @@ namespace SamirBoulema.TGit.Commands
                     (options.PullChanges ? GitHelper.FormatCliCommand("pull") : string.Empty) +
                     GitHelper.FormatCliCommand($"merge --no-ff {releaseBranch}", false),
                 $"Finishing release {releaseName}",
-                releaseBranch, null, options,
+                releaseBranch, null,
                     GitHelper.FormatCliCommand($"push origin {gitConfig.DevelopBranch}") +
                     GitHelper.FormatCliCommand($"push origin {gitConfig.MasterBranch}") +
-                    GitHelper.FormatCliCommand($"push origin {gitConfig.TagPrefix}{releaseName}"),
-                    Package
+                    GitHelper.FormatCliCommand($"push origin {gitConfig.TagPrefix}{releaseName}")
             );
         }
 

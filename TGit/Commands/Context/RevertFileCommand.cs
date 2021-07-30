@@ -11,9 +11,9 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await KnownCommands.File_SaveSelectedItems.ExecuteAsync();
+            await KnownCommands.File_SaveAll.ExecuteAsync();
 
-            await ProcessHelper.RunTortoiseGitFileCommand(Package, "revert");
+            await ProcessHelper.RunTortoiseGitFileCommand("revert");
         }
     }
 }

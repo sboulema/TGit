@@ -10,7 +10,7 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await ProcessHelper.RunTortoiseGitFileCommand(Package, "revisiongraph");
+            await ProcessHelper.RunTortoiseGitFileCommand("revisiongraph");
         }
     }
 }

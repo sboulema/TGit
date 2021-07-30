@@ -13,7 +13,8 @@ namespace SamirBoulema.TGit
     [Guid(PackageGuids.guidTGitPkgString)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), "TGit", "General", 0, 0, true)]
+    [ProvideProfile(typeof(OptionsProvider.GeneralOptions), "TGit", "General", 0, 0, true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideMenuResource("Menus.ctmenu", 1, IconMappingFilename = "IconMappings.csv")] 
     public sealed class TGitPackage : ToolkitPackage

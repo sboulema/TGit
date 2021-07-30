@@ -18,7 +18,7 @@ namespace SamirBoulema.TGit.Commands
                 return;
             }
 
-            var options = ProcessHelper.GetOptions(Package);
+            var options = await General.GetLiveInstanceAsync();
 
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master

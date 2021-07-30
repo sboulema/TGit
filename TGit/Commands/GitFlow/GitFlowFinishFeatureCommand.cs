@@ -13,7 +13,7 @@ namespace SamirBoulema.TGit.Commands
             var featureBranch = await GitHelper.GetCurrentBranchName(false);
             var featureName = await GitHelper.GetCurrentBranchName(true);
             var gitConfig = await GitHelper.GetGitConfig();
-            var options = ProcessHelper.GetOptions(Package);
+            var options = await General.GetLiveInstanceAsync();
 
             /* 1. Switch to the develop branch
              * 2. Pull latest changes on develop
@@ -30,7 +30,7 @@ namespace SamirBoulema.TGit.Commands
                     (options.PullChanges ? GitHelper.FormatCliCommand("pull") : string.Empty) +
                     GitHelper.FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
-                featureBranch, null, options, GitHelper.FormatCliCommand($"push origin {gitConfig.DevelopBranch}")
+                featureBranch, null, GitHelper.FormatCliCommand($"push origin {gitConfig.DevelopBranch}")
             );
         }
 

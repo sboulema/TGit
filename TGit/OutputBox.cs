@@ -1,30 +1,30 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
 using System;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SamirBoulema.TGit
 {
     public sealed partial class OutputBox : Form
     {
-        private readonly AsyncPackage _package;
         private readonly string _branchName;
         private readonly string _pushCommand;
 
-        public OutputBox(AsyncPackage package, string branchName, OptionPageGrid options, string pushCommand)
+        public OutputBox(string branchName, string pushCommand)
         {
             InitializeComponent();
 
-            _package = package;
             _branchName = branchName;
             _pushCommand = pushCommand;
 
-            richTextBox.TextChanged += textBox_TextChanged;
+            Load += OutputBox_Load;
+            richTextBox.TextChanged += TextBox_TextChanged;
+        }
 
-            if (string.IsNullOrEmpty(branchName))
+        private async void OutputBox_Load(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_branchName))
             {
                 localBranchCheckBox.Visible = false;
                 remoteBranchCheckBox.Visible = false;
@@ -33,18 +33,16 @@ namespace SamirBoulema.TGit
             }
             else
             {
-                remoteBranchCheckBox.Enabled = GitHelper.RemoteBranchExists(branchName).Result;
+                remoteBranchCheckBox.Enabled = await GitHelper.RemoteBranchExists(_branchName);
             }
 
-            if (options != null)
-            {
-                localBranchCheckBox.Checked = options.DeleteLocalBranch;
-                remoteBranchCheckBox.Checked = options.DeleteRemoteBranch;
-                pushCheckBox.Checked = options.PushChanges;
-            }           
+            var options = await General.GetLiveInstanceAsync();
+            localBranchCheckBox.Checked = options.DeleteLocalBranch;
+            remoteBranchCheckBox.Checked = options.DeleteRemoteBranch;
+            pushCheckBox.Checked = options.PushChanges;
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OkButton_Click(object sender, EventArgs e)
         {
             if (localBranchCheckBox.Checked || remoteBranchCheckBox.Checked || pushCheckBox.Checked)
             {
@@ -61,7 +59,7 @@ namespace SamirBoulema.TGit
                      string.Empty, string.Empty, this
                 );
 
-                okButton.Click -= okButton_Click;
+                okButton.Click -= OkButton_Click;
                 okButton.Click += OkButton_Click_Close;
             }
             else
@@ -79,17 +77,17 @@ namespace SamirBoulema.TGit
 
         private void ResolveButton_Click(object sender, EventArgs e)
         {
-            okButton_Click(null, null);
-            ProcessHelper.RunTortoiseGitCommand(_package, "resolve").FireAndForget();
+            OkButton_Click(null, null);
+            ProcessHelper.RunTortoiseGitCommand("resolve").FireAndForget();
         }
 
         private void StashButton_Click(object sender, EventArgs e)
         {
-            okButton_Click(null, null);
-            ProcessHelper.RunTortoiseGitCommand(_package, "repostatus").FireAndForget();
+            OkButton_Click(null, null);
+            ProcessHelper.RunTortoiseGitCommand("repostatus").FireAndForget();
         }
 
-        private void textBox_TextChanged(object sender, EventArgs e)
+        private void TextBox_TextChanged(object sender, EventArgs e)
         {
             if (!richTextBox.Text.ToLower().Contains("error")) return;
 

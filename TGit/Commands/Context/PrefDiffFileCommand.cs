@@ -12,7 +12,7 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await KnownCommands.File_SaveSelectedItems.ExecuteAsync();
+            await KnownCommands.File_SaveAll.ExecuteAsync();
 
             var filePath = await FileHelper.GetActiveDocumentFilePath();
             var exactFilePath = FileHelper.GetExactFileName(filePath);
@@ -25,7 +25,7 @@ namespace SamirBoulema.TGit.Commands
                 return;
             }
 
-            await ProcessHelper.RunTortoiseGitFileCommand(Package, "diff", $"/startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}", exactFilePath);
+            await ProcessHelper.RunTortoiseGitFileCommand("diff", $"/startrev:{revisions.Split(',')[0]} /endrev:{revisions.Split(',')[1]}", exactFilePath);
         }
     }
 }
