@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Sync)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.sync)]
     internal sealed class SyncCommand : BaseCommand<SyncCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

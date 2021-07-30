@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Branch)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.branch)]
     internal sealed class BranchCommand : BaseCommand<BranchCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

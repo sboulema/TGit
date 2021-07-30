@@ -10,7 +10,7 @@ using System.ComponentModel.Design;
 
 namespace SamirBoulema.TGit
 {
-    [Guid(GuidList.GuidTgitPkgString)]
+    [Guid(PackageGuids.guidTGitPkgString)]
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideOptionPage(typeof(OptionPageGrid), "TGit", "General", 0, 0, true)]
@@ -26,11 +26,11 @@ namespace SamirBoulema.TGit
 
             var menuCommandService = (IMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
 
-            CommandHelper.AddMenuCommand(menuCommandService, PkgCmdIDList.TGitGitFlowMenu, CommandHelper.SolutionVisibility_BeforeQueryStatus);
+            CommandHelper.AddMenuCommand(menuCommandService, PackageIds.TGitGitFlowMenu, CommandHelper.SolutionVisibility_BeforeQueryStatus);
 
-            CommandHelper.AddMenuCommand(menuCommandService, PkgCmdIDList.TGitGitHubFlowMenu, CommandHelper.GitHubFlow_BeforeQueryStatus);
+            CommandHelper.AddMenuCommand(menuCommandService, PackageIds.TGitGitHubFlowMenu, CommandHelper.GitHubFlow_BeforeQueryStatus);
 
-            CommandHelper.AddMenuCommand(menuCommandService, PkgCmdIDList.TGitSvnMenu, CommandHelper.GitSvn_BeforeQueryStatus);
+            CommandHelper.AddMenuCommand(menuCommandService, PackageIds.TGitSVNMenu, CommandHelper.GitSvn_BeforeQueryStatus);
         } 
     }
 }

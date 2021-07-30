@@ -65,7 +65,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DeployExtension Condition=" '$(AppVeyor)' != '' Or '$(TF_BUILD)' != '' ">False</DeployExtension>
   </PropertyGroup>
   <ItemGroup>
@@ -150,7 +150,6 @@
       <DependentUpon>Credentials.cs</DependentUpon>
     </Compile>
     <Compile Include="GitConfig.cs" />
-    <Compile Include="Guids.cs" />
     <Compile Include="Helpers\CommandHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\GitHelper.cs" />
@@ -170,9 +169,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RichTextBoxExtension.cs" />
+    <Compile Include="TGit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TGit.vsct</DependentUpon>
+    </Compile>
     <Compile Include="TGitPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PkgCmdID.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FlowDialog.resx">
@@ -214,6 +217,8 @@
     <VSCTCompile Include="TGit.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>TGit.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>

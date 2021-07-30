@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Switch)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.switchBranch)]
     internal sealed class SwitchCommand : BaseCommand<SwitchCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

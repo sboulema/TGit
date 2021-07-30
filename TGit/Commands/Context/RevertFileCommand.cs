@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.RevertContext)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.revertContext)]
     internal sealed class RevertFileCommand : BaseCommand<RevertFileCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.ShowChanges)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.showChanges)]
     internal sealed class ShowChangesCommand : BaseCommand<ShowChangesCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

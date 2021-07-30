@@ -5,7 +5,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.RepoBrowserContext)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.repoBrowserContext)]
     internal sealed class RepoBrowserFileCommand : BaseCommand<RepoBrowserFileCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

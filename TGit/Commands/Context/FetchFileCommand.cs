@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.FetchContext)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.fetchContext)]
     internal sealed class FetchFileCommand : BaseCommand<FetchFileCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Merge)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.merge)]
     internal sealed class MergeCommand : BaseCommand<MergeCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

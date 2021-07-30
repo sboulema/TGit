@@ -1,5 +1,4 @@
 ﻿using Community.VisualStudio.Toolkit;
-using EnvDTE;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
@@ -7,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.FinishRelease)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.finishRelease)]
     internal sealed class GitFlowFinishReleaseCommand : BaseCommand<GitFlowFinishReleaseCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
@@ -57,11 +56,11 @@ namespace SamirBoulema.TGit.Commands
             );
         }
 
-        protected override void BeforeQueryStatus(System.EventArgs e)
+        protected override async void BeforeQueryStatus(System.EventArgs e)
         {
-            var gitConfig = GitHelper.GetGitConfig().Result;
-            Command.Visible = FileHelper.HasSolutionDir().Result && GitHelper.IsGitFlow().Result;
-            Command.Enabled = FileHelper.HasSolutionDir().Result && GitHelper.GetCurrentBranchName(false).Result.StartsWith(gitConfig.ReleasePrefix);
+            var gitConfig = await GitHelper.GetGitConfig();
+            Command.Visible = await FileHelper.HasSolutionDir() && await GitHelper.IsGitFlow();
+            Command.Enabled = await FileHelper.HasSolutionDir() && (await GitHelper.GetCurrentBranchName(false)).StartsWith(gitConfig.ReleasePrefix);
         }
     }
 }

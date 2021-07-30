@@ -5,7 +5,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.DeleteKeepContext)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.deleteKeepContext)]
     internal sealed class DeleteKeepFileCommand : BaseCommand<DeleteKeepFileCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

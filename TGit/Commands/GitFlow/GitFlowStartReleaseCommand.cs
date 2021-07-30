@@ -1,5 +1,4 @@
 ﻿using Community.VisualStudio.Toolkit;
-using EnvDTE;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
@@ -7,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.StartRelease)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.startRelease)]
     internal sealed class GitFlowStartReleaseCommand : BaseCommand<GitFlowStartReleaseCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
@@ -37,9 +36,9 @@ namespace SamirBoulema.TGit.Commands
             );
         }
 
-        protected override void BeforeQueryStatus(System.EventArgs e)
+        protected override async void BeforeQueryStatus(System.EventArgs e)
         {
-            Command.Visible = FileHelper.HasSolutionDir().Result && GitHelper.IsGitFlow().Result;
+            Command.Visible = await FileHelper.HasSolutionDir() && await GitHelper.IsGitFlow();
         }
     }
 }

@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.BlameContext)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.blameContext)]
     internal sealed class BlameFileCommand : BaseCommand<BlameFileCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

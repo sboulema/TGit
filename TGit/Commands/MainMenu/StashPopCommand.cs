@@ -7,7 +7,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.StashPop)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.stashPop)]
     internal sealed class StashPopCommand : BaseCommand<StashPopCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
@@ -17,9 +17,9 @@ namespace SamirBoulema.TGit.Commands
             await ProcessHelper.RunTortoiseGitCommand(Package, "stashpop");
         }
 
-        protected override void BeforeQueryStatus(EventArgs e)
+        protected override async void BeforeQueryStatus(EventArgs e)
         {
-            Command.Enabled = GitHelper.HasStash().Result;
+            Command.Enabled = await GitHelper.HasStash();
         }
     }
 }

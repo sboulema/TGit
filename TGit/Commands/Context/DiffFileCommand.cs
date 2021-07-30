@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.DiffContext)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.diffContext)]
     internal sealed class DiffFileCommand : BaseCommand<DiffFileCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

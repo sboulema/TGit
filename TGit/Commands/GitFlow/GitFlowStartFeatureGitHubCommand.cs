@@ -1,5 +1,4 @@
 ﻿using Community.VisualStudio.Toolkit;
-using EnvDTE;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.Shell;
 using SamirBoulema.TGit.Helpers;
@@ -7,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.StartFeatureGitHub)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.startFeatureGitHub)]
     internal sealed class GitFlowStartFeatureGitHubCommand : BaseCommand<GitFlowStartFeatureGitHubCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

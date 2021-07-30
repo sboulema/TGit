@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.ShowLog)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.showLog)]
     internal sealed class ShowLogCommand : BaseCommand<ShowLogCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

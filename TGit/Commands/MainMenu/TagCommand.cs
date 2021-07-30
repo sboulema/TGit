@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Tag)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.tag)]
     internal sealed class TagCommand : BaseCommand<TagCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

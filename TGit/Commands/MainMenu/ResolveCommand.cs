@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Resolve)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.resolve)]
     internal sealed class ResolveCommand : BaseCommand<ResolveCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

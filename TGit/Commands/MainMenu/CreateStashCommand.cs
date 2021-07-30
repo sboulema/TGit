@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.CreateStash)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.createStash)]
     internal sealed class CreateStashCommand : BaseCommand<CreateStashCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

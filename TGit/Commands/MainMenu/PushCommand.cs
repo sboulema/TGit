@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Push)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.push)]
     internal sealed class PushCommand : BaseCommand<PushCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

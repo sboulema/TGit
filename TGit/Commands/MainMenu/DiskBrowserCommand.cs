@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.DiskBrowser)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.diskBrowser)]
     internal sealed class DiskBrowserCommand : BaseCommand<DiskBrowserCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

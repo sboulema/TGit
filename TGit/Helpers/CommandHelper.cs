@@ -8,22 +8,22 @@ namespace SamirBoulema.TGit.Helpers
     {
         public static void AddMenuCommand(IMenuCommandService menuCommandService, int commandId, EventHandler eventHandler)
         {
-            var menuCommand = new OleMenuCommand(null, new CommandID(GuidList.GuidTgitCmdSet, commandId));
+            var menuCommand = new OleMenuCommand(null, new CommandID(PackageGuids.guidTGitCmdSet, commandId));
             menuCommand.BeforeQueryStatus += eventHandler;
             menuCommandService.AddCommand(menuCommand);
         }
 
-        public static void SolutionVisibility_BeforeQueryStatus(object sender, EventArgs e)
+        public static async void SolutionVisibility_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = FileHelper.HasSolutionDir().Result;
+            ((OleMenuCommand) sender).Visible = await FileHelper.HasSolutionDir();
         }
 
-        public static void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
+        public static async void GitHubFlow_BeforeQueryStatus(object sender, EventArgs e)
         {
-            ((OleMenuCommand) sender).Visible = FileHelper.HasSolutionDir().Result && !GitHelper.IsGitFlow().Result;
+            ((OleMenuCommand) sender).Visible = await FileHelper.HasSolutionDir() && !await GitHelper.IsGitFlow();
         }
 
-        public static void GitSvn_BeforeQueryStatus(object sender, EventArgs e) 
-            => ((OleMenuCommand)sender).Visible = FileHelper.HasSolutionDir().Result && GitHelper.IsGitSvn().Result;
+        public static async void GitSvn_BeforeQueryStatus(object sender, EventArgs e) 
+            => ((OleMenuCommand)sender).Visible = await FileHelper.HasSolutionDir() && await GitHelper.IsGitSvn();
     }
 }

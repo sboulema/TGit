@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.Rebase)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.rebase)]
     internal sealed class RebaseCommand : BaseCommand<RebaseCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

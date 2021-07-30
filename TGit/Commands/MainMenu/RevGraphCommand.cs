@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace SamirBoulema.TGit.Commands
 {
-    [Command(GuidList.GuidTgitCmdSetString, PkgCmdIDList.RevGraph)]
+    [Command(PackageGuids.guidTGitCmdSetString, PackageIds.revGraph)]
     internal sealed class RevGraphCommand : BaseCommand<RevGraphCommand>
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)

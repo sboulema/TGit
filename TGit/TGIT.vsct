@@ -104,13 +104,13 @@
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
       </Group>
       <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
-        <Parent guid="HTMLContext" id="menu" />
+        <Parent guid="HTMLContext" id="HTMLContextMenu" />
       </Group>
       <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
-        <Parent guid="CSSContext" id="menu" />
+        <Parent guid="CSSContext" id="CSSContextMenu" />
       </Group>
       <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
-        <Parent guid="ASPXContext" id="menu" />
+        <Parent guid="ASPXContext" id="ASPXContextMenu" />
       </Group>
       <Group guid="guidTGitCmdSet" id="firstContextMenuGroup" priority="0x0700">
         <Parent guid="guidTGitCmdSet" id="TGitContextMenu" />
@@ -150,7 +150,7 @@
       <!--SVN Buttons-->
       <Button guid="guidTGitCmdSet" id="svnDCommit" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitSVNMenuGroup" />
-        <Icon guid="guidImages" id="commit" />
+        <Icon guid="guidImages" id="commitImage" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>SVN Commit...</ButtonText>
@@ -158,7 +158,7 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="svnFetch" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitSVNMenuGroup" />
-        <Icon guid="guidImages" id="fetch" />
+        <Icon guid="guidImages" id="fetchImage" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>SVN Fetch...</ButtonText>
@@ -166,7 +166,7 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="svnRebase" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="TGitSVNMenuGroup" />
-        <Icon guid="guidImages" id="rebase" />
+        <Icon guid="guidImages" id="rebaseImage" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>SVN Rebase...</ButtonText>
@@ -242,35 +242,35 @@
       <!--Main Menu Buttons-->
       <Button guid="guidTGitCmdSet" id="showChanges" priority="0x0103" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <Icon guid="guidImages" id="showChanges" />
+        <Icon guid="guidImages" id="showChangesImage" />
         <Strings>
           <ButtonText>Show Changes</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="pull" priority="0x0104" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <Icon guid="guidImages" id="pull" />
+        <Icon guid="guidImages" id="pullImage" />
         <Strings>
           <ButtonText>Pull...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="fetch" priority="0x0105" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <Icon guid="guidImages" id="fetch" />
+        <Icon guid="guidImages" id="fetchImage" />
         <Strings>
           <ButtonText>Fetch...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="commit" priority="0x0106" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <Icon guid="guidImages" id="commit" />
+        <Icon guid="guidImages" id="commitImage" />
         <Strings>
           <ButtonText>Commit...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="push" priority="0x0107" type="Button">
         <Parent guid="guidTGitCmdSet" id="secondMenuGroup" />
-        <Icon guid="guidImages" id="push" />
+        <Icon guid="guidImages" id="pushImage" />
         <Strings>
           <ButtonText>Push...</ButtonText>
         </Strings>
@@ -278,7 +278,7 @@
     
       <Button guid="guidTGitCmdSet" id="showLog" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdMenuGroup" />
-        <Icon guid="guidImages" id="showLog" />
+        <Icon guid="guidImages" id="showLogImage" />
         <Strings>
           <ButtonText>Show Log</ButtonText>
         </Strings>
@@ -331,15 +331,15 @@
 
       <Button guid="guidTGitCmdSet" id="branch" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <Icon guid="guidImages" id="branch" />
+        <Icon guid="guidImages" id="branchImage" />
         <Strings>
           <ButtonText>Branch...</ButtonText>
         </Strings>
       </Button>
 
-      <Button guid="guidTGitCmdSet" id="switch" priority="0x0200" type="Button">
+      <Button guid="guidTGitCmdSet" id="switchBranch" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <Icon guid="guidImages" id="switch" />
+        <Icon guid="guidImages" id="switchImage" />
         <Strings>
           <ButtonText>Switch...</ButtonText>
         </Strings>
@@ -347,7 +347,7 @@
 
       <Button guid="guidTGitCmdSet" id="merge" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <Icon guid="guidImages" id="merge" />
+        <Icon guid="guidImages" id="mergeImage" />
         <Strings>
           <ButtonText>Merge...</ButtonText>
         </Strings>
@@ -355,7 +355,7 @@
 
       <Button guid="guidTGitCmdSet" id="rebase" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="fifthMenuGroup" />
-        <Icon guid="guidImages" id="rebase" />
+        <Icon guid="guidImages" id="rebaseImage" />
         <Strings>
           <ButtonText>Rebase...</ButtonText>
         </Strings>
@@ -363,7 +363,7 @@
 
       <Button guid="guidTGitCmdSet" id="revert" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="revert" />
+        <Icon guid="guidImages" id="revertImage" />
         <Strings>
           <ButtonText>Revert...</ButtonText>
         </Strings>
@@ -371,7 +371,7 @@
 
       <Button guid="guidTGitCmdSet" id="resolve" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="resolve" />
+        <Icon guid="guidImages" id="resolveImage" />
         <Strings>
           <ButtonText>Resolve...</ButtonText>
         </Strings>
@@ -379,7 +379,7 @@
 
       <Button guid="guidTGitCmdSet" id="abortMerge" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="abortMerge" />
+        <Icon guid="guidImages" id="abortMergeImage" />
         <Strings>
           <ButtonText>Abort merge...</ButtonText>
         </Strings>
@@ -387,7 +387,7 @@
 
       <Button guid="guidTGitCmdSet" id="tag" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="tag" />
+        <Icon guid="guidImages" id="tagImage" />
         <Strings>
           <ButtonText>Tag...</ButtonText>
         </Strings>
@@ -395,7 +395,7 @@
 
       <Button guid="guidTGitCmdSet" id="sync" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="sync" />
+        <Icon guid="guidImages" id="syncImage" />
         <Strings>
           <ButtonText>Sync</ButtonText>
         </Strings>
@@ -403,7 +403,7 @@
 
       <Button guid="guidTGitCmdSet" id="cleanup" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="cleanup" />
+        <Icon guid="guidImages" id="cleanupImage" />
         <Strings>
           <ButtonText>Cleanup working copy...</ButtonText>
         </Strings>
@@ -411,7 +411,7 @@
 
       <Button guid="guidTGitCmdSet" id="browseRef" priority="0x0500" type="Button">
         <Parent guid="guidTGitCmdSet" id="sixthMenuGroup" />
-        <Icon guid="guidImages" id="browseRef" />
+        <Icon guid="guidImages" id="browseRefImage" />
         <Strings>
           <ButtonText>Browse references...</ButtonText>
         </Strings>
@@ -419,7 +419,7 @@
 
       <Button guid="guidTGitCmdSet" id="showLogContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="firstContextMenuGroup" />
-        <Icon guid="guidImages" id="showLog" />
+        <Icon guid="guidImages" id="showLogImage" />
         <Strings>
           <ButtonText>Show Log for file</ButtonText>
         </Strings>
@@ -456,7 +456,7 @@
 
       <Button guid="guidTGitCmdSet" id="mergeContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="thirdContextMenuGroup" />
-        <Icon guid="guidImages" id="merge" />
+        <Icon guid="guidImages" id="mergeImage" />
         <Strings>
           <ButtonText>Merge File...</ButtonText>
         </Strings>
@@ -464,28 +464,28 @@
 
       <Button guid="guidTGitCmdSet" id="pullContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="pull" />
+        <Icon guid="guidImages" id="pullImage" />
         <Strings>
           <ButtonText>Pull File ...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="fetchContext" priority="0x0100" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="fetch" />
+        <Icon guid="guidImages" id="fetchImage" />
         <Strings>
           <ButtonText>Fetch File...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="commitContext" priority="0x0200" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="commit" />
+        <Icon guid="guidImages" id="commitImage" />
         <Strings>
           <ButtonText>Commit File...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="revertContext" priority="0x0300" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="revert" />
+        <Icon guid="guidImages" id="revertImage" />
         <Strings>
           <ButtonText>Revert File...</ButtonText>
         </Strings>
@@ -499,14 +499,14 @@
       </Button>
       <Button guid="guidTGitCmdSet" id="deleteContext" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="cleanup" />
+        <Icon guid="guidImages" id="cleanupImage" />
         <Strings>
           <ButtonText>Delete File...</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidTGitCmdSet" id="deleteKeepContext" priority="0x0400" type="Button">
         <Parent guid="guidTGitCmdSet" id="fourthContextMenuGroup" />
-        <Icon guid="guidImages" id="cleanup" />
+        <Icon guid="guidImages" id="cleanupImage" />
         <Strings>
           <ButtonText>Delete File (keep local)...</ButtonText>
         </Strings>
@@ -531,7 +531,7 @@
     <Bitmaps>
       <Bitmap guid="guidImages" 
               href="Resources\octicons.png" 
-              usedList="showChanges, pull, push, showLog, revert, branch, merge, differences, blame, repo, resolve, sync, commit, disk, switch, cleanup, stash, fetch, browseRef, tag, abortMerge, rebase, revgraph, config, add"/>     
+              usedList="showChangesImage, pullImage, pushImage, showLogImage, revertImage, branchImage, mergeImage, differences, blame, repo, resolveImage, syncImage, commitImage, disk, switchImage, cleanupImage, stash, fetchImage, browseRefImage, tagImage, abortMergeImage, rebaseImage, revgraph, config, add"/>     
     </Bitmaps>
   </Commands>
 
@@ -545,7 +545,7 @@
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="R" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="revert" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="H" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="applyStash" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="A" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="createStash" />
-    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="S" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="switch" />
+    <KeyBinding guid="guidTGitCmdSet" key1="G" key2="S" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="switchBranch" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="Y" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="sync" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="N" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="cleanup" />
     <KeyBinding guid="guidTGitCmdSet" key1="G" key2="E" mod1="CONTROL SHIFT ALT" editor="guidVSStd97" id="resolve" />
@@ -558,28 +558,28 @@
 
     <Symbols>
     <GuidSymbol name="guidImages" value="{fec49b6d-c04a-42bd-b021-b8b2e5cfb291}" >
-      <IDSymbol name="showChanges" value="1" />
-      <IDSymbol name="pull" value="2" />
-      <IDSymbol name="push" value="3" />
-      <IDSymbol name="showLog" value="4" />
-      <IDSymbol name="revert" value="5" />
-      <IDSymbol name="branch" value="6" />
-      <IDSymbol name="merge" value="7" />
+      <IDSymbol name="showChangesImage" value="1" />
+      <IDSymbol name="pullImage" value="2" />
+      <IDSymbol name="pushImage" value="3" />
+      <IDSymbol name="showLogImage" value="4" />
+      <IDSymbol name="revertImage" value="5" />
+      <IDSymbol name="branchImage" value="6" />
+      <IDSymbol name="mergeImage" value="7" />
       <IDSymbol name="differences" value="8" />
       <IDSymbol name="blame" value="9" />
       <IDSymbol name="repo" value="10" />
-      <IDSymbol name="resolve" value="11" />
-      <IDSymbol name="sync" value="12" />
-      <IDSymbol name="commit" value="13" />
+      <IDSymbol name="resolveImage" value="11" />
+      <IDSymbol name="syncImage" value="12" />
+      <IDSymbol name="commitImage" value="13" />
       <IDSymbol name="disk" value="14" />
-      <IDSymbol name="switch" value="15" />
-      <IDSymbol name="cleanup" value="16" />
+      <IDSymbol name="switchImage" value="15" />
+      <IDSymbol name="cleanupImage" value="16" />
       <IDSymbol name="stash" value="17" />
-      <IDSymbol name="fetch" value="18" />
-      <IDSymbol name="browseRef" value="19" />
-      <IDSymbol name="tag" value="20" />
-      <IDSymbol name="abortMerge" value="21" />
-      <IDSymbol name="rebase" value="22" />
+      <IDSymbol name="fetchImage" value="18" />
+      <IDSymbol name="browseRefImage" value="19" />
+      <IDSymbol name="tagImage" value="20" />
+      <IDSymbol name="abortMergeImage" value="21" />
+      <IDSymbol name="rebaseImage" value="22" />
       <IDSymbol name="revgraph" value="23" />
       <IDSymbol name="config" value="24" />
       <IDSymbol name="add" value="25" />
@@ -587,13 +587,13 @@
 
     <!--Special Context Menus-->
     <GuidSymbol name="HTMLContext" value="{78F03954-2FB8-4087-8CE7-59D71710B3BB}">
-      <IDSymbol name="menu" value="0x0001"/>
+      <IDSymbol name="HTMLContextMenu" value="0x0001"/>
     </GuidSymbol>
     <GuidSymbol name="CSSContext" value="{64DA400E-B4AD-4D67-AA92-4B7ACB01ECD5}">
-      <IDSymbol name="menu" value="0x0002"/>
+      <IDSymbol name="CSSContextMenu" value="0x0002"/>
     </GuidSymbol>
     <GuidSymbol name="ASPXContext" value="{D7E8C5E1-BDB8-11D0-9C88-0000F8040A53}">
-      <IDSymbol name="menu" value="0x0035"/>
+      <IDSymbol name="ASPXContextMenu" value="0x0035"/>
     </GuidSymbol>
 
     <GuidSymbol name="guidTGitPkg" value="{6c58d6e5-11ba-43ba-9a63-a624f264ec06}" />
@@ -664,7 +664,7 @@
       <IDSymbol name="stashPop" value="0x0149" />
 
       <IDSymbol name="branch" value="0x0112" />
-      <IDSymbol name="switch" value="0x0113" />
+      <IDSymbol name="switchBranch" value="0x0113" />
       <IDSymbol name="merge" value="0x0114" />
 
       <IDSymbol name="revert" value="0x0115" />
