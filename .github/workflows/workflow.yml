@@ -46,7 +46,7 @@ jobs:
           name: TGit
           path: |
             **\*.vsix
-            publish-manifest.*.json
+            publish-manifest.json
             readme.md
 
   release:
