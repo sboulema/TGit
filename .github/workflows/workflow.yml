@@ -77,7 +77,7 @@ jobs:
         uses: cezarypiatek/VsixPublisherAction@0.1
         with:
           extension-file: TGit/bin/release/TGit.vsix
-          publish-manifest-file: TSVN/publish-manifest.VS2022.json
+          publish-manifest-file: TSVN/publish-manifest.json
           personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
 
       - name: Publish to Open VSIX Gallery
