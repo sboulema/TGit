@@ -76,8 +76,8 @@ jobs:
       - name: Publish to Marketplace
         uses: cezarypiatek/VsixPublisherAction@0.1
         with:
-          extension-file: TGit/bin/release/TGit.vsix
-          publish-manifest-file: TSVN/publish-manifest.json
+          extension-file: TGit/TGit/bin/release/TGit.vsix
+          publish-manifest-file: TGit/publish-manifest.json
           personal-access-code: ${{ secrets.VS_PUBLISHER_ACCESS_TOKEN }}
 
       - name: Publish to Open VSIX Gallery
@@ -86,4 +86,4 @@ jobs:
           host: 'www.vsixgallery.com'
           path: '/api/upload?repo=${{ env.repoUrl }}&issuetracker=${{ env.repoUrl }}/issues'
           https: true 
-          filePath: TGit/bin/release/TGit.vsix
+          filePath: TGit/TGit/bin/release/TGit.vsix
