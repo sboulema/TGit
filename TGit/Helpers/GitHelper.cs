@@ -122,6 +122,13 @@ namespace SamirBoulema.TGit.Helpers
         }
 
         /// <summary>
+        /// Check if GitFlow is initialized
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsGitFlow(GitConfig gitConfig)
+            => !string.IsNullOrEmpty(gitConfig.MasterBranch);
+
+        /// <summary>
         /// Check if Git SVN is used for this repo
         /// </summary>
         /// <returns></returns>

@@ -15,6 +15,19 @@ namespace SamirBoulema.TGit.Commands
             var releaseName = await GitHelper.GetCurrentBranchName(true);
             var gitConfig = await GitHelper.GetGitConfig();
             var options = await General.GetLiveInstanceAsync();
+            var isGitFlow = GitHelper.IsGitFlow(gitConfig);
+
+            if (!isGitFlow)
+            {
+                await VS.MessageBox.ShowErrorAsync("GitFlow is not initialized.");
+                return;
+            }
+
+            if (!releaseBranch.StartsWith(gitConfig.ReleasePrefix))
+            {
+                await VS.MessageBox.ShowErrorAsync("Current branch is not a release branch.");
+                return;
+            }
 
             var tagMessage = string.Empty;
 
@@ -53,13 +66,6 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.FormatCliCommand($"push origin {gitConfig.MasterBranch}") +
                     GitHelper.FormatCliCommand($"push origin {gitConfig.TagPrefix}{releaseName}")
             );
-        }
-
-        protected override async void BeforeQueryStatus(System.EventArgs e)
-        {
-            var gitConfig = await GitHelper.GetGitConfig();
-            Command.Visible = await FileHelper.HasSolutionDir() && await GitHelper.IsGitFlow();
-            Command.Enabled = await FileHelper.HasSolutionDir() && (await GitHelper.GetCurrentBranchName(false)).StartsWith(gitConfig.ReleasePrefix);
         }
     }
 }

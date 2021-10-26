@@ -13,6 +13,20 @@ namespace SamirBoulema.TGit.Commands
             var featureBranch = await GitHelper.GetCurrentBranchName(false);
             var featureName = await GitHelper.GetCurrentBranchName(true);
             var options = await General.GetLiveInstanceAsync();
+            var gitConfig = await GitHelper.GetGitConfig();
+            var isGitFlow = GitHelper.IsGitFlow(gitConfig);
+
+            if (!isGitFlow)
+            {
+                await VS.MessageBox.ShowErrorAsync("GitFlow is not initialized.");
+                return;
+            }
+
+            if (!featureBranch.StartsWith(gitConfig.FeaturePrefix))
+            {
+                await VS.MessageBox.ShowErrorAsync("Current branch is not a feature branch.");
+                return;
+            }
 
             /* 1. Switch to the master branch
              * 2. Pull latest changes on master
@@ -30,13 +44,6 @@ namespace SamirBoulema.TGit.Commands
                     GitHelper.FormatCliCommand($"merge --no-ff {featureBranch}", false),
                 $"Finishing feature {featureName}",
                 featureBranch, null, GitHelper.FormatCliCommand("push origin master"));
-        }
-
-        protected override async void BeforeQueryStatus(System.EventArgs e)
-        {
-            var gitConfig = await GitHelper.GetGitConfig();
-            Command.Visible = await FileHelper.HasSolutionDir() && await GitHelper.IsGitFlow();
-            Command.Enabled = await FileHelper.HasSolutionDir() && (await GitHelper.GetCurrentBranchName(false)).StartsWith(gitConfig.FeaturePrefix);
         }
     }
 }
