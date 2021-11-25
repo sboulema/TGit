@@ -15,6 +15,9 @@ namespace SamirBoulema.TGit
         public const string guidImagesString = "fec49b6d-c04a-42bd-b021-b8b2e5cfb291";
         public static Guid guidImages = new Guid(guidImagesString);
 
+        public const string guidWorkspaceExplorerToolWindowCmdSetString = "cfb400f1-5c60-4f3c-856e-180d28def0b7";
+        public static Guid guidWorkspaceExplorerToolWindowCmdSet = new Guid(guidWorkspaceExplorerToolWindowCmdSetString);
+
         public const string HTMLContextString = "78f03954-2fb8-4087-8ce7-59d71710b3bb";
         public static Guid HTMLContext = new Guid(HTMLContextString);
 
@@ -60,6 +63,7 @@ namespace SamirBoulema.TGit
         public const int revgraph = 0x0017;
         public const int config = 0x0018;
         public const int add = 0x0019;
+        public const int idmWSE_ContextMenu = 0x0002;
         public const int HTMLContextMenu = 0x0001;
         public const int CSSContextMenu = 0x0002;
         public const int ASPXContextMenu = 0x0035;

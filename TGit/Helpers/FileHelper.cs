@@ -12,18 +12,17 @@ namespace SamirBoulema.TGit.Helpers
     public static class FileHelper
     {
         public static string GetTortoiseGitProc()
-        {
-            return (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe");
-        }
+            => (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseGit",
+                "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe");
 
         public static string GetTortoiseGitPlink()
-        {
-            return (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\TortoiseGit", "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitPlink.exe");
-        }
+            => (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\TortoiseGit",
+                "ProcPath", @"C:\Program Files\TortoiseGit\bin\TortoiseGitPlink.exe");
 
         public static string GetMSysGit()
         {
-            var regPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\TortoiseGit", "MSysGit", @"C:\Program Files (x86)\Git\bin\git.exe");
+            var regPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\TortoiseGit",
+                "MSysGit", @"C:\Program Files (x86)\Git\bin\git.exe");
             return Path.Combine(regPath, "git.exe");
         }
 
@@ -146,8 +145,35 @@ namespace SamirBoulema.TGit.Helpers
             return di.Name.ToUpper();
         }
 
+        /// <summary>
+        /// Get the path of the file on which to act upon. 
+        /// This can be different depending on where the TGit context menu was used
+        /// </summary>
+        /// <returns>File path</returns>
         public static async Task<string> GetActiveDocumentFilePath()
         {
+            var windowFrame = await VS.Windows.GetCurrentWindowAsync();
+            var solutionExplorerIsActive = windowFrame.Guid == new Guid(WindowGuids.SolutionExplorer);
+
+            // Context menu in the Solution Explorer
+            if (solutionExplorerIsActive)
+            {
+                var selectedItem = await VS.Solutions.GetActiveItemAsync();
+
+                if (selectedItem != null)
+                {
+                    if (selectedItem.Type == SolutionItemType.Project ||
+                        selectedItem.Type == SolutionItemType.Solution)
+                    {
+                        return Path.GetDirectoryName(selectedItem.FullPath);
+                    }
+                    else if (selectedItem.Type == SolutionItemType.PhysicalFile)
+                    {
+                        return selectedItem.FullPath;
+                    }
+                }
+            }
+
             var documentView = await VS.Documents.GetActiveDocumentViewAsync();
             return documentView?.FilePath;
         }

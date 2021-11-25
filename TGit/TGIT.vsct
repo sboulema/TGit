@@ -22,6 +22,26 @@
           <ButtonText>TGit</ButtonText>
         </Strings>
       </Menu>
+      
+      <!--Solution Explorer Context Menu-->
+      <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0200" type="Menu">
+        <Parent guid="VSMainMenu" id="SolutionNode.SourceControlGroup" />
+        <Strings>
+          <ButtonText>TGit</ButtonText>
+        </Strings>
+      </Menu>
+      <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0200" type="Menu">
+        <Parent guid="VSMainMenu" id="ProjectNode.SourceControlGroup" />
+        <Strings>
+          <ButtonText>TGit</ButtonText>
+        </Strings>
+      </Menu>
+      <Menu guid="guidTGitCmdSet" id="TGitContextMenu" priority="0x0200" type="Menu">
+        <Parent guid="VSMainMenu" id="Node.SourceControlGroup" />
+        <Strings>
+          <ButtonText>TGit</ButtonText>
+        </Strings>
+      </Menu>
 
       <!--GitFlow Menu-->
       <Menu guid="guidTGitCmdSet" id="TGitGitFlowMenu" priority="0x0100" type="Menu">
@@ -143,6 +163,16 @@
       </Group>
       <Group guid="guidTGitCmdSet" id="sixthMenuGroup" priority="0x0600">
         <Parent guid="guidTGitCmdSet" id="Toolbar"/>
+      </Group>
+
+      <!--Solution Explorer - Folder View - Context Menu-->
+      <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0200">
+        <Parent guid="guidWorkspaceExplorerToolWindowCmdSet" id="idmWSE_ContextMenu" />
+      </Group>
+      
+      <!--Solution Explorer - Folder View - Context Menu-->
+      <Group guid="guidTGitCmdSet" id="contextMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_EZDOCWINTAB" />
       </Group>
     </Groups>
     
@@ -585,6 +615,11 @@
       <IDSymbol name="add" value="25" />
     </GuidSymbol>
 
+    <!-- Solution Explorer folder mode GUIDs and IDs. -->
+    <GuidSymbol name="guidWorkspaceExplorerToolWindowCmdSet" value="{cfb400f1-5c60-4f3c-856e-180d28def0b7}">
+      <IDSymbol name="idmWSE_ContextMenu" value="0x0002" />
+    </GuidSymbol>      
+      
     <!--Special Context Menus-->
     <GuidSymbol name="HTMLContext" value="{78F03954-2FB8-4087-8CE7-59D71710B3BB}">
       <IDSymbol name="HTMLContextMenu" value="0x0001"/>
