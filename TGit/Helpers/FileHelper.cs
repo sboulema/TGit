@@ -33,24 +33,33 @@ namespace SamirBoulema.TGit.Helpers
         /// <returns>Path to the base repository/solution dir</returns>
         public static async Task<string> GetSolutionDir()
         {
-            var solution = await VS.Solutions.GetCurrentSolutionAsync();
-
-            var filePath = solution?.FullPath;
-
-            if (string.IsNullOrEmpty(filePath))
+            try
             {
+                var solution = await VS.Solutions.GetCurrentSolutionAsync();
+
+                var filePath = solution?.FullPath;
+
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    return string.Empty;
+                }
+
+                if (File.Exists(filePath))
+                {
+                    var path = Path.GetDirectoryName(filePath);
+                    return await FindGitdir(path);
+                }
+
+                if (Directory.Exists(filePath))
+                {
+                    return await FindGitdir(filePath);
+                }
+
                 return string.Empty;
             }
-
-            if (File.Exists(filePath))
+            catch (Exception)
             {
-                var path = Path.GetDirectoryName(filePath);
-                return await FindGitdir(path);
-            }
-
-            if (Directory.Exists(filePath))
-            {
-                return await FindGitdir(filePath);
+                // No open solution
             }
 
             return string.Empty;

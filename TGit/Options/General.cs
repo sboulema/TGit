@@ -1,10 +1,12 @@
 ﻿using Community.VisualStudio.Toolkit;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace SamirBoulema.TGit
 {
     internal partial class OptionsProvider
     {
+        [ComVisible(true)]
         public class GeneralOptions : BaseOptionPage<General> { }
     }
 
