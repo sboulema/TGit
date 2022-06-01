@@ -1,6 +1,8 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using Community.VisualStudio.Toolkit;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
+using System.Threading.Tasks;
 
 namespace SamirBoulema.TGit.Helpers
 {
@@ -25,5 +27,17 @@ namespace SamirBoulema.TGit.Helpers
 
         public static async void GitSvn_BeforeQueryStatus(object sender, EventArgs e) 
             => ((OleMenuCommand)sender).Visible = await FileHelper.HasSolutionDir() && await GitHelper.IsGitSvn();
+
+        public static async Task<bool> SaveFiles()
+        {
+            var options = await General.GetLiveInstanceAsync();
+
+            if (!options.SaveFiles)
+            {
+                return false;
+            }
+
+            return await KnownCommands.File_SaveAll.ExecuteAsync();
+        }
     }
 }

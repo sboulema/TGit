@@ -11,6 +11,8 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
+            await CommandHelper.SaveFiles();
+
             await ProcessHelper.RunTortoiseGitCommand("reflog", "/ref:refs/stash");
         }
 

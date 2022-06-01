@@ -10,6 +10,8 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
+            await CommandHelper.SaveFiles();
+
             await ProcessHelper.RunTortoiseGitFileCommand("blame", $"/line:{await FileHelper.GetActiveDocumentCurrentLine()}");
         }
     }

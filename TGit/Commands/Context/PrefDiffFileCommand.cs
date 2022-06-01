@@ -11,6 +11,8 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
+            await CommandHelper.SaveFiles();
+
             var filePath = await FileHelper.GetActiveDocumentFilePath();
             var exactFilePath = FileHelper.GetExactFileName(filePath);
 

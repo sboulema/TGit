@@ -10,6 +10,8 @@ namespace SamirBoulema.TGit.Commands
     {
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
+            await CommandHelper.SaveFiles();
+
             var options = await General.GetLiveInstanceAsync();
             var commitMessage = await GitHelper.GetCommitMessage(options.CommitMessage);
             var bugId = await GitHelper.GetCommitMessage(options.BugId);

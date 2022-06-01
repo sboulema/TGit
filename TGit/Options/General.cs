@@ -51,5 +51,10 @@ namespace SamirBoulema.TGit
         [DisplayName("Default bug id")]
         [Description("$(BranchName), $(FeatureName), https://msdn.microsoft.com/en-us/library/c02as0cs.aspx")]
         public string BugId { get; set; }
+
+        [Category("TGit")]
+        [DisplayName("Save files before operations")]
+        [Description("Save files before doing any Git operation")]
+        public bool SaveFiles { get; set; }
     }
 }
