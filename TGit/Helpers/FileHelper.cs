@@ -76,38 +76,19 @@ namespace SamirBoulema.TGit.Helpers
         /// Start at the solution dir and traverse up to find a .git folder or file
         /// </summary>
         /// <param name="path">Path to start traversing from.</param>
-        /// <returns>Path to the .git folder or file.</returns>
+        /// <returns>Path to the folder of the git repo or worktree.</returns>
         private static async Task<string> FindGitdir(string path)
         {
             try
             {
+                var gitPath = Path.Combine(path, ".git");
+                // A git repo has a .git directory, while a worktree only has a file
+                if (Directory.Exists(gitPath) || File.Exists(gitPath))
+                {
+                    return path;
+                }
+
                 var di = new DirectoryInfo(path);
-                if (di.GetDirectories().Any(d => d.Name.Equals(".git")))
-                {
-                    return di.FullName;
-                }
-
-                var gitFilePath = Path.Combine(path, ".git");
-                if (File.Exists(gitFilePath))
-                {
-                    var text = File.ReadAllText(gitFilePath);
-                    var match = Regex.Match(text, "gitdir:(.*)");
-                    if (match.Success)
-                    {
-                        var gitDirPath = match.Groups[1].Value.Trim();
-
-                        if (Directory.Exists(gitDirPath))
-                        {
-                            return gitDirPath;
-                        }
-
-                        if (File.Exists(gitDirPath))
-                        {
-                            return File.ReadAllText(gitDirPath);
-                        }
-                    }
-                }
-
                 if (di.Parent != null)
                 {
                     return await FindGitdir(di.Parent.FullName);
